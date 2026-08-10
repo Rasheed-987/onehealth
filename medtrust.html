@@ -335,28 +335,63 @@
     <!-- /component -->
 
     <!-- component: steady-supply-section -->
-    <section class="relative bg-[#233D7C] py-24 lg:py-32 overflow-hidden">
+    <section class="relative bg-[#233D7C] py-24 lg:py-32">
       <div class="container-page flex flex-col items-center">
 
-        <div class="relative w-full max-w-[480px] aspect-square rounded-full border border-white/15 flex items-center justify-center">
-          <div class="absolute inset-[-1px] rounded-full border-t border-white/25" style="clip-path: inset(0 0 50% 0);"></div>
-
-          <div class="flex flex-col items-center gap-8 text-center px-8">
-            <div class="flex flex-col items-center gap-4 text-white">
-              <span class="font-aktiv text-[14px] font-normal">Steady supply</span>
-              <p class="font-aktiv text-[22px] sm:text-[28px] font-medium leading-[1.1]">
-                Set a standing order and it arrives on schedule, restocked before you run low.
-              </p>
-            </div>
-
-            <a href="supplychain.html"
-              class="relative overflow-hidden backdrop-blur-[18.95px] bg-white inline-flex h-[42px] items-center rounded-[4px] pl-3 pr-7">
-              <span class="font-aktiv text-[14px] font-medium text-[#233D7C] tracking-wide">Supply chain management</span>
-              <svg class="absolute top-[4px] right-[4px] w-[14px] h-[14px] text-[#233D7C] fill-current" viewBox="0 0 14 14">
-                <path
-                  d="M 2.414 0 L 13 0 A 1 1 0 0 1 14 1 L 14 11.586 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 2.414 0 Z" />
+        <!-- Scroll animation wrapper -->
+        <div x-data="{ scrollProgress: 0 }" 
+             @scroll.window="scrollProgress = Math.max(0, Math.min(1, ($el.getBoundingClientRect().top * -1) / (window.innerHeight)))"
+             class="relative w-full h-[200vh] flex flex-col justify-start">
+          
+          <!-- Sticky container -->
+          <div class="sticky top-0 h-screen w-full flex items-center justify-center">
+            
+            <div class="relative w-full max-w-[480px] aspect-square flex items-center justify-center">
+              
+              <!-- SVG Circle -->
+              <svg class="absolute inset-0 w-full h-full -rotate-90 pointer-events-none" viewBox="0 0 100 100">
+                 <!-- Background circle -->
+                 <circle cx="50" cy="50" r="49" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1" vector-effect="non-scaling-stroke" />
+                 <!-- Animated foreground circle -->
+                 <circle cx="50" cy="50" r="49" fill="none" stroke="#ffffff" stroke-width="1.5" vector-effect="non-scaling-stroke"
+                         stroke-dasharray="307.876" :stroke-dashoffset="-307.876 * (0.5 - (scrollProgress * 0.5))" 
+                         class="transition-all duration-75 ease-out" />
               </svg>
-            </a>
+
+              <!-- Text content -->
+              <div class="flex flex-col items-center gap-8 text-center px-8 relative z-10 w-full">
+                
+                <div class="flex flex-col items-center gap-4 text-white w-full">
+                  <span class="font-aktiv text-[14px] font-normal">Steady supply</span>
+                  
+                  <div class="grid w-full" style="grid-template-areas: 'overlap';">
+                    <!-- Text 1 -->
+                    <p class="font-aktiv text-[22px] sm:text-[28px] font-medium leading-[1.1] transition-opacity duration-300"
+                       style="grid-area: overlap;"
+                       :class="scrollProgress < 0.5 ? 'opacity-100' : 'opacity-0 pointer-events-none'">
+                      Set a standing order and it arrives on schedule, restocked before you run low.
+                    </p>
+                    
+                    <!-- Text 2 -->
+                    <p class="font-aktiv text-[22px] sm:text-[28px] font-medium leading-[1.1] transition-opacity duration-300"
+                       style="grid-area: overlap;"
+                       :class="scrollProgress >= 0.5 ? 'opacity-100' : 'opacity-0 pointer-events-none'">
+                      The One Health supply chain behind MedTrust holds stock in the UAE and moves it across the GCC.
+                    </p>
+                  </div>
+                </div>
+
+                <a href="supplychain.html"
+                  class="relative overflow-hidden backdrop-blur-[18.95px] bg-white inline-flex h-[42px] items-center rounded-[4px] pl-3 pr-7">
+                  <span class="font-aktiv text-[14px] font-medium text-[#233D7C] tracking-wide">Supply chain management</span>
+                  <svg class="absolute top-[4px] right-[4px] w-[14px] h-[14px] text-[#233D7C] fill-current" viewBox="0 0 14 14">
+                    <path
+                      d="M 2.414 0 L 13 0 A 1 1 0 0 1 14 1 L 14 11.586 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 2.414 0 Z" />
+                  </svg>
+                </a>
+              </div>
+
+            </div>
           </div>
         </div>
 
