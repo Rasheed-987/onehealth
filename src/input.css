@@ -1,0 +1,184 @@
+@import "tailwindcss";
+
+/* Which files Tailwind scans for class names. Path is relative to THIS file.
+   Keep the glob narrow — a broad one scans node_modules and slows the build. */
+@source "../*.html";
+
+/* ---- Local brand fonts ----
+   TRIAL/DEMO files under /assets/fonts — fine for building + previewing,
+   but not licensed for production. Buy the full license (or swap in the
+   licensed files under the same names) before handover.
+   unicode-range excludes ampersand (&), apostrophe ('), and right single quote (’) so they fall back to system sans-serif font instead of rendering demo watermark icons. */
+@font-face {
+  font-family: "Aktiv Grotesk";
+  src: url("/assets/fonts/aktiv-grotesk/AktivGrotesk-Thin.ttf") format("truetype");
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-0025, U+0028-2018, U+201A-FFFF;
+}
+@font-face {
+  font-family: "Aktiv Grotesk";
+  src: url("/assets/fonts/aktiv-grotesk/AktivGrotesk-Light.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-0025, U+0028-2018, U+201A-FFFF;
+}
+@font-face {
+  font-family: "Aktiv Grotesk";
+  src: url("/assets/fonts/aktiv-grotesk/AktivGrotesk-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-0025, U+0028-2018, U+201A-FFFF;
+}
+@font-face {
+  font-family: "Aktiv Grotesk";
+  src: url("/assets/fonts/aktiv-grotesk/AktivGrotesk-RegularItalic.ttf") format("truetype");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+  unicode-range: U+0000-0025, U+0028-2018, U+201A-FFFF;
+}
+@font-face {
+  font-family: "Aktiv Grotesk";
+  src: url("/assets/fonts/aktiv-grotesk/AktivGrotesk-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-0025, U+0028-2018, U+201A-FFFF;
+}
+@font-face {
+  font-family: "Aktiv Grotesk";
+  src: url("/assets/fonts/aktiv-grotesk/AktivGrotesk-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-0025, U+0028-2018, U+201A-FFFF;
+}
+@font-face {
+  font-family: "Aktiv Grotesk";
+  src: url("/assets/fonts/aktiv-grotesk/AktivGrotesk-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-0025, U+0028-2018, U+201A-FFFF;
+}
+@font-face {
+  font-family: "Aktiv Grotesk";
+  src: url("/assets/fonts/aktiv-grotesk/AktivGrotesk-BoldItalic.ttf") format("truetype");
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+  unicode-range: U+0000-0025, U+0028-2018, U+201A-FFFF;
+}
+@font-face {
+  font-family: "Aktiv Grotesk";
+  src: url("/assets/fonts/aktiv-grotesk/AktivGrotesk-XBold.ttf") format("truetype");
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-0025, U+0028-2018, U+201A-FFFF;
+}
+@font-face {
+  font-family: "Aktiv Grotesk";
+  src: url("/assets/fonts/aktiv-grotesk/AktivGrotesk-Black.ttf") format("truetype");
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-0025, U+0028-2018, U+201A-FFFF;
+}
+
+@font-face {
+  font-family: "DIN 2014";
+  src: url("/assets/fonts/din-2014/DIN2014-ExtraLight.otf") format("opentype");
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-0025, U+0028-2018, U+201A-FFFF;
+}
+@font-face {
+  font-family: "DIN 2014";
+  src: url("/assets/fonts/din-2014/DIN2014-Light.otf") format("opentype");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-0025, U+0028-2018, U+201A-FFFF;
+}
+@font-face {
+  font-family: "DIN 2014";
+  src: url("/assets/fonts/din-2014/DIN2014-Regular.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-0025, U+0028-2018, U+201A-FFFF;
+}
+@font-face {
+  font-family: "DIN 2014";
+  src: url("/assets/fonts/din-2014/DIN2014-Demi.otf") format("opentype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-0025, U+0028-2018, U+201A-FFFF;
+}
+@font-face {
+  font-family: "DIN 2014";
+  src: url("/assets/fonts/din-2014/DIN2014-Bold.otf") format("opentype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-0025, U+0028-2018, U+201A-FFFF;
+}
+@font-face {
+  font-family: "DIN 2014";
+  src: url("/assets/fonts/din-2014/DIN2014-ExtraBold.otf") format("opentype");
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-0025, U+0028-2018, U+201A-FFFF;
+}
+
+/* ---- Design tokens — pull every value from Figma ---- */
+@theme {
+  --color-black: #000000;
+  --color-white: #FFFFFF;
+
+  --color-brand: #233D7C;
+  --color-ai: linear-gradient(90deg, #B7CCFF 0%, #5ECEFF 100%);
+
+  --font-din: "DIN 2014", ui-sans-serif, system-ui, sans-serif;
+  --font-aktiv:    "Aktiv Grotesk", ui-sans-serif, system-ui, sans-serif;
+
+  --spacing-section: 6rem;
+}
+
+/* ---- Base: element defaults ---- */
+@layer base {
+  body {
+    @apply font-din  antialiased;
+  }
+  h1, h2 {
+    @apply font-aktiv;
+  }
+}
+
+/* ---- Components: ONLY bare classes repeated everywhere with no markup ----
+   Anything with structure should be a copy-pasted block from ui-kit.html,
+   not a CSS class. Keep this section under ~5 rules. */
+@layer components {
+  .container-page {
+    @apply  px-4 sm:px-6 lg:px-10;
+  }
+  .section {
+    @apply py-section;
+  }
+}
+
+/* Custom Utilities */
+@utility text-ai {
+  background: linear-gradient(90deg, #B7CCFF 0%, #5ECEFF 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}

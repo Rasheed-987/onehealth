@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Careers — Institute</title>
+
+  <link rel="stylesheet" href="/assets/css/app.css" />
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3/dist/cdn.min.js"></script>
+</head>
+
+<body>
+
+  <!-- component: navbar -->
+  <header x-data="{ open: false }" class="border-b border-slate-200">
+    <div class="container-page flex h-16 items-center justify-between">
+      <a href="/" class="font-display text-lg font-bold text-brand-900">Institute</a>
+
+      <nav class="hidden gap-8 md:flex">
+        <a href="/about" class="text-sm text-muted hover:text-ink">About</a>
+        <a href="/careers" class="text-sm text-muted hover:text-ink">Careers</a>
+        <a href="/contact" class="text-sm text-muted hover:text-ink">Contact</a>
+      </nav>
+
+      <button x-on:click="open = !open" class="md:hidden" aria-label="Toggle menu">
+        Menu
+      </button>
+    </div>
+
+    <nav x-show="open" x-transition class="container-page pb-4 md:hidden">
+      <a href="/about" class="block py-2 text-sm">About</a>
+      <a href="/careers" class="block py-2 text-sm">Careers</a>
+      <a href="/contact" class="block py-2 text-sm">Contact</a>
+    </nav>
+  </header>
+  <!-- /component -->
+
+  <main>
+
+    <!-- @dynamic: page heading + copy -->
+    <section class="section">
+      <div class="container-page max-w-2xl">
+        <p class="text-sm font-semibold text-brand-500">Careers</p>
+        <h1 class="mt-2 font-display text-4xl font-bold text-ink sm:text-5xl">
+          Join the team
+        </h1>
+        <p class="mt-4 text-muted">
+          Supporting copy introducing why someone would want to work here.
+        </p>
+      </div>
+    </section>
+
+    <!-- component: job-listing | props: title, location, type -->
+    <section class="section bg-slate-50">
+      <div class="container-page">
+        <!-- @loop: open roles — 3 shown for demo -->
+        <div class="divide-y divide-slate-200 rounded-xl bg-white ring-1 ring-slate-200">
+          <div class="flex flex-col justify-between gap-2 p-6 sm:flex-row sm:items-center">
+            <div>
+              <h3 class="font-display text-lg font-semibold text-ink">Job title</h3>
+              <p class="text-sm text-muted">Location · Full-time</p>
+            </div>
+            <a href="#" class="text-sm font-semibold text-brand-500 hover:text-brand-600">Apply →</a>
+          </div>
+          <div class="flex flex-col justify-between gap-2 p-6 sm:flex-row sm:items-center">
+            <div>
+              <h3 class="font-display text-lg font-semibold text-ink">Job title</h3>
+              <p class="text-sm text-muted">Location · Full-time</p>
+            </div>
+            <a href="#" class="text-sm font-semibold text-brand-500 hover:text-brand-600">Apply →</a>
+          </div>
+          <div class="flex flex-col justify-between gap-2 p-6 sm:flex-row sm:items-center">
+            <div>
+              <h3 class="font-display text-lg font-semibold text-ink">Job title</h3>
+              <p class="text-sm text-muted">Location · Full-time</p>
+            </div>
+            <a href="#" class="text-sm font-semibold text-brand-500 hover:text-brand-600">Apply →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- /component -->
+
+  </main>
+
+  <!-- component: footer -->
+  <footer class="section border-t border-slate-200">
+    <div class="container-page text-sm text-muted">© 2026 Institute</div>
+  </footer>
+  <!-- /component -->
+
+</body>
+
+</html>

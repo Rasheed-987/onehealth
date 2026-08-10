@@ -1,0 +1,451 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Contact — One Health</title>
+
+  <link rel="stylesheet" href="/assets/css/app.css" />
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3/dist/cdn.min.js"></script>
+</head>
+
+<body class="font-din antialiased bg-white min-h-screen flex flex-col justify-between text-black">
+
+  <!-- Top Navigation & Header Wrapper -->
+  <div class="relative w-full">
+
+    <!-- Top Navigation Header Component -->
+    <header x-data="{ open: false }" class="relative z-50 w-full bg-white">
+      <div class="container-page flex h-24 items-center justify-between">
+
+        <!-- Logo (Blue Logo) -->
+        <a href="index.html" class="block flex-shrink-0">
+          <img src="/assets/img/home/bluelogo.svg" alt="One Health" class="h-8 sm:h-10 w-auto" />
+        </a>
+
+        <!-- Header Actions -->
+        <div class="flex items-center justify-end sm:justify-between gap-3 w-auto sm:w-full sm:max-w-[331px]">
+          <!-- Request Service Button (Corner-Fold Variant) -->
+          <a href="contact.html"
+            class="hidden sm:inline-flex relative overflow-hidden items-center justify-between h-[44px] rounded-[4px] bg-[#233D7C] px-5 flex-1 text-xs font-semibold text-white shadow-sm hover:bg-[#233D7C]/90 transition duration-200">
+            <span class="font-din tracking-wide pr-5">Request service</span>
+            <svg class="absolute top-[4px] right-[4px] w-[14px] h-[14px] text-white fill-current" viewBox="0 0 14 14">
+              <path
+                d="M 2.414 0 L 13 0 A 1 1 0 0 1 14 1 L 14 11.586 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 2.414 0 Z" />
+            </svg>
+          </a>
+
+          <!-- Mobile / Navigation Menu Toggle -->
+          <button x-on:click="open = !open"
+            class="flex items-center justify-center w-[44px] h-[44px] flex-shrink-0 rounded-[4px] border border-[#0000001a] hover:bg-slate-50 transition shadow-sm relative z-50"
+            aria-label="Toggle menu">
+            <img src="/assets/img/menuicon.svg" alt="Menu" class="w-5 h-5" />
+          </button>
+        </div>
+
+      </div>
+
+      <!-- Backdrop Overlay -->
+      <div x-show="open" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0"
+        x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-200"
+        x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" x-on:click="open = false"
+        class="fixed inset-0 z-40 bg-[#233D7C]/42 backdrop-blur-md">
+      </div>
+
+      <!-- Floating Navbar Menu Modal Card -->
+      <div x-show="open" x-transition:enter="transition ease-out duration-300"
+        x-transition:enter-start="opacity-0 scale-95 -translate-y-2"
+        x-transition:enter-end="opacity-100 scale-100 translate-y-0"
+        x-transition:leave="transition ease-in duration-200"
+        x-transition:leave-start="opacity-100 scale-100 translate-y-0"
+        x-transition:leave-end="opacity-0 scale-95 -translate-y-2"
+        class="absolute right-4 sm:right-8 md:right-12 top-[92px] z-50 w-full max-w-[448px] bg-white text-black p-8 sm:p-10 shadow-2xl rounded-[4px]"
+        style="clip-path: polygon(0 0, 100% 0, 100% 100%, 28px 100%, 0 calc(100% - 28px));">
+
+        <ul class="flex flex-col w-full divide-y divide-[#0000001a]">
+
+          <!-- Home -->
+          <li class="pb-4">
+            <a href="index.html"
+              class="block font-aktiv text-[28px] font-medium leading-[1.1] text-black hover:text-brand transition">
+              Home
+            </a>
+          </li>
+
+          <!-- Who we are (Accordion) -->
+          <li x-data="{ subOpen: false }" class="py-4 flex flex-col">
+            <button x-on:click="subOpen = !subOpen"
+              class="w-full flex items-center justify-between text-left font-aktiv text-[28px] font-medium leading-[1.1] text-black hover:text-brand transition focus:outline-none">
+              <span>Who we are</span>
+              <svg class="w-3.5 h-3.5 text-brand fill-current transition-transform duration-200"
+                :class="subOpen ? 'rotate-180' : ''" viewBox="0 0 14 14">
+                <path
+                  d="M 2.414 0 L 13 0 A 1 1 0 0 1 14 1 L 14 11.586 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 2.414 0 Z" />
+              </svg>
+            </button>
+
+            <div x-show="subOpen" x-transition
+              class="pt-3 pb-1 flex flex-col space-y-2 font-aktiv text-[14px] text-[#00000080]">
+              <a href="about.html" class="hover:text-black transition">About One Health</a>
+              <a href="medtrust.html" class="hover:text-black transition">MedTrust Brand</a>
+              <a href="about.html#leadership" class="hover:text-black transition">Leadership <span class="font-sans font-medium">&amp;</span> Team</a>
+            </div>
+          </li>
+
+          <!-- Divisions (Accordion) -->
+          <li x-data="{ subOpen: false }" class="py-4 flex flex-col">
+            <button x-on:click="subOpen = !subOpen"
+              class="w-full flex items-center justify-between text-left font-aktiv text-[28px] font-medium leading-[1.1] text-black hover:text-brand transition focus:outline-none">
+              <span>Divisions</span>
+              <svg class="w-3.5 h-3.5 text-brand fill-current transition-transform duration-200"
+                :class="subOpen ? 'rotate-180' : ''" viewBox="0 0 14 14">
+                <path
+                  d="M 2.414 0 L 13 0 A 1 1 0 0 1 14 1 L 14 11.586 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 2.414 0 Z" />
+              </svg>
+            </button>
+
+            <div x-show="subOpen" x-transition
+              class="pt-3 pb-1 flex flex-col space-y-2 font-aktiv text-[14px] text-[#00000080]">
+              <a href="ivd-life-sciences.html" class="hover:text-black transition">IVD and life sciences</a>
+              <a href="medical-products.html" class="hover:text-black transition">Medical products <span class="font-sans font-medium">&amp;</span> projects</a>
+              <a href="facilities-and-technical-services.html" class="hover:text-black transition">Facilities <span class="font-sans font-medium">&amp;</span> technical services</a>
+              <a href="supplychain.html" class="hover:text-black transition">Supply chain management</a>
+            </div>
+          </li>
+
+          <!-- Insights & media -->
+          <li class="py-4">
+            <a href="news.html"
+              class="block font-aktiv text-[28px] font-medium leading-[1.1] text-black hover:text-brand transition">
+              Insights <span class="font-sans font-medium">&amp;</span> media
+            </a>
+          </li>
+
+          <!-- Careers -->
+          <li class="py-4">
+            <a href="careers.html"
+              class="block font-aktiv text-[28px] font-medium leading-[1.1] text-black hover:text-brand transition">
+              Careers
+            </a>
+          </li>
+
+          <!-- Contact -->
+          <li class="pt-4">
+            <a href="contact.html"
+              class="block font-aktiv text-[28px] font-medium leading-[1.1] text-brand transition">
+              Contact
+            </a>
+          </li>
+
+        </ul>
+      </div>
+
+    </header>
+
+    <main>
+
+      <!-- Hero: Title -->
+     <section class="container-page">  
+      <section class="bg-white text-black pt-16 lg:pt-24 ">
+        <h1 class="font-aktiv text-5xl sm:text-7xl lg:text-[80px] font-medium leading-[1.05] text-black tracking-tight">
+          Talk to the right team
+        </h1>
+      </section>
+      
+      <!-- Intro copy + Enquiry form -->
+      <section class="bg-white text-black border-t border-black/20 mt-8 lg:mt-10 pt-10 lg:pt-12 pb-16 lg:pb-24 container-page">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-y-10 gap-x-8 lg:gap-x-16">
+
+          <!-- Left Column: caption -->
+          <div class="lg:col-span-5">
+            <p class="font-aktiv text-[14px] text-black leading-[1.4] tracking-[0.14px] max-w-[240px]">
+              Tell us what you need and your enquiry reaches the people who handle it
+            </p>
+          </div>
+
+          <!-- Right Column: Enquiry Form -->
+          <div class="lg:col-span-7">
+            <form method="POST" action="#" class="flex flex-col gap-10">
+
+              <div class="flex flex-col gap-8">
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                  <div class="flex flex-col gap-3">
+                    <label for="fullname" class="font-aktiv text-[14px] text-black/40 tracking-[0.14px]">Full name</label>
+                    <input id="fullname" name="fullname" type="text"
+                      class="w-full border-0 border-b border-black/10 bg-transparent pb-3 font-aktiv text-[14px] text-black focus:outline-none focus:border-brand transition" />
+                  </div>
+                  <div class="flex flex-col gap-3">
+                    <label for="phone" class="font-aktiv text-[14px] text-black/40 tracking-[0.14px]">Phone</label>
+                    <input id="phone" name="phone" type="tel"
+                      class="w-full border-0 border-b border-black/10 bg-transparent pb-3 font-aktiv text-[14px] text-black focus:outline-none focus:border-brand transition" />
+                  </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                  <div class="flex flex-col gap-3">
+                    <label for="organisation" class="font-aktiv text-[14px] text-black/40 tracking-[0.14px]">Organisation</label>
+                    <input id="organisation" name="organisation" type="text"
+                      class="w-full border-0 border-b border-black/10 bg-transparent pb-3 font-aktiv text-[14px] text-black focus:outline-none focus:border-brand transition" />
+                  </div>
+                  <div class="flex flex-col gap-3">
+                    <label for="email" class="font-aktiv text-[14px] text-black/40 tracking-[0.14px]">Work email</label>
+                    <input id="email" name="email" type="email"
+                      class="w-full border-0 border-b border-black/10 bg-transparent pb-3 font-aktiv text-[14px] text-black focus:outline-none focus:border-brand transition" />
+                  </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                  <div class="relative flex flex-col gap-3">
+                    <label for="country" class="font-aktiv text-[14px] text-black/40 tracking-[0.14px]">Country</label>
+                    <select id="country" name="country"
+                      class="w-full appearance-none border-0 border-b border-black/10 bg-transparent pb-3 pr-5 font-aktiv text-[14px] text-black focus:outline-none focus:border-brand transition">
+                      <option value=""></option>
+                      <option value="uae">United Arab Emirates</option>
+                      <option value="other">Other</option>
+                    </select>
+                    <img src="/assets/img/contact/chevron-down.svg" alt=""
+                      class="pointer-events-none absolute right-0 top-[42px] w-[10px] h-[10px] -scale-y-100" />
+                  </div>
+                  <div class="relative flex flex-col gap-3">
+                    <label for="enquiry-about" class="font-aktiv text-[14px] text-black/40 tracking-[0.14px]">I am enquiring about...</label>
+                    <select id="enquiry-about" name="enquiry_about"
+                      class="w-full appearance-none border-0 border-b border-black/10 bg-transparent pb-3 pr-5 font-aktiv text-[14px] text-black focus:outline-none focus:border-brand transition">
+                      <option value=""></option>
+                      <option value="ivd">IVD &amp; life sciences</option>
+                      <option value="medical-products">Medical products &amp; projects</option>
+                      <option value="facilities">Facilities &amp; technical services</option>
+                      <option value="supplychain">Supply chain management</option>
+                      <option value="careers">Careers</option>
+                      <option value="other">Other</option>
+                    </select>
+                    <img src="/assets/img/contact/chevron-down.svg" alt=""
+                      class="pointer-events-none absolute right-0 top-[42px] w-[10px] h-[10px] -scale-y-100" />
+                  </div>
+                </div>
+
+                <div class="flex flex-col gap-3">
+                  <label for="message" class="font-aktiv text-[14px] text-black/40 tracking-[0.14px]">How can we help</label>
+                  <input id="message" name="message" type="text"
+                    class="w-full border-0 border-b border-black/10 bg-transparent pb-3 font-aktiv text-[14px] text-black focus:outline-none focus:border-brand transition" />
+                </div>
+
+              </div>
+
+              <!-- Send enquiry Button (Corner-Fold Variant) -->
+              <button type="submit"
+                class="relative overflow-hidden inline-flex items-center justify-between h-[44px] rounded-[4px] bg-[#7A8BB4] px-5 text-xs font-semibold text-white shadow-sm hover:bg-[#7A8BB4]/90 transition duration-200">
+                <span class="font-din tracking-wide pr-5">Send enquiry</span>
+                <svg class="absolute top-[4px] right-[4px] w-[14px] h-[14px] text-white fill-current" viewBox="0 0 14 14">
+                  <path
+                    d="M 2.414 0 L 13 0 A 1 1 0 0 1 14 1 L 14 11.586 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 2.414 0 Z" />
+                </svg>
+              </button>
+
+            </form>
+          </div>
+
+        </div>
+      </section>
+
+      </section>
+        <!-- Our Offices: Map + office cards -->
+     <section class="container-page">
+        <section x-data="{ filter: 'all' }" class="bg-white text-black border-t border-black/20 pt-12 lg:pt-16 pb-16 lg:pb-24">
+
+        <!-- Section Label + Filter Pills -->
+        <div class="flex flex-row items-center justify-between gap-4 mb-8">
+          <div>
+            <p class="font-aktiv text-[14px] text-black tracking-[0.14px]">Our offices</p>
+          </div>
+
+          <div class="flex items-center gap-[6px] w-full max-w-[376px]">
+            <button type="button" x-on:click="filter = 'all'"
+              class="relative overflow-hidden flex-1 min-w-0 flex items-center h-[42px] rounded-[4px] pl-[12px] pr-[28px] text-[14px] font-medium tracking-[0.14px] transition"
+              :class="filter === 'all' ? 'bg-brand text-white' : 'bg-white border border-black/20 text-brand'">
+              <span class="truncate">All</span>
+              <svg class="absolute top-[4px] right-[4px] w-[14px] h-[14px] fill-current" viewBox="0 0 14 14">
+                <path
+                  d="M 2.414 0 L 13 0 A 1 1 0 0 1 14 1 L 14 11.586 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 2.414 0 Z" />
+              </svg>
+            </button>
+            <button type="button" x-on:click="filter = 'dubai'"
+              class="relative overflow-hidden flex-1 min-w-0 flex items-center h-[42px] rounded-[4px] pl-[12px] pr-[28px] text-[14px] font-medium tracking-[0.14px] transition"
+              :class="filter === 'dubai' ? 'bg-brand text-white' : 'bg-white border border-black/20 text-brand'">
+              <span class="truncate">Dubai</span>
+              <svg class="absolute top-[4px] right-[4px] w-[14px] h-[14px] fill-current" viewBox="0 0 14 14">
+                <path
+                  d="M 2.414 0 L 13 0 A 1 1 0 0 1 14 1 L 14 11.586 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 2.414 0 Z" />
+              </svg>
+            </button>
+            <button type="button" x-on:click="filter = 'abudhabi'"
+              class="relative overflow-hidden flex-1 min-w-0 flex items-center h-[42px] rounded-[4px] pl-[12px] pr-[28px] text-[14px] font-medium tracking-[0.14px] transition"
+              :class="filter === 'abudhabi' ? 'bg-brand text-white' : 'bg-white border border-black/20 text-brand'">
+              <span class="truncate">Abu Dhabi</span>
+              <svg class="absolute top-[4px] right-[4px] w-[14px] h-[14px] fill-current" viewBox="0 0 14 14">
+                <path
+                  d="M 2.414 0 L 13 0 A 1 1 0 0 1 14 1 L 14 11.586 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 2.414 0 Z" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Map -->
+        <div class="relative w-full aspect-[16/9] rounded-[4px] overflow-hidden bg-[#F2F2F2]" style="aspect-ratio: 16/9;">
+          <img src="/assets/img/contact/office-map.png" alt="Map of UAE showing One Health office locations"
+            class="absolute inset-0 w-full h-full object-cover" />
+
+          <!-- Dubai pin & placeholder -->
+          <div x-show="filter === 'all' || filter === 'dubai'" class="absolute" style="left: 50.4%; top: 42.3%;">
+            <!-- Text label -->
+            <div class="absolute z-10 pointer-events-none" style="left: -250px; top: -85px;">
+              <div style="font-family: 'Aktiv Grotesk Trial', sans-serif; font-weight: 500; font-style: normal; font-size: 28px; line-height: 110%; letter-spacing: 0%; color: #000;">
+                Dubai
+              </div>
+              <div style="font-family: 'Aktiv Grotesk Trial', sans-serif; font-weight: 400; font-style: normal; font-size: 14px; line-height: 100%; letter-spacing: 1%; color: #000; margin-top: 22px;">
+                Vision Tower,<br>
+                Business Bay, Dubai<br>
+                +971 4 447 3338
+              </div>
+            </div>
+            <!-- Connector line: horizontal then diagonal to pin -->
+            <svg class="absolute z-10 pointer-events-none" style="left: -250px; top: -44px; overflow: visible;" width="258" height="52" fill="none">
+              <polyline points="0,0 220,0 258,52" stroke="#00000033" stroke-width="1" fill="none"/>
+            </svg>
+            <!-- Pin marker -->
+            <div class="absolute top-0 left-0 rounded-[2px] bg-black size-[12px] sm:size-[16px] z-20"></div>
+          </div>
+
+          <!-- Abu Dhabi pin & placeholder -->
+          <div x-show="filter === 'all' || filter === 'abudhabi'" class="absolute" style="left: 28.3%; top: 75.8%;">
+            <!-- Text label -->
+            <div class="absolute z-10 pointer-events-none" style="left: -270px; top: -85px;">
+              <div style="font-family: 'Aktiv Grotesk Trial', sans-serif; font-weight: 500; font-style: normal; font-size: 28px; line-height: 110%; letter-spacing: 0%; color: #000;">
+                Abu Dhabi
+              </div>
+              <div style="font-family: 'Aktiv Grotesk Trial', sans-serif; font-weight: 400; font-style: normal; font-size: 14px; line-height: 100%; letter-spacing: 1%; color: #000; margin-top: 22px;">
+                Al Dar headquarters,<br>
+                Abu Dhabi<br>
+                +971 4 447 3338
+              </div>
+            </div>
+            <!-- Connector line: horizontal then diagonal to pin -->
+            <svg class="absolute z-10 pointer-events-none" style="left: -270px; top: -44px; overflow: visible;" width="278" height="52" fill="none">
+              <polyline points="0,0 240,0 278,52" stroke="#00000033" stroke-width="1" fill="none"/>
+            </svg>
+            <!-- Pin marker -->
+            <div class="absolute top-0 left-0 rounded-[2px] bg-black size-[12px] sm:size-[16px] z-20"></div>
+          </div>
+        </div>
+
+      
+
+      </section>
+     </section>
+     
+      <!-- Contacts -->
+      <section class="bg-white text-black border-t border-black/20 pt-12 lg:pt-16 pb-20 lg:pb-28 container-page">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-y-8 gap-x-8 lg:gap-x-16">
+          <div class="lg:col-span-5">
+            <p class="font-aktiv text-[14px] text-black tracking-[0.14px]">Contacts</p>
+          </div>
+
+          <div class="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-8 lg:gap-16">
+            <div class="flex flex-col gap-1">
+              <h3 class="font-aktiv text-[28px] font-medium leading-[1.1] text-black">General<br />enquiries</h3>
+              <a href="mailto:info@onehealth.ae" class="font-aktiv text-[14px] text-black tracking-[0.14px] hover:text-brand transition">
+                info@onehealth.ae
+              </a>
+            </div>
+            <div class="flex flex-col gap-1">
+              <h3 class="font-aktiv text-[28px] font-medium leading-[1.1] text-black">Careers<br />enquiries</h3>
+              <a href="mailto:people-care@onehealth.ae" class="font-aktiv text-[14px] text-black tracking-[0.14px] hover:text-brand transition">
+                people-care@onehealth.ae
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+  </div>
+
+  <!-- Standard Footer Component -->
+  <footer class="bg-[#F2F2F2] text-black py-16 lg:py-15">
+    <div class="container-page flex flex-col space-y-10">
+
+      <!-- Top Row: Logo, Navigation Columns, LinkedIn -->
+      <div class="grid grid-cols-1 pb-2 md:grid-cols-12 gap-8 lg:gap-12 items-start">
+
+        <!-- Left: Logo -->
+        <div class="md:col-span-3">
+          <a href="index.html">
+            <img src="/assets/img/home/bluelogo.svg" alt="One Health" class="h-8 object-contain" />
+          </a>
+        </div>
+
+        <!-- Center: 3 Navigation Columns -->
+        <div class="md:col-span-8 grid grid-cols-1 sm:grid-cols-3 gap-8">
+
+          <!-- Column 1: Company -->
+          <div class="flex flex-col space-y-3">
+            <h4 class="font-aktiv text-[14px] font-semibold text-black">Company</h4>
+            <ul class="flex flex-col space-y-2 font-din text-[14px] text-[#00000066]">
+              <li><a href="index.html" class="hover:text-black transition">Home</a></li>
+              <li><a href="about.html" class="hover:text-black transition">About</a></li>
+              <li><a href="medtrust.html" class="hover:text-black transition">MedTrust</a></li>
+              <li><a href="news.html" class="hover:text-black transition">Insights <span class="font-sans font-medium">&amp;</span> media</a></li>
+              <li><a href="careers.html" class="hover:text-black transition">Careers</a></li>
+              <li><a href="contact.html" class="text-black font-medium transition">Contact</a></li>
+            </ul>
+          </div>
+
+          <!-- Column 2: Our capabilities -->
+          <div class="flex flex-col space-y-3">
+            <h4 class="font-aktiv text-[14px] font-semibold text-black">Our capabilities</h4>
+            <ul class="flex flex-col space-y-2 font-din text-[14px] text-[#00000066]">
+              <li><a href="ivd-life-sciences.html" class="hover:text-black transition">IVD <span class="font-sans font-medium">&amp;</span> life sciences</a></li>
+              <li><a href="medical-products.html" class="hover:text-black transition">Medical products <span class="font-sans font-medium">&amp;</span> projects</a></li>
+              <li><a href="facilities-and-technical-services.html" class="hover:text-black transition">Facilities <span class="font-sans font-medium">&amp;</span> technical services</a></li>
+              <li><a href="supplychain.html" class="hover:text-black transition">Supply chain management</a></li>
+            </ul>
+          </div>
+
+          <!-- Column 3: Legal -->
+          <div class="flex flex-col space-y-3">
+            <h4 class="font-aktiv text-[14px] font-semibold text-black">Legal</h4>
+            <ul class="flex flex-col space-y-2 font-din text-[14px] text-[#00000066]">
+              <li><a href="privacy.html" class="hover:text-black transition">Privacy Policy</a></li>
+              <li><a href="terms.html" class="hover:text-black transition">Terms of Service</a></li>
+              <li><a href="cookies.html" class="hover:text-black transition">Cookie preferences</a></li>
+            </ul>
+          </div>
+
+        </div>
+
+        <!-- Right: LinkedIn Icon -->
+        <div class="md:col-span-1 flex justify-start md:justify-end">
+          <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer"
+            class="w-6 h-6 bg-black text-white flex items-center justify-center rounded-[2px] hover:bg-brand transition"
+            aria-label="LinkedIn">
+            <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+              <path
+                d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.25V10.9H6.46M7.86 6.7a1.63 1.63 0 1 0 0 3.26 1.63 1.63 0 0 0 0-3.26Z" />
+            </svg>
+          </a>
+        </div>
+
+      </div>
+
+      <!-- Bottom Row: Copyright Notice -->
+      <div class="pt-8 font-din text-[14px] text-[#00000066] text-center">
+        &copy; 2026 OneHealth. All rights reserved
+      </div>
+
+    </div>
+  </footer>
+
+</body>
+</html>

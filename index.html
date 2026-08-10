@@ -1,0 +1,1040 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Home — One Health</title>
+
+  <link rel="stylesheet" href="/assets/css/app.css" />
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3/dist/cdn.min.js"></script>
+</head>
+
+<body class=" font-din antialiased text-white">
+
+  <!-- component: hero-section -->
+  <section x-data="{ open: false }" class="relative min-h-screen flex flex-col justify-between bg-cover "
+    style="background-image: url('/assets/img/home/hero.png');">
+
+    <!-- Top Navigation Header -->
+    <header class="relative z-50 w-full">
+      <div class="container-page flex h-24 items-center justify-between">
+
+        <!-- Logo -->
+        <a href="index.html" class="block flex-shrink-0">
+          <img src="/assets/img/whitelogo.svg" alt="One Health" class="h-8 sm:h-10 w-auto" />
+        </a>
+
+        <!-- Header Actions (Aligned with the 331px wide widget below) -->
+        <div class="flex items-center justify-between gap-3 w-full max-w-[331px]">
+          <!-- Contact Us Button (Corner-Fold Variant) -->
+          <a href="contact.html"
+            class="relative overflow-hidden inline-flex items-center justify-between h-[44px] rounded-[4px] bg-brand px-5 flex-1 text-xs font-semibold text-white shadow-sm hover:bg-brand/90 transition duration-200">
+            <span class="font-din tracking-wide pr-5">Contact us</span>
+            <svg class="absolute top-[4px] right-[4px] w-[14px] h-[14px] text-white fill-current" viewBox="0 0 14 14">
+              <path
+                d="M 2.414 0 L 13 0 A 1 1 0 0 1 14 1 L 14 11.586 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 2.414 0 Z" />
+            </svg>
+          </a>
+
+          <!-- Mobile / Navigation Menu Toggle -->
+          <button x-on:click="open = !open"
+            class="flex items-center justify-center w-[44px] h-[44px] flex-shrink-0 rounded-[4px] bg-white hover:bg-slate-100 transition shadow-sm relative z-50"
+            aria-label="Toggle menu">
+            <img src="/assets/img/menuicon.svg" alt="Menu" class="w-5 h-5" />
+          </button>
+        </div>
+
+      </div>
+
+      <!-- Backdrop Overlay (42% Fill #233D7C + Blur) -->
+      <div x-show="open" 
+           x-transition:enter="transition ease-out duration-300"
+           x-transition:enter-start="opacity-0"
+           x-transition:enter-end="opacity-100"
+           x-transition:leave="transition ease-in duration-200"
+           x-transition:leave-start="opacity-100"
+           x-transition:leave-end="opacity-0"
+           x-on:click="open = false"
+           class="fixed inset-0 z-40 bg-[#233D7C]/42 backdrop-blur-md">
+      </div>
+
+      <!-- Floating Navbar Menu Modal Card (Right Aligned, Cut-Corner Bottom-Left Signature) -->
+      <div x-show="open"
+           x-transition:enter="transition ease-out duration-300"
+           x-transition:enter-start="opacity-0 scale-95 -translate-y-2"
+           x-transition:enter-end="opacity-100 scale-100 translate-y-0"
+           x-transition:leave="transition ease-in duration-200"
+           x-transition:leave-start="opacity-100 scale-100 translate-y-0"
+           x-transition:leave-end="opacity-0 scale-95 -translate-y-2"
+           class="absolute right-4 sm:right-8 md:right-12 top-[92px] z-50 w-full max-w-[448px] bg-white text-black p-8 sm:p-10 shadow-2xl rounded-[4px]"
+           style="clip-path: polygon(0 0, 100% 0, 100% 100%, 28px 100%, 0 calc(100% - 28px));">
+
+        <ul class="flex flex-col w-full divide-y divide-[#0000001a]">
+          
+          <!-- Home -->
+          <li class="pb-4">
+            <a href="index.html" class="block font-aktiv text-[28px] font-medium leading-[1.1] text-brand transition">
+              Home
+            </a>
+          </li>
+
+          <!-- Who we are (Accordion) -->
+          <li x-data="{ subOpen: false }" class="py-4 flex flex-col">
+            <button x-on:click="subOpen = !subOpen" class="w-full flex items-center justify-between text-left font-aktiv text-[28px] font-medium leading-[1.1] text-black hover:text-brand transition focus:outline-none">
+              <span>Who we are</span>
+              <!-- Corner Triangle Fold Icon -->
+              <svg class="w-3.5 h-3.5 text-brand fill-current transition-transform duration-200" :class="subOpen ? 'rotate-180' : ''" viewBox="0 0 14 14">
+                <path d="M 2.414 0 L 13 0 A 1 1 0 0 1 14 1 L 14 11.586 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 2.414 0 Z" />
+              </svg>
+            </button>
+
+            <!-- Submenu -->
+            <div x-show="subOpen" x-transition class="pt-3 pb-1 flex flex-col space-y-2 font-aktiv text-[14px] text-[#00000080]">
+              <a href="about.html" class="hover:text-black transition">About One Health</a>
+              <a href="medtrust.html" class="hover:text-black transition">MedTrust Brand</a>
+              <a href="about.html#leadership" class="hover:text-black transition">Leadership <span class="font-sans font-medium">&amp;</span> Team</a>
+            </div>
+          </li>
+
+          <!-- Divisions (Accordion) -->
+          <li x-data="{ subOpen: false }" class="py-4 flex flex-col">
+            <button x-on:click="subOpen = !subOpen" class="w-full flex items-center justify-between text-left font-aktiv text-[28px] font-medium leading-[1.1] text-black hover:text-brand transition focus:outline-none">
+              <span>Divisions</span>
+              <!-- Corner Triangle Fold Icon -->
+              <svg class="w-3.5 h-3.5 text-brand fill-current transition-transform duration-200" :class="subOpen ? 'rotate-180' : ''" viewBox="0 0 14 14">
+                <path d="M 2.414 0 L 13 0 A 1 1 0 0 1 14 1 L 14 11.586 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 2.414 0 Z" />
+              </svg>
+            </button>
+
+            <!-- Submenu -->
+            <div x-show="subOpen" x-transition class="pt-3 pb-1 flex flex-col space-y-2 font-aktiv text-[14px] text-[#00000080]">
+              <a href="ivd-life-sciences.html" class="hover:text-black transition">IVD and life sciences</a>
+              <a href="medical-products.html" class="hover:text-black transition">Medical products <span class="font-sans font-medium">&amp;</span> projects</a>
+              <a href="facilities-and-technical-services.html" class="hover:text-black transition">Facilities <span class="font-sans font-medium">&amp;</span> technical services</a>
+              <a href="supplychain.html" class="hover:text-black transition">Supply chain management</a>
+            </div>
+          </li>
+
+          <!-- Insights & media -->
+          <li class="py-4">
+            <a href="news.html" class="block font-aktiv text-[28px] font-medium leading-[1.1] text-black hover:text-brand transition">
+              Insights <span class="font-sans font-medium">&amp;</span> media
+            </a>
+          </li>
+
+          <!-- Careers -->
+          <li class="py-4">
+            <a href="careers.html" class="block font-aktiv text-[28px] font-medium leading-[1.1] text-black hover:text-brand transition">
+              Careers
+            </a>
+          </li>
+
+          <!-- Contact -->
+          <li class="pt-4">
+            <a href="contact.html" class="block font-aktiv text-[28px] font-medium leading-[1.1] text-black hover:text-brand transition">
+              Contact
+            </a>
+          </li>
+
+        </ul>
+      </div>
+
+    </header>
+
+    <!-- Hero Main Body -->
+    <main class="relative z-10 container-page flex-1 flex flex-col justify-between gap-12 py-12 lg:py-16">
+
+      <!-- Headline -->
+      <div class="pt-6 sm:pt-10 max-w-3xl">
+        <h1 class="font-aktiv text-4xl sm:text-5xl md:text-7xl lg:text-[80px] font-medium leading-[1.08] text-white">
+          The operational backbone of UAE healthcare
+        </h1>
+      </div>
+
+      <!-- Bottom Content -->
+      <div class="w-full flex flex-col md:flex-row justify-between items-end gap-8">
+
+        <!-- Bottom Left: Paragraph & Button -->
+        <div class="w-full md:max-w-xl space-y-6">
+          <p class="font-din text-[14px] sm:text-[14px]   max-w-sm">
+            One Health supplies the equipment, medicines and infrastructure UAE healthcare is built on. We then
+            integrate and maintain it as one working system.
+          </p>
+
+          <div>
+            <!-- Explore our divisions Button (UI-Kit Corner-Fold) -->
+            <a href="#"
+              class="relative overflow-hidden inline-flex items-center justify-between w-full sm:w-auto min-w-[260px] rounded-[4px] bg-white px-6 py-4 text-brand font-semibold shadow-sm tex-[14px]  transition duration-200">
+              <span class="font-din text-sm tracking-wide text-brand">Explore our divisions</span>
+              <svg class="absolute top-[4px] right-[4px] w-[14px] h-[14px] text-brand fill-current" viewBox="0 0 14 14">
+                <path
+                  d="M 2.414 0 L 13 0 A 1 1 0 0 1 14 1 L 14 11.586 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 2.414 0 Z" />
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Bottom Right: AI Lab Calculator Widget -->
+        <div class="w-full md:w-auto flex-shrink-0 flex justify-end">
+          <div class="w-full max-w-[331px] h-[182px] rounded-[4px]  p-[12px] flex flex-col justify-between"
+            style="background-color: rgba(242, 242, 242, 0.2); backdrop-filter: blur(37.9px); -webkit-backdrop-filter: blur(37.9px);">
+
+            <!-- Widget Header -->
+            <div class="flex items-center gap-1.5">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"
+                class="w-3.5 h-3.5">
+                <path
+                  d="M6.62654 1.30059C6.52181 1.38756 6.4508 1.50842 6.4258 1.64223L5.81267 4.88427C5.76912 5.11476 5.65709 5.32678 5.49121 5.49264C5.32532 5.65851 5.11328 5.77052 4.88276 5.81406L1.64033 6.42712C1.50651 6.45212 1.38564 6.52312 1.29866 6.62784C1.21168 6.73256 1.16406 6.86439 1.16406 7.00052C1.16406 7.13664 1.21168 7.26848 1.29866 7.37319C1.38564 7.47791 1.50651 7.54892 1.64033 7.57391L4.88276 8.18697C5.11328 8.23051 5.32532 8.34252 5.49121 8.50839C5.65709 8.67426 5.76912 8.88627 5.81267 9.11677L6.4258 12.3588C6.4508 12.4926 6.52181 12.6135 6.62654 12.7004C6.73127 12.7874 6.86312 12.835 6.99926 12.835C7.1354 12.835 7.26726 12.7874 7.37199 12.7004C7.47672 12.6135 7.54773 12.4926 7.57273 12.3588L8.18586 9.11677C8.22941 8.88627 8.34143 8.67426 8.50732 8.50839C8.6732 8.34252 8.88525 8.23051 9.11577 8.18697L12.3582 7.57391C12.492 7.54892 12.6129 7.47791 12.6999 7.37319C12.7868 7.26848 12.8345 7.13664 12.8345 7.00052C12.8345 6.86439 12.7868 6.73256 12.6999 6.62784C12.6129 6.52312 12.492 6.45212 12.3582 6.42712L9.11577 5.81406C8.88525 5.77052 8.6732 5.65851 8.50732 5.49264C8.34143 5.32678 8.22941 5.11476 8.18586 4.88427L7.57273 1.64223C7.54773 1.50842 7.47672 1.38756 7.37199 1.30059C7.26726 1.21362 7.1354 1.16602 6.99926 1.16602C6.86312 1.16602 6.73127 1.21362 6.62654 1.30059Z"
+                  fill="#5ECEFF" />
+                <path
+                  d="M2.33225 12.8334C2.97663 12.8334 3.49901 12.311 3.49901 11.6667C3.49901 11.0224 2.97663 10.5001 2.33225 10.5001C1.68786 10.5001 1.16549 11.0224 1.16549 11.6667C1.16549 12.311 1.68786 12.8334 2.33225 12.8334Z"
+                  fill="#5ECEFF" />
+                <path d="M11.6668 1.16797V3.50121M12.8335 2.33459H10.5" stroke="#5ECEFF" stroke-linecap="round" />
+              </svg>
+              <span class="font-din text-sm font-semibold tracking-wide bg-clip-text text-transparent"
+                style="background-image: linear-gradient(90deg, #B7CCFF 0%, #5ECEFF 100%);">AI Lab calculator</span>
+            </div>
+
+            <!-- Widget Description -->
+            <p class="font-din text-[14px] font-medium text-white">
+              Calculator estimates the equipment, infrastructure, and consumables, with a 5-year cost forecast
+            </p>
+
+            <!-- Widget Button (UI-Kit Corner-Fold) -->
+            <div>
+              <a href="#"
+                class="relative overflow-hidden flex items-center justify-between w-full rounded-[4px] bg-white px-4 py-2.5 text-brand font-semibold text-[14px]  transition duration-200">
+                <span class="font-din text-xs tracking-wide text-brand">Get started</span>
+                <svg class="absolute top-[4px] right-[4px] w-[14px] h-[14px] text-brand fill-current"
+                  viewBox="0 0 14 14">
+                  <path
+                    d="M 2.414 0 L 13 0 A 1 1 0 0 1 14 1 L 14 11.586 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 2.414 0 Z" />
+                </svg>
+              </a>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+    </main>
+
+  </section>
+  <!-- /component -->
+
+  <!-- component: credibilities-section -->
+  <section class="bg-white container-page text-black py-20 lg:py-24">
+    <div class=" border-t border-[#00000033] pt-6 sm:pt-8 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
+
+      <!-- Left Column: Section Subtitle -->
+      <div class="lg:col-span-4">
+        <h2 class="font-din text-[14px] font-normal tracking-wider text-black">
+          Our credibilities
+        </h2>
+      </div>
+
+      <!-- Right Column: Heading, description, and stats -->
+      <div class="lg:col-span-8">
+        <!-- PureHealth Heading -->
+        <div class="space-y-4">
+          <div
+            class="flex flex-wrap items-baseline gap-x-3 gap-y-2 text-4xl sm:text-5xl lg:text-[56px] font-aktiv font-medium text-black tracking-tight leading-none">
+            <span>A</span>
+            <img src="/assets/img/logos/purehealth.svg" alt="Pure Health"
+              class="h-9 sm:h-12 lg:h-[64px] w-auto align-baseline" />
+            <span>asset</span>
+          </div>
+          <p class="font-din text-[14px] sm:text-base text-black max-w-md">
+            Part of the UAE<span class="font-sans font-medium">'</span>s largest integrated healthcare network.
+          </p>
+        </div>
+
+        <!-- Stats Block -->
+        <div class="mt-16 grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-10">
+          <div class="border-t border-[#00000033] pt-8 pb-8">
+            <div class="font-aktiv text-5xl sm:text-6xl lg:text-[80px] font-medium text-brand leading-none">140K+
+            </div>
+            <div class="font-din text-[14px] text-black mt-3 tracking-wide">Assets maintained</div>
+          </div>
+          <div class="border-t border-[#00000033] pt-8 pb-8">
+            <div class="font-aktiv text-5xl sm:text-6xl lg:text-[80px] font-medium text-brand leading-none">300+</div>
+            <div class="font-din text-[14px] text-black mt-3 tracking-wide">Engineers</div>
+          </div>
+          <div class="border-t border-[#00000033] pt-8 pb-8">
+            <div class="font-aktiv text-5xl sm:text-6xl lg:text-[80px] font-medium text-brand leading-none">110+</div>
+            <div class="font-din text-[14px] text-black mt-3 tracking-wide">Hospitals served</div>
+          </div>
+          <div class="border-t border-[#00000033] pt-8 pb-8">
+            <div class="font-aktiv text-5xl sm:text-6xl lg:text-[80px] font-medium text-brand leading-none">30+</div>
+            <div class="font-din text-[14px] text-black mt-3 tracking-wide">Manufacturers represented</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+  <!-- /component -->
+
+  <!-- component: continuity-section -->
+  <section class="bg-[#F2F2F2] container-page text-black py-20">
+    <div class=" border-t border-[#00000033] pt-6 sm:pt-8 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
+
+      <!-- Left Column: Section Subtitle -->
+      <div class="lg:col-span-3">
+        <h2 class="font-din text-[14px] font-normal tracking-wider text-black">
+          Designed around continuity
+        </h2>
+      </div>
+
+      <!-- Right Column: Heading, description, and stats -->
+      <div class="lg:col-span-9">
+        <h3 class="font-aktiv text-3xl sm:text-4xl lg:text-[56px] font-medium leading-[1.2] text-black max-w-4xl tracking-tight">
+          Healthcare depends on thousands of interconnected systems working together every day.
+        </h3>
+
+        <!-- Inner Content Grid -->
+        <div class="mt-16 grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-start">
+
+          <!-- Left Column: Microscope Image and Button container (exactly 376x382px on desktop) -->
+          <div class="w-full max-w-[376px] h-[382px] flex flex-col gap-2">
+            <!-- Image (taking all remaining height) -->
+            <div class="relative flex-1 overflow-hidden rounded-[4px]" style="clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 0 100%);">
+              <img src="/assets/img/home/microsope.svg" alt="Microscope" class="w-full h-full object-cover" />
+            </div>
+
+            <!-- More about us Button (Integrated as a bottom bar with top-right corner fold) -->
+            <a href="/about"
+              class="relative flex items-center justify-between w-full h-[48px] flex-shrink-0 bg-brand px-4 py-2.5 text-white font-semibold hover:bg-brand/90 transition duration-200 rounded-[4px]">
+              <span class="font-din text-xs tracking-wide text-white">More about us</span>
+              <svg class="absolute top-[4px] right-[4px] w-[14px] h-[14px] text-white fill-current" viewBox="0 0 14 14">
+                <path
+                  d="M 2.414 0 L 13 0 A 1 1 0 0 1 14 1 L 14 11.586 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 2.414 0 Z" />
+              </svg>
+            </a>
+          </div>
+
+          <!-- Right Column: Paragraphs -->
+          <div class="space-y-6 text-black font-normal max-w-sm font-din text-[14px] leading-relaxed">
+            <p>
+              From diagnostic equipment and laboratory infrastructure to maintenance, medical technologies, and
+              operational support, every component plays a critical role in delivering care.
+            </p>
+            <p>
+              OneHealth brings these capabilities together within a unified framework, helping healthcare providers
+              optimise performance, reduce complexity, and maintain continuity across the healthcare ecosystem.
+            </p>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+  <!-- /component -->
+
+  <!-- component: divisions-section -->
+  <section class="bg-white container-page text-black py-20 lg:py-40">
+    <div class=" border-t border-[#00000033] pt-6 sm:pt-8 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
+
+
+
+      <!-- Heading -->
+      <div class="grid lg:col-span-12 gap-8 lg:gap-12">
+        <h3
+          class="font-aktiv text-4xl sm:text-5xl md:text-6xl lg:text-[80px] font-medium leading-[1.1] text-black tracking-tight  max-w-4xl mx-auto ">
+          What OneHealth delivers across the business
+        </h3>
+      </div>
+
+
+      <!-- Left Column: Section Subtitle -->
+      <div class="lg:col-span-2">
+        <h2 class="font-din text-[14px] font-normal tracking-wider text-black">
+          Our divisions
+        </h2>
+      </div>
+
+      <!-- Divisions List/Grid with scroll-spy active state -->
+      <div x-data="{ 
+          activeCard: 1,
+          init() {
+            const observer = new IntersectionObserver((entries) => {
+              entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                  this.activeCard = parseInt(entry.target.getAttribute('data-card-id'));
+                }
+              });
+            }, {
+              root: null,
+              rootMargin: '-35% 0px -35% 0px',
+              threshold: 0.1
+            });
+            this.$el.querySelectorAll('[data-card-id]').forEach(card => observer.observe(card));
+          }
+        }" class="w-full lg:col-span-9 space-y-8">
+
+        <!-- Card 1: IVD & life sciences -->
+        <div data-card-id="1"
+          class="relative flex flex-col md:flex-row md:h-[220px] rounded-[4px] overflow-hidden max-w-[510px] mx-auto transition duration-500"
+          :class="activeCard === 1 ? 'opacity-100' : 'opacity-30'">
+          <!-- Left: Image -->
+          <div class="md:w-[45%] h-64 md:h-full relative">
+            <img src="/assets/img/home/img1.png" alt="IVD & life sciences" class="w-full h-full object-cover" />
+          </div>
+          <!-- Right: Text Content -->
+          <div class="p-8 md:w-[55%] h-full flex flex-col justify-center space-y-3"
+            style="background-image: url('/assets/img/home/cardsbg.png'); background-size: cover;">
+            <h4 class="font-aktiv text-[28px] font-medium text-black">IVD <span class="font-sans font-medium">&</span> life sciences</h4>
+            <p class="font-din text-[14px] text-[#00000080] leading-relaxed">
+              Diagnostics and genomics for the country<span class="font-sans font-medium">'</span>s laboratories.
+            </p>
+          </div>
+        </div>
+
+        <!-- Card 2: Medical products & projects -->
+        <div data-card-id="2"
+          class="relative flex flex-col md:flex-row md:h-[220px] rounded-[4px] overflow-hidden max-w-[510px] mx-auto transition duration-500"
+          :class="activeCard === 2 ? 'opacity-100' : 'opacity-30'">
+          <!-- Left: Image -->
+          <div class="md:w-[45%] h-64 md:h-full relative">
+            <img src="/assets/img/home/img2.png" alt="Medical products & projects" class="w-full h-full object-cover" />
+          </div>
+          <!-- Right: Text Content -->
+          <div class="p-8 md:w-[55%] h-full flex flex-col justify-center space-y-3"
+            style="background-image: url('/assets/img/home/cardsbg.png'); background-size: cover;">
+            <h4 class="font-aktiv text-[28px] font-medium text-black">Medical products <span class="font-sans font-medium">&</span> projects</h4>
+            <p class="font-din text-[14px] text-[#00000080] leading-relaxed">
+              Medical devices, medicines and the turnkey projects that install them.
+            </p>
+          </div>
+        </div>
+
+        <!-- Card 3: Facilities & technical services -->
+        <div data-card-id="3"
+          class="relative flex flex-col md:flex-row md:h-[220px] rounded-[4px] overflow-hidden max-w-[510px] mx-auto transition duration-500"
+          :class="activeCard === 3 ? 'opacity-100' : 'opacity-30'">
+          <!-- Left: Image -->
+          <div class="md:w-[45%] h-64 md:h-full relative">
+            <img src="/assets/img/home/img3.png" alt="Facilities & technical services"
+              class="w-full h-full object-cover" />
+          </div>
+          <!-- Right: Text Content -->
+          <div class="p-8 md:w-[55%] h-full flex flex-col justify-center space-y-3"
+            style="background-image: url('/assets/img/home/cardsbg.png'); background-size: cover;">
+            <h4 class="font-aktiv text-[28px] font-medium text-black">Facilities <span class="font-sans font-medium">&</span> technical services</h4>
+            <p class="font-din text-[14px] text-[#00000080] leading-relaxed">
+              A hospital<span class="font-sans font-medium">'</span>s building, equipment and sterile services, under one contract.
+            </p>
+          </div>
+        </div>
+
+        <!-- Card 4: Supply chain management -->
+        <div data-card-id="4"
+          class="relative flex flex-col md:flex-row md:h-[220px] rounded-[4px] overflow-hidden max-w-[510px] mx-auto transition duration-500"
+          :class="activeCard === 4 ? 'opacity-100' : 'opacity-30'">
+          <!-- Left: Image -->
+          <div class="md:w-[45%] h-64 md:h-full relative">
+            <img src="/assets/img/home/img4.png" alt="Supply chain management" class="w-full h-full object-cover" />
+          </div>
+          <!-- Right: Text Content -->
+          <div class="p-8 md:w-[55%] h-full flex flex-col justify-center space-y-3"
+            style="background-image: url('/assets/img/home/cardsbg.png'); background-size: cover;">
+            <h4 class="font-aktiv text-[28px] font-medium text-black">Supply chain management</h4>
+            <p class="font-din text-[14px] text-[#00000080] leading-relaxed">
+              Procurement, warehousing and logistics across the UAE and the GCC.
+            </p>
+          </div>
+        </div>
+
+        <!-- Card 5: Business development -->
+        <div data-card-id="5"
+          class="relative flex flex-col md:flex-row md:h-[220px] rounded-[4px] overflow-hidden max-w-[510px] mx-auto transition duration-500"
+          :class="activeCard === 5 ? 'opacity-100' : 'opacity-30'">
+          <!-- Left: Image -->
+          <div class="md:w-[45%] h-64 md:h-full relative">
+            <img src="/assets/img/home/img5.png" alt="Business development" class="w-full h-full object-cover" />
+          </div>
+          <!-- Right: Text Content -->
+          <div class="p-8 md:w-[55%] h-full flex flex-col justify-center space-y-3"
+            style="background-image: url('/assets/img/home/cardsbg.png'); background-size: cover;">
+            <h4 class="font-aktiv text-[28px] font-medium text-black">Business development</h4>
+            <p class="font-din text-[14px] text-[#00000080] leading-relaxed">
+              A UAE route to market for global healthcare technology.
+            </p>
+          </div>
+        </div>
+
+        <!-- Card 6: Channel management -->
+        <div data-card-id="6"
+          class="relative flex flex-col md:flex-row md:h-[220px] rounded-[4px] overflow-hidden max-w-[510px] mx-auto transition duration-500"
+          :class="activeCard === 6 ? 'opacity-100' : 'opacity-30'">
+          <!-- Left: Image -->
+          <div class="md:w-[45%] h-64 md:h-full relative">
+            <img src="/assets/img/home/img6.png" alt="Channel management" class="w-full h-full object-cover" />
+          </div>
+          <!-- Right: Text Content -->
+          <div class="p-8 md:w-[55%] h-full flex flex-col justify-center space-y-3"
+            style="background-image: url('/assets/img/home/cardsbg.png'); background-size: cover;">
+            <h4 class="font-aktiv text-[28px] font-medium text-black">Channel management</h4>
+            <p class="font-din text-[14px] text-[#00000080] leading-relaxed">
+              Distribution and partner management for global healthcare brands across the UAE.
+            </p>
+          </div>
+        </div>
+
+
+
+      </div>
+    </div>
+
+    </div>
+  </section>
+  <!-- /component -->
+
+  <!-- component: manufacturers-section -->
+  <section class="bg-[#F2F2F2] container-page text-black py-20 lg:py-34">
+    <div class=" border-t border-[#00000033] pt-6 sm:pt-8 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
+
+      <!-- Left Column: Section Subtitle -->
+      <div class="lg:col-span-4">
+        <h2 class="font-din text-[14px] font-normal tracking-wider text-black">
+          The manufacturers we represent
+        </h2>
+      </div>
+
+      <!-- Right Column: Grid and Details -->
+      <div class="lg:col-span-8 flex flex-col space-y-6">
+        <!-- Grid Header -->
+        <h3 class="font-din text-[14px] font-normal text-black">
+          Diagnostics
+        </h3>
+
+        <!-- Logos Grid -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+          <!-- Box 1 -->
+          <div
+            class="bg-[#EBEBEB] rounded-[4px] aspect-[3/2] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+            <img src="/assets/img/logos/logo1.svg" alt="Manufacturer Logo"
+              class="max-w-full max-h-full object-contain" />
+          </div>
+          <!-- Box 2 -->
+          <div
+            class="bg-[#EBEBEB] rounded-[4px] aspect-[3/2] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+            <img src="/assets/img/logos/logo2.svg" alt="Manufacturer Logo"
+              class="max-w-full max-h-full object-contain" />
+          </div>
+          <!-- Box 3 -->
+          <div
+            class="bg-[#EBEBEB] rounded-[4px] aspect-[3/2] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+            <img src="/assets/img/logos/logo3.svg" alt="Manufacturer Logo"
+              class="max-w-full max-h-full object-contain" />
+          </div>
+          <!-- Box 4 -->
+          <div
+            class="bg-[#EBEBEB] rounded-[4px] aspect-[3/2] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+            <img src="/assets/img/logos/logo4.svg" alt="Manufacturer Logo"
+              class="max-w-full max-h-full object-contain" />
+          </div>
+          <!-- Box 5 -->
+          <div
+            class="bg-[#EBEBEB] rounded-[4px] aspect-[3/2] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+            <img src="/assets/img/logos/logo5.svg" alt="Manufacturer Logo"
+              class="max-w-full max-h-full object-contain" />
+          </div>
+          <!-- Box 6 -->
+          <div
+            class="bg-[#EBEBEB] rounded-[4px] aspect-[3/2] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+            <img src="/assets/img/logos/logo6.svg" alt="Manufacturer Logo"
+              class="max-w-full max-h-full object-contain" />
+          </div>
+          <!-- Box 7 -->
+          <div
+            class="bg-[#EBEBEB] rounded-[4px] aspect-[3/2] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+            <img src="/assets/img/logos/logo7.svg" alt="Manufacturer Logo"
+              class="max-w-full max-h-full object-contain" />
+          </div>
+          <!-- Box 8 -->
+          <div
+            class="bg-[#EBEBEB] rounded-[4px] aspect-[3/2] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+            <img src="/assets/img/logos/logo8.svg" alt="Manufacturer Logo"
+              class="max-w-full max-h-full object-contain" />
+          </div>
+          <!-- Box 9 -->
+          <div
+            class="bg-[#EBEBEB] rounded-[4px] aspect-[3/2] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+            <img src="/assets/img/logos/logo9.svg" alt="Manufacturer Logo"
+              class="max-w-full max-h-full object-contain" />
+          </div>
+          <!-- Box 10 -->
+          <div
+            class="bg-[#EBEBEB] rounded-[4px] aspect-[3/2] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+            <img src="/assets/img/logos/logo10.svg" alt="Manufacturer Logo"
+              class="max-w-full max-h-full object-contain" />
+          </div>
+          <!-- Box 11 -->
+          <div
+            class="bg-[#EBEBEB] rounded-[4px] aspect-[3/2] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+            <img src="/assets/img/logos/logo11.svg" alt="Manufacturer Logo"
+              class="max-w-full max-h-full object-contain" />
+          </div>
+          <!-- Box 12 -->
+          <div
+            class="bg-[#EBEBEB] rounded-[4px] aspect-[3/2] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+            <img src="/assets/img/logos/logo12.svg" alt="Manufacturer Logo"
+              class="max-w-full max-h-full object-contain" />
+          </div>
+        </div>
+
+        <!-- Footer Text -->
+        <span class="font-din text-[14px] text-black pt-2">
+          And many more...
+        </span>
+      </div>
+
+    </div>
+  </section>
+  <!-- /component -->
+
+  <section
+    class="relative container-page text-black bg-cover bg-center overflow-hidden flex flex-col justify-center h-[900px]"
+    style="background-image: url('/assets/img/home/bluebgcover.png');">
+    <div class="pt-6 sm:pt-8 flex flex-col w-full">
+
+      <!-- Top Row: Logos & Brand Indicator (Aligned to 12-column grid layout) -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center w-full mb-1">
+        <!-- Left: MedTrust Logo -->
+        <div class="lg:col-span-6 flex items-center">
+          <img src="/assets/img/home/medtrust.svg" alt="MedTrust" class="h-8 object-contain" />
+        </div>
+
+        <div class="lg:col-span-6 flex justify-between items-center w-full">
+          <span class="font-din text-xs md:text-[14px] font-semibold tracking-wider bg-clip-text text-transparent" style="background-image: linear-gradient(90deg, #35AFE5 0%, #233D7C 100%); -webkit-background-clip: text;">A One Health<span class="font-sans font-medium">'</span>s
+            brand</span>
+          <img src="/assets/img/home/bluelogo.svg" alt="OneHealth" class="h-8 object-contain" />
+        </div>
+      </div>
+
+      <!-- Separator Line -->
+      <div class="border-t border-black/10 my-1 w-full"></div>
+
+      <!-- Main Content Grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start mt-4">
+        <!-- Left Column: Title -->
+        <div class="lg:col-span-6">
+          <h3
+            class="font-aktiv text-3xl sm:text-4xl lg:text-[56px] font-medium leading-[1.1] text-black tracking-tight max-w-xl">
+            Medical consumables, made to standard
+          </h3>
+        </div>
+
+        <!-- Right Column: Description & Button -->
+        <div class="lg:col-span-6 flex flex-col items-start space-y-6">
+          <p class="font-din text-[14px] leading-relaxed text-black max-w-lg">
+            Our own UAE brand of medical consumables and infection control products, supplied to hospitals, governments,
+            pharmacies and homecare providers across the UAE and the GCC.
+          </p>
+
+          <!-- Explore MedTrust Button (UI-Kit Corner-Fold) -->
+          <a href="medtrust.html"
+            class="relative overflow-hidden flex items-center justify-between min-w-[200px] rounded-[4px] bg-brand px-6 py-3.5 text-white font-semibold hover:bg-brand/90 transition duration-200 shadow-sm">
+            <span class="font-din text-sm tracking-wide text-white mr-8">Explore MedTrust</span>
+            <svg class="absolute top-[4px] right-[4px] w-[14px] h-[14px] text-white fill-current" viewBox="0 0 14 14">
+              <path
+                d="M 2.414 0 L 13 0 A 1 1 0 0 1 14 1 L 14 11.586 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 2.414 0 Z" />
+            </svg>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+  <!-- /component -->
+
+  <!-- component: projects-section -->
+  <section class="bg-white text-black pt-36 pb-24 container-page">
+    <div class="border-t border-[#00000033] pt-6 sm:pt-8 flex flex-col w-full">
+
+      <!-- Subtitle -->
+      <div class="mb-16">
+        <h2 class="font-din text-[14px] font-normal tracking-wider text-black">
+          Recent work across the UAE
+        </h2>
+      </div>
+
+      <!-- 3-Column Grid for Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
+
+        <!-- Card 1: SSMC Pura Longevity Clinic -->
+        <div class="flex flex-col space-y-4">
+          <!-- Top Tag & Border -->
+          <div class="flex flex-col space-y-2">
+            <span class="font-din text-[14px] text-[#00000080]">Abu Dhabi</span>
+            <div class="border-t border-black/10 w-full"></div>
+          </div>
+
+          <!-- Header (Title & Description Row) -->
+          <div class="grid grid-cols-2 gap-4 min-h-[110px] items-start">
+            <h3 class="font-aktiv text-[28px] font-medium text-black leading-tight">
+              SSMC Pura Longevity Clinic
+            </h3>
+            <p class="font-din text-[14px] text-black leading-relaxed">
+              Hyperbaric oxygen therapy chamber installed and commissioned at Sheikh Shakhbout Medical City.
+            </p>
+          </div>
+
+          <!-- Image -->
+          <div class="relative w-full aspect-[4/3] rounded-[4px] overflow-hidden mt-4"
+            style="clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 0 100%);">
+            <img src="/assets/img/home/work1.png" alt="SSMC Pura Longevity Clinic" class="w-full h-full object-cover" />
+          </div>
+        </div>
+
+        <!-- Card 2: SEHA Saadiyat Clinic -->
+        <div class="flex flex-col space-y-4">
+          <!-- Top Tag & Border -->
+          <div class="flex flex-col space-y-2">
+            <span class="font-din text-[14px] text-[#00000080]">Abu Dhabi</span>
+            <div class="border-t border-black/10 w-full"></div>
+          </div>
+
+          <!-- Header (Title & Description Row) -->
+          <div class="grid grid-cols-2 gap-4 min-h-[110px] items-start">
+            <h3 class="font-aktiv text-[28px] font-medium text-black leading-tight">
+              SEHA Saadiyat Clinic
+            </h3>
+            <p class="font-din text-[14px] text-black leading-relaxed">
+              A premium outpatient clinic on Saadiyat Island, delivered as a turnkey project.
+            </p>
+          </div>
+
+          <!-- Image -->
+          <div class="relative w-full aspect-[4/3] rounded-[4px] overflow-hidden mt-4"
+            style="clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 0 100%);">
+            <img src="/assets/img/home/work2.png" alt="SEHA Saadiyat Clinic" class="w-full h-full object-cover" />
+          </div>
+
+          <!-- See more of our work Button (UI-Kit Corner-Fold) -->
+          <a href="/work"
+            class="relative overflow-hidden flex items-center justify-between w-full h-[48px] bg-brand px-4 py-2.5 text-white font-semibold hover:bg-brand/90 transition duration-200 rounded-[4px] mt-4">
+            <span class="font-din text-xs tracking-wide text-white">See more of our work</span>
+            <svg class="absolute top-[4px] right-[4px] w-[14px] h-[14px] text-white fill-current" viewBox="0 0 14 14">
+              <path
+                d="M 2.414 0 L 13 0 A 1 1 0 0 1 14 1 L 14 11.586 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 2.414 0 Z" />
+            </svg>
+          </a>
+        </div>
+
+        <!-- Card 3: SAKINA for Children -->
+        <div class="flex flex-col space-y-4">
+          <!-- Top Tag & Border -->
+          <div class="flex flex-col space-y-2">
+            <span class="font-din text-[14px] text-[#00000080]">Abu Dhabi</span>
+            <div class="border-t border-black/10 w-full"></div>
+          </div>
+
+          <!-- Header (Title & Description Row) -->
+          <div class="grid grid-cols-2 gap-4 min-h-[110px] items-start">
+            <h3 class="font-aktiv text-[28px] font-medium text-black leading-tight">
+              SAKINA for Children
+            </h3>
+            <p class="font-din text-[14px] text-black leading-relaxed">
+              Purpose built paediatric mental health clinic, equipped for assessment and treatment.
+            </p>
+          </div>
+
+          <!-- Image -->
+          <div class="relative w-full aspect-[4/3] rounded-[4px] overflow-hidden mt-4"
+            style="clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 0 100%);">
+            <img src="/assets/img/home/work3.png" alt="SAKINA for Children" class="w-full h-full object-cover" />
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+  <!-- /component -->
+
+  <!-- component: build-lab-section -->
+  <section class="bg-white py-20 lg:py-24 container-page">
+    <!-- Card Container with top-right cut corner signature -->
+    <div
+      class="relative w-full bg-brand rounded-[4px] p-6 lg:p-8 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center overflow-hidden">
+
+      <!-- Left Column: Lab Image with top-right cut corner matching the card -->
+      <div class="lg:col-span-6 w-full h-[300px] lg:h-[480px] relative overflow-hidden rounded-[4px]"
+        style="clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 0 100%);">
+        <img src="/assets/img/home/labotoray.svg" alt="Laboratory" class="w-full h-full object-cover" />
+      </div>
+
+      <!-- Middle Column: Spacer (2 columns wide to create layout separation) -->
+      <div class="hidden lg:block lg:col-span-1"></div>
+
+      <!-- Right Column: Text & Action Button (with vertical line border-l) -->
+      <div
+        class="lg:col-span-5 flex flex-col justify-between h-full min-h-[340px] lg:border-l lg:border-white/10 lg:pl-10 lg:py-4 space-y-6">
+
+        <div class="flex flex-col space-y-4">
+          <!-- Powered by AI Label -->
+          <div class="flex items-center space-x-2">
+            <!-- Sparkles Icon -->
+            <img src="/assets/img/sparkles.svg" alt="AI Sparkles" class="w-[14px] h-[14px] object-contain" />
+            <span class="font-din text-[14px] uppercase text-ai tracking-widest font-semibold">Powered by AI</span>
+          </div>
+
+          <!-- Heading -->
+          <h3
+            class="font-aktiv text-3xl sm:text-4xl lg:text-[48px] font-medium leading-[1.1] text-white tracking-tight">
+            Building a laboratory?
+          </h3>
+        </div>
+
+        <div class="flex flex-col space-y-6">
+          <!-- Description -->
+          <p class="font-din text-[14px] text-white/80 leading-relaxed max-w-sm">
+            Describe the lab you want to build and One Lab returns the equipment and infrastructure it needs, with a
+            five year cost forecast and a report you can take to your board.
+          </p>
+
+          <!-- White Investment Button with brand color corner-fold -->
+          <a href="/estimate"
+            class="relative overflow-hidden flex items-center justify-between w-full max-w-sm h-[48px] bg-white px-5 py-2.5 text-brand font-semibold hover:bg-slate-50 transition duration-200 rounded-[4px] shadow-sm">
+            <span class="font-din text-xs tracking-wide text-brand">Estimate your lab investment</span>
+            <svg class="absolute top-[4px] right-[4px] w-[14px] h-[14px] text-brand fill-current" viewBox="0 0 14 14">
+              <path
+                d="M 2.414 0 L 13 0 A 1 1 0 0 1 14 1 L 14 11.586 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 2.414 0 Z" />
+            </svg>
+          </a>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+  <!-- /component -->
+
+  <!-- component: articles-section -->
+  <section class="bg-white text-black py-20 lg:py-24 container-page">
+    <div class="border-t border-[#00000033] pt-6 sm:pt-8 flex flex-col w-full">
+
+      <!-- Subtitle -->
+      <div class="mb-12">
+        <h2 class="font-din text-[14px] font-normal tracking-wider text-black">
+          Latest from One Health
+        </h2>
+      </div>
+
+      <!-- 3-Column Grid for Article Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
+
+        <!-- Card 1 -->
+        <div class="flex flex-col">
+          <!-- Image with Top-Right Cut Corner -->
+          <div class="relative w-full aspect-[4/3] rounded-[4px] overflow-hidden"
+            style="clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 0 100%);">
+            <img src="/assets/img/home/article1.png" alt="Backing an EHS team" class="w-full h-full object-cover" />
+          </div>
+
+          <!-- Title -->
+          <h3 class="font-aktiv text-[28px] font-medium text-black leading-[1.2] tracking-tight mt-6 mb-3">
+            Backing an EHS team at the ISBT transfusion congress
+          </h3>
+
+          <!-- Description -->
+          <p class="font-din text-[14px] text-[#000000b3] leading-relaxed mb-4">
+            One Health sponsored a delegation from Emirates Health Services at the ISBT congress in Kuala Lumpur.
+          </p>
+
+          <!-- Date (Directly below description) -->
+          <span class="font-din text-[14px] text-[#00000080]">25 June 2026</span>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="flex flex-col">
+          <!-- Image with Top-Right Cut Corner -->
+          <div class="relative w-full aspect-[4/5] rounded-[4px] overflow-hidden"
+            style="clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 0 100%);">
+            <img src="/assets/img/home/article2.png" alt="World Blood Donor Day" class="w-full h-full object-cover" />
+          </div>
+
+          <!-- Title -->
+          <h3 class="font-aktiv text-[28px] font-medium text-black leading-[1.2] tracking-tight mt-6 mb-3">
+            World Blood Donor Day with EHS in Dubai
+          </h3>
+
+          <!-- Description -->
+          <p class="font-din text-[14px] text-[#000000b3] leading-relaxed mb-4">
+            Emirates Health Services marked World Blood Donor Day in Dubai, with One Health supporting the campaign.
+          </p>
+
+          <!-- Date (Directly below description) -->
+          <span class="font-din text-[14px] text-[#00000080]">11 June 2026</span>
+
+          <!-- All news and downloads Button (Desktop: in Card 2) -->
+          <a href="news.html"
+            class="relative overflow-hidden hidden md:flex items-center justify-between w-full h-[48px] bg-brand px-4 py-2.5 text-white font-semibold hover:bg-brand/90 transition duration-200 rounded-[4px] mt-6">
+            <span class="font-din text-xs tracking-wide text-white">All news and downloads</span>
+            <svg class="absolute top-[4px] right-[4px] w-[14px] h-[14px] text-white fill-current" viewBox="0 0 14 14">
+              <path
+                d="M 2.414 0 L 13 0 A 1 1 0 0 1 14 1 L 14 11.586 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 2.414 0 Z" />
+            </svg>
+          </a>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="flex flex-col">
+          <!-- Image with Top-Right Cut Corner -->
+          <div class="relative w-full aspect-square rounded-[4px] overflow-hidden"
+            style="clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 0 100%);">
+            <img src="/assets/img/home/article3.png" alt="FUJIFILM at Urology Consortium"
+              class="w-full h-full object-cover" />
+          </div>
+
+          <!-- Title -->
+          <h3 class="font-aktiv text-[28px] font-medium text-black leading-[1.2] tracking-tight mt-6 mb-3">
+            One Health and FUJIFILM at the Urology Care Consortium
+          </h3>
+
+          <!-- Description -->
+          <p class="font-din text-[14px] text-[#000000b3] leading-relaxed mb-4">
+            The Interdisciplinary Urology Care Consortium in Dubai brought One Health<span class="font-sans font-medium">'</span>s device team together with
+            FUJIFILM.
+          </p>
+
+          <!-- Date (Directly below description) -->
+          <span class="font-din text-[14px] text-[#00000080]">7 June 2026</span>
+        </div>
+
+      </div>
+
+      <!-- All news and downloads Button (Mobile: at bottom of all cards) -->
+      <a href="news.html"
+        class="relative overflow-hidden flex md:hidden items-center justify-between w-full h-[48px] bg-brand px-4 py-2.5 text-white font-semibold hover:bg-brand/90 transition duration-200 rounded-[4px] mt-8">
+        <span class="font-din text-xs tracking-wide text-white">All news and downloads</span>
+        <svg class="absolute top-[4px] right-[4px] w-[14px] h-[14px] text-white fill-current" viewBox="0 0 14 14">
+          <path
+            d="M 2.414 0 L 13 0 A 1 1 0 0 1 14 1 L 14 11.586 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 2.414 0 Z" />
+        </svg>
+      </a>
+
+    </div>
+  </section>
+  <!-- /component -->
+
+  <!-- component: cta-section -->
+  <section class="pt-12 pb-20 lg:pb-24 container-page">
+    <div
+      class="relative w-full bg-[#233D7C] rounded-[4px] p-6 lg:p-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center overflow-hidden">
+
+      <!-- Left Column: Image (lg:col-span-3) -->
+      <div class="lg:col-span-3 w-full aspect-[299/299] relative overflow-hidden rounded-[4px]"
+        style="clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 0 100%);">
+        <img src="/assets/img/home/microsope.svg" alt="Supporting healthcare" class="w-full h-full object-cover" />
+      </div>
+
+      <!-- Middle Column: Spacer -->
+      <div class="hidden lg:block lg:col-span-1"></div>
+
+      <!-- Right Column: Text & Action Button (lg:col-span-8 with vertical border-l line) -->
+      <div
+        class="lg:col-span-8 flex flex-col justify-between h-full min-h-[260px] lg:border-l lg:border-white/20 lg:pl-10 lg:py-2 space-y-8">
+        <h2
+          class="font-aktiv text-3xl sm:text-4xl lg:text-[44px] xl:text-[56px] text-white font-medium leading-[1.2] tracking-tight">
+          Supporting healthcare, beyond the point of care
+        </h2>
+
+        <a href="/contact"
+          class="relative overflow-hidden flex items-center justify-between w-full h-[48px] bg-white px-5 py-2.5 font-semibold rounded-[4px] shadow-sm hover:bg-white/90 transition duration-200">
+          <span class="font-din text-xs tracking-wide text-[#233D7C]">Send an inquiry</span>
+          <svg class="absolute top-[4px] right-[4px] w-[14px] h-[14px] text-[#233D7C] fill-current" viewBox="0 0 14 14">
+            <path
+              d="M 2.414 0 L 13 0 A 1 1 0 0 1 14 1 L 14 11.586 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 2.414 0 Z" />
+          </svg>
+        </a>
+      </div>
+
+    </div>
+  </section>
+  <!-- /component -->
+
+  <!-- component: footer -->
+  <footer class="bg-[#F2F2F2] text-black py-16 lg:py-15">
+    <div class="container-page flex flex-col space-y-10">
+
+      <!-- Top Row: Logo, Navigation Columns, LinkedIn -->
+      <div class="grid grid-cols-1 pb-2  md:grid-cols-12 gap-8 lg:gap-12 items-start">
+
+        <!-- Left: Logo -->
+        <div class="md:col-span-3">
+          <a href="index.html">
+            <img src="/assets/img/home/bluelogo.svg" alt="One Health" class="h-8 object-contain" />
+          </a>
+        </div>
+
+        <!-- Center: 3 Navigation Columns -->
+        <div class="md:col-span-8 grid grid-cols-1 sm:grid-cols-3 gap-8">
+
+          <!-- Column 1: Company -->
+          <div class="flex flex-col space-y-3">
+            <h4 class="font-aktiv text-[14px] font-semibold text-black">Company</h4>
+            <ul class="flex flex-col space-y-2 font-din text-[14px] text-[#00000066]">
+              <li><a href="index.html" class="hover:text-black transition">Home</a></li>
+              <li><a href="about.html" class="hover:text-black transition">About</a></li>
+              <li><a href="medtrust.html" class="hover:text-black transition">MedTrust</a></li>
+              <li><a href="news.html" class="hover:text-black transition">Insights <span class="font-sans font-medium">&amp;</span> media</a></li>
+              <li><a href="careers.html" class="hover:text-black transition">Careers</a></li>
+              <li><a href="contact.html" class="hover:text-black transition">Contact</a></li>
+            </ul>
+          </div>
+
+          <!-- Column 2: Our divisions -->
+          <div class="flex flex-col space-y-3">
+            <h4 class="font-aktiv text-[14px] font-semibold text-black">Our divisions</h4>
+            <ul class="flex flex-col space-y-2 font-din text-[14px] text-[#00000066]">
+              <li><a href="ivd-life-sciences.html" class="hover:text-black transition">IVD <span class="font-sans font-medium">&amp;</span> life sciences</a></li>
+              <li><a href="medical-products.html" class="hover:text-black transition">Medical products <span class="font-sans font-medium">&amp;</span> projects</a></li>
+              <li><a href="facilities-and-technical-services.html" class="hover:text-black transition">Facilities <span class="font-sans font-medium">&amp;</span> technical services</a></li>
+              <li><a href="supplychain.html" class="hover:text-black transition">Supply chain management</a></li>
+            </ul>
+          </div>
+
+          <!-- Column 3: Legal -->
+          <div class="flex flex-col space-y-3">
+            <h4 class="font-aktiv text-[14px] font-semibold text-black">Legal</h4>
+            <ul class="flex flex-col space-y-2 font-din text-[14px] text-[#00000066]">
+              <li><a href="privacy.html" class="hover:text-black transition">Privacy Policy</a></li>
+              <li><a href="terms.html" class="hover:text-black transition">Terms of Service</a></li>
+              <li><a href="cookies.html" class="hover:text-black transition">Cookie preferences</a></li>
+            </ul>
+          </div>
+
+        </div>
+
+        <!-- Right: LinkedIn Icon -->
+        <div class="md:col-span-1 flex justify-start md:justify-end">
+          <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer"
+            class="w-6 h-6 bg-black text-white flex items-center justify-center rounded-[2px] hover:bg-brand transition"
+            aria-label="LinkedIn">
+            <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+              <path
+                d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.25V10.9H6.46M7.86 6.7a1.63 1.63 0 1 0 0 3.26 1.63 1.63 0 0 0 0-3.26Z" />
+            </svg>
+          </a>
+        </div>
+
+      </div>
+
+      <!-- Bottom Row: Copyright Notice -->
+      <div class="pt-8 font-din text-[14px] text-[#00000066] text-center">
+        &copy; 2026 OneHealth. All rights reserved
+      </div>
+
+    </div>
+  </footer>
+  <!-- /component -->
+
+</body>
+
+</html>
