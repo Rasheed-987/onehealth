@@ -182,3 +182,69 @@
   background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+
+@utility marquee-content {
+  display: flex;
+  width: max-content;
+  animation: marquee 30s linear infinite;
+}
+
+.marquee-content:hover {
+  animation-play-state: paused;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.hero-home-bg {
+  background-image: url('/assets/img/home/herombl.png');
+}
+@media (min-width: 640px) {
+  .hero-home-bg {
+    background-image: url('/assets/img/home/hero.png');
+  }
+}
+
+/* The hero stays pinned while the rest of the page scrolls up over it.
+   Sticky makes the hero a *positioned* element, which would otherwise paint on
+   top of the static sections that follow it — so every later top-level sibling
+   is explicitly lifted above it. Desktop only: the reference is a desktop
+   recording, and pinning a taller-than-viewport hero on small screens would
+   clip its lower content. */
+@media (min-width: 1024px) {
+  .hero-pinned {
+    position: sticky;
+    top: 0;
+    z-index: 0;
+  }
+  .hero-pinned ~ * {
+    position: relative;
+    z-index: 10;
+  }
+}
+
+/* Divisions heading dissolves as the cards scroll up past it. Scroll-driven,
+   so it tracks the scrollbar exactly rather than firing on a threshold.
+   Where unsupported the heading simply stays opaque. */
+@keyframes divisions-heading-fade {
+  to {
+    opacity: 0;
+  }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .divisions-heading {
+      animation: divisions-heading-fade linear both;
+      animation-timeline: view();
+      animation-range: cover 40% cover 70%;
+    }
+  }
+}
+

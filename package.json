@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "tailwindcss -i ./src/input.css -o ./assets/css/app.css --watch",
-    "build": "tailwindcss -i ./src/input.css -o ./assets/css/app.css --minify"
+    "build": "tailwindcss -i ./src/input.css -o ./assets/css/app.css --minify",
+    "frames": "bash tools/vidframes.sh"
   },
   "keywords": [],
   "author": "",

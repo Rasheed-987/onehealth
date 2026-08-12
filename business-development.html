@@ -1,0 +1,452 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Business development — One Health</title>
+
+  <link rel="stylesheet" href="/assets/css/app.css" />
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3/dist/cdn.min.js"></script>
+</head>
+
+<body class="font-din antialiased bg-white min-h-screen flex flex-col justify-between text-black">
+
+  <!-- Hero: DNA banner image behind header + title + intro copy -->
+  <div class="relative w-full">
+
+    <!-- Background banner image -->
+    <div class="absolute inset-0 h-[520px] sm:h-[640px] lg:h-[900px] w-full overflow-hidden -z-10">
+      <img src="/assets/img/bizdev/hero-banner.png" alt="" class="w-full h-full object-cover" />
+    </div>
+
+    <!-- Top Navigation Header Component -->
+    <header x-data="{ open: false }" class="relative z-50 w-full">
+      <div class="container-page flex h-24 items-center justify-between">
+
+        <!-- Logo (Blue Logo) -->
+        <a href="index.html" class="block flex-shrink-0">
+          <img src="/assets/img/home/bluelogo.svg" alt="One Health" class="h-8 sm:h-10 w-auto" />
+        </a>
+
+        <!-- Header Actions -->
+        <div class="flex items-center justify-end sm:justify-between gap-3 w-auto sm:w-full sm:max-w-[331px]">
+          <!-- Request Service Button (Corner-Fold Variant) -->
+          <a href="contact.html"
+            class="hidden sm:inline-flex relative overflow-hidden items-center justify-between h-[44px] rounded-[4px] bg-[#233D7C] px-5 flex-1 text-xs font-semibold text-white shadow-sm hover:bg-[#233D7C]/90 transition duration-200">
+            <span class="font-din tracking-wide pr-5">Request service</span>
+            <svg class="absolute top-[4px] right-[4px] w-[14px] h-[14px] text-white fill-current" viewBox="0 0 14 14">
+              <path
+                d="M 2.414 0 L 13 0 A 1 1 0 0 1 14 1 L 14 11.586 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 2.414 0 Z" />
+            </svg>
+          </a>
+
+          <!-- Mobile / Navigation Menu Toggle -->
+          <button x-on:click="open = !open"
+            class="flex items-center justify-center w-[44px] h-[44px] flex-shrink-0 rounded-[4px] border border-[#0000001a] bg-white/80 backdrop-blur hover:bg-white transition shadow-sm relative z-50"
+            aria-label="Toggle menu">
+            <img src="/assets/img/menuicon.svg" alt="Menu" class="w-5 h-5" />
+          </button>
+        </div>
+
+      </div>
+
+      <!-- Backdrop Overlay -->
+      <div x-show="open" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0"
+        x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-200"
+        x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" x-on:click="open = false"
+        class="fixed inset-0 z-40 bg-[#233D7C]/42 backdrop-blur-md">
+      </div>
+
+      <!-- Floating Navbar Menu Modal Card -->
+      <div x-show="open" x-transition:enter="transition ease-out duration-300"
+        x-transition:enter-start="opacity-0 scale-95 -translate-y-2"
+        x-transition:enter-end="opacity-100 scale-100 translate-y-0"
+        x-transition:leave="transition ease-in duration-200"
+        x-transition:leave-start="opacity-100 scale-100 translate-y-0"
+        x-transition:leave-end="opacity-0 scale-95 -translate-y-2"
+        class="absolute right-4 sm:right-8 md:right-12 top-[92px] z-50 w-full max-w-[448px] bg-white text-black p-8 sm:p-10 shadow-2xl rounded-[4px]"
+        style="clip-path: polygon(0 0, 100% 0, 100% 100%, 28px 100%, 0 calc(100% - 28px));">
+
+        <ul class="flex flex-col w-full divide-y divide-[#0000001a]">
+
+          <!-- Home -->
+          <li class="pb-4">
+            <a href="index.html"
+              class="block font-aktiv text-[28px] font-medium leading-[1.1] text-black hover:text-brand transition">
+              Home
+            </a>
+          </li>
+
+          <!-- Who we are (Accordion) -->
+          <li x-data="{ subOpen: false }" class="py-4 flex flex-col">
+            <button x-on:click="subOpen = !subOpen"
+              class="w-full flex items-center justify-between text-left font-aktiv text-[28px] font-medium leading-[1.1] text-black hover:text-brand transition focus:outline-none">
+              <span>Who we are</span>
+              <svg class="w-3.5 h-3.5 text-brand fill-current transition-transform duration-200"
+                :class="subOpen ? 'rotate-180' : ''" viewBox="0 0 14 14">
+                <path
+                  d="M 2.414 0 L 13 0 A 1 1 0 0 1 14 1 L 14 11.586 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 2.414 0 Z" />
+              </svg>
+            </button>
+
+            <div x-show="subOpen" x-transition
+              class="pt-3 pb-1 flex flex-col space-y-2 font-aktiv text-[14px] text-[#00000080]">
+              <a href="about.html" class="hover:text-black transition">About One Health</a>
+              <a href="medtrust.html" class="hover:text-black transition">MedTrust Brand</a>
+              <a href="about.html#leadership" class="hover:text-black transition">Leadership <span class="font-sans font-medium">&amp;</span> Team</a>
+            </div>
+          </li>
+
+          <!-- Divisions (Accordion) -->
+          <li x-data="{ subOpen: false }" class="py-4 flex flex-col">
+            <button x-on:click="subOpen = !subOpen"
+              class="w-full flex items-center justify-between text-left font-aktiv text-[28px] font-medium leading-[1.1] text-black hover:text-brand transition focus:outline-none">
+              <span>Divisions</span>
+              <svg class="w-3.5 h-3.5 text-brand fill-current transition-transform duration-200"
+                :class="subOpen ? 'rotate-180' : ''" viewBox="0 0 14 14">
+                <path
+                  d="M 2.414 0 L 13 0 A 1 1 0 0 1 14 1 L 14 11.586 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 2.414 0 Z" />
+              </svg>
+            </button>
+
+            <div x-show="subOpen" x-transition
+              class="pt-3 pb-1 flex flex-col space-y-2 font-aktiv text-[14px] text-[#00000080]">
+              <a href="ivd-life-sciences.html" class="hover:text-black transition">IVD and life sciences</a>
+              <a href="medical-products.html" class="hover:text-black transition">Medical products <span class="font-sans font-medium">&amp;</span> projects</a>
+              <a href="facilities-and-technical-services.html" class="hover:text-black transition">Facilities <span class="font-sans font-medium">&amp;</span> technical services</a>
+              <a href="supplychain.html" class="hover:text-black transition">Supply chain management</a>
+            </div>
+          </li>
+
+          <!-- Insights & media -->
+          <li class="py-4">
+            <a href="news.html"
+              class="block font-aktiv text-[28px] font-medium leading-[1.1] text-black hover:text-brand transition">
+              Insights <span class="font-sans font-medium">&amp;</span> media
+            </a>
+          </li>
+
+          <!-- Careers -->
+          <li class="py-4">
+            <a href="careers.html"
+              class="block font-aktiv text-[28px] font-medium leading-[1.1] text-black hover:text-brand transition">
+              Careers
+            </a>
+          </li>
+
+          <!-- Contact -->
+          <li class="pt-4">
+            <a href="contact.html"
+              class="block font-aktiv text-[28px] font-medium leading-[1.1] text-black hover:text-brand transition">
+              Contact
+            </a>
+          </li>
+
+        </ul>
+      </div>
+
+    </header>
+
+    <!-- Hero Title + Intro copy (overlaid on banner image) -->
+    <section class="relative z-10 container-page pt-16 pb-24 lg:pt-24 lg:pb-32">
+      <h1 class="font-aktiv text-4xl sm:text-6xl lg:text-[80px] font-medium leading-[1.1] text-black max-w-[1056px]">
+        Bringing global healthcare technology to the UAE
+      </h1>
+
+      <div class="border-t border-black/20 mt-8 lg:mt-10 pt-8 lg:pt-10">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 lg:ml-[50%] lg:max-w-[784px]">
+          <p class="font-aktiv text-[14px] text-black leading-[1.2] max-w-[376px]">
+            The work spans diagnostics and medical devices, pharmaceuticals and life sciences. It now reaches the newer fields of artificial intelligence, digital health and robotics.
+          </p>
+          <p class="font-aktiv text-[14px] text-black leading-[1.2] max-w-[376px]">
+            We move a manufacturer's product through the whole process of entering the UAE, taking on the commercial and regulatory work of bringing it in.
+          </p>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <main>
+
+    <!-- Our partners -->
+    <section class="bg-white text-black border-t border-black/20 pt-12 lg:pt-16 container-page">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
+
+        <div class="lg:col-span-4">
+          <p class="font-din text-[14px] font-normal tracking-wider text-black">
+            Our partners
+          </p>
+        </div>
+
+        <div class="lg:col-span-8 flex flex-col space-y-12 pb-16 lg:pb-20">
+
+          <h2 class="font-aktiv text-3xl sm:text-4xl lg:text-[56px] font-medium leading-[1.1] text-black max-w-[1056px]">
+            Our partners are internationally recognised names in healthcare and life sciences, represented across the UAE.
+          </h2>
+
+          <!-- Strategic partners -->
+          <div class="flex flex-col space-y-6 border-t border-black/10 pt-8">
+            <h3 class="font-din text-[14px] font-normal text-black">Strategic partners</h3>
+
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+              <div class="bg-[#F2F2F2] rounded-[4px] aspect-[3/2] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+                <img src="/assets/img/bizdev/abbott.svg" alt="Abbott" class="max-w-full max-h-full object-contain" />
+              </div>
+              <div class="bg-[#F2F2F2] rounded-[4px] aspect-[3/2] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+                <img src="/assets/img/bizdev/ge-healthcare.svg" alt="GE HealthCare" class="max-w-full max-h-full object-contain" />
+              </div>
+              <div class="bg-[#F2F2F2] rounded-[4px] aspect-[3/2] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+                <img src="/assets/img/bizdev/leica-biosystems.svg" alt="Leica Biosystems" class="max-w-full max-h-full object-contain" />
+              </div>
+              <div class="bg-[#F2F2F2] rounded-[4px] aspect-[3/2] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+                <img src="/assets/img/bizdev/snibe.svg" alt="Snibe" class="max-w-full max-h-full object-contain" />
+              </div>
+              <div class="bg-[#F2F2F2] rounded-[4px] aspect-[3/2] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+                <img src="/assets/img/bizdev/partner-logo.svg" alt="Partner logo" class="max-w-full max-h-full object-contain" />
+              </div>
+              <div class="bg-[#F2F2F2] rounded-[4px] aspect-[3/2] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+                <!-- Baxter: composed from its 6 exported vector layers, positioned exactly as in Figma -->
+                <div class="relative w-full h-[23px] max-w-[144px]">
+                  <img src="/assets/img/bizdev/baxter-1.svg" alt="Baxter" class="absolute top-0 left-0 h-full" style="width:21.35%" />
+                  <img src="/assets/img/bizdev/baxter-2.svg" alt="" class="absolute h-full" style="left:20.33%; width:17.6%; top:26.97%; height:73%" />
+                  <img src="/assets/img/bizdev/baxter-3.svg" alt="" class="absolute" style="left:37.32%; width:20.77%; top:26.82%; height:73.15%" />
+                  <img src="/assets/img/bizdev/baxter-4.svg" alt="" class="absolute" style="left:56.44%; width:13.13%; top:11.14%; height:88.84%" />
+                  <img src="/assets/img/bizdev/baxter-5.svg" alt="" class="absolute" style="left:68.87%; width:17.27%; top:26.82%; height:73.16%" />
+                  <img src="/assets/img/bizdev/baxter-6.svg" alt="" class="absolute" style="left:84.68%; width:15.28%; top:26.77%; height:73.17%" />
+                </div>
+              </div>
+              <div class="bg-[#F2F2F2] rounded-[4px] aspect-[3/2] overflow-hidden">
+                <img src="/assets/img/bizdev/partner-logo1.svg" alt="Partner logo" class="w-full h-full object-contain" />
+              </div>
+            </div>
+          </div>
+
+          <!-- Innovation partners -->
+          <div class="flex flex-col space-y-6 border-t border-black/10 pt-8">
+            <h3 class="font-din text-[14px] font-normal text-black">Innovation partners</h3>
+
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+              <div class="bg-[#F2F2F2] rounded-[4px] aspect-[3/2] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+                <img src="/assets/img/bizdev/partner-g10.svg" alt="Partner logo" class="max-w-full max-h-full object-contain" />
+              </div>
+              <div class="bg-[#F2F2F2] rounded-[4px] aspect-[3/2] flex items-center justify-center p-8 transition duration-200 hover:brightness-95">
+                <img src="/assets/img/bizdev/partner-logo4.png" alt="Lions Global" class="max-w-full max-h-full object-contain rounded-full" />
+              </div>
+              <div class="bg-[#F2F2F2] rounded-[4px] aspect-[3/2] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+                <img src="/assets/img/bizdev/revvity.svg" alt="Revvity" class="max-w-full max-h-full object-contain" />
+              </div>
+              <div class="bg-[#F2F2F2] rounded-[4px] aspect-[3/2] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+                <img src="/assets/img/bizdev/partner-logo3.svg" alt="Partner logo" class="max-w-full max-h-full object-contain" />
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Recent work across the UAE -->
+    <section class="bg-white text-black border-t border-black/20 pt-12 lg:pt-16 pb-16 lg:pb-24 container-page">
+
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6 mb-10">
+        <p class="font-din text-[14px] text-black tracking-wider">Recent work across the UAE</p>
+        <a href="news.html"
+          class="relative overflow-hidden inline-flex items-center h-[42px] rounded-[4px] bg-[#233D7C] pl-3 pr-7 text-[14px] font-medium tracking-wide text-white shadow-sm hover:bg-[#233D7C]/90 transition duration-200">
+          See more of our work
+          <svg class="absolute top-[4px] right-[4px] w-[14px] h-[14px] text-white fill-current" viewBox="0 0 14 14">
+            <path
+              d="M 2.414 0 L 13 0 A 1 1 0 0 1 14 1 L 14 11.586 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 2.414 0 Z" />
+          </svg>
+        </a>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
+
+        <!-- Case 1 -->
+        <div class="flex flex-col">
+          <p class="font-din text-[14px] text-black/50 tracking-wide mb-4">Abu Dhabi</p>
+          <h3 class="font-aktiv text-[28px] font-medium leading-[1.1] text-black mb-3">SSMC Pura Longevity Clinic</h3>
+          <p class="font-aktiv text-[14px] text-black leading-[1.2] mb-4">
+            Hyperbaric oxygen therapy chamber installed and commissioned at Sheikh Shakhbout Medical City.
+          </p>
+          <div class="border-t border-black/10 mb-4"></div>
+          <div class="w-full aspect-[512/325] rounded-[4px] overflow-hidden"
+            style="clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 0 100%);">
+            <img src="/assets/img/bizdev/clinic-ssmc.png" alt="SSMC Pura Longevity Clinic" class="w-full h-full object-cover" />
+          </div>
+        </div>
+
+        <!-- Case 2 -->
+        <div class="flex flex-col">
+          <p class="font-din text-[14px] text-black/50 tracking-wide mb-4">Abu Dhabi</p>
+          <h3 class="font-aktiv text-[28px] font-medium leading-[1.1] text-black mb-3">SEHA Saadiyat Clinic</h3>
+          <p class="font-aktiv text-[14px] text-black leading-[1.2] mb-4">
+            A premium outpatient clinic on Saadiyat Island, delivered as a turnkey project.
+          </p>
+          <div class="border-t border-black/10 mb-4"></div>
+          <div class="w-full aspect-[512/325] rounded-[4px] overflow-hidden"
+            style="clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 0 100%);">
+            <img src="/assets/img/bizdev/clinic-seha.png" alt="SEHA Saadiyat Clinic" class="w-full h-full object-cover" />
+          </div>
+        </div>
+
+        <!-- Case 3 -->
+        <div class="flex flex-col">
+          <p class="font-din text-[14px] text-black/50 tracking-wide mb-4">Abu Dhabi</p>
+          <h3 class="font-aktiv text-[28px] font-medium leading-[1.1] text-black mb-3">SAKINA for Children</h3>
+          <p class="font-aktiv text-[14px] text-black leading-[1.2] mb-4">
+            Purpose built paediatric mental health clinic, equipped for assessment and treatment.
+          </p>
+          <div class="border-t border-black/10 mb-4"></div>
+          <div class="w-full aspect-[512/325] rounded-[4px] overflow-hidden"
+            style="clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 0 100%);">
+            <img src="/assets/img/bizdev/clinic-sakina.png" alt="SAKINA for Children" class="w-full h-full object-cover" />
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Who we partner with -->
+    <section class="bg-[#F2F2F2] text-black py-16 lg:py-24">
+      <div class="container-page">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center">
+
+          <!-- Left Column: Image with top-right cut corner -->
+          <div class="lg:col-span-5 w-full aspect-[4/3] sm:aspect-square relative overflow-hidden rounded-[4px]"
+            style="clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 0 100%);">
+            <img src="/assets/img/bizdev/partner-with.png" alt="Who we partner with" class="w-full h-full object-cover" />
+          </div>
+
+          <!-- Right Column: Title & Partner-with List -->
+          <div class="lg:col-span-7 flex flex-col justify-between space-y-8 lg:pl-4">
+            <h2 class="font-aktiv text-4xl sm:text-5xl lg:text-[56px] font-medium leading-[1.1] text-black">
+              Who we partner with
+            </h2>
+
+            <div class="flex flex-col divide-y divide-black/10 pt-4">
+              <div class="py-4.5 font-aktiv text-xl sm:text-2xl text-black font-medium leading-snug">
+                Global manufacturers and OEMs entering the UAE
+              </div>
+              <div class="py-4.5 font-aktiv text-xl sm:text-2xl text-black font-medium leading-snug">
+                Diagnostics and life sciences companies
+              </div>
+              <div class="py-4.5 font-aktiv text-xl sm:text-2xl text-black font-medium leading-snug">
+                Innovators in AI, digital health and robotics
+              </div>
+              <div class="py-4.5 font-aktiv text-xl sm:text-2xl text-black font-medium leading-snug">
+                Healthcare institutions adopting new technology
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="pt-12 pb-20 lg:pb-24 container-page">
+      <div class="relative w-full bg-[#233D7C] rounded-[4px] p-6 lg:p-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center overflow-hidden">
+
+        <!-- Left Column: Image -->
+        <div class="lg:col-span-3 w-full aspect-square relative overflow-hidden rounded-[4px]"
+          style="clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 0 100%);">
+          <img src="/assets/img/bizdev/cta-icon.png" alt="" class="w-full h-full object-cover" />
+        </div>
+
+        <div class="hidden lg:block lg:col-span-1"></div>
+
+        <!-- Right Column: Text & Action Button -->
+        <div class="lg:col-span-8 flex flex-col justify-between h-full min-h-[260px] lg:border-l lg:border-white/20 lg:pl-10 lg:py-2 space-y-8">
+          <h2 class="font-aktiv text-3xl sm:text-4xl lg:text-[44px] xl:text-[56px] text-white font-medium leading-[1.2] tracking-tight">
+            Tell us about your technology and it reaches the business development team
+          </h2>
+
+          <a href="contact.html"
+            class="relative overflow-hidden flex items-center justify-between w-full h-[48px] bg-white px-5 py-2.5 font-semibold rounded-[4px] shadow-sm hover:bg-white/90 transition duration-200">
+            <span class="font-din text-xs tracking-wide text-[#233D7C]">Send an inquiry</span>
+            <svg class="absolute top-[4px] right-[4px] w-[14px] h-[14px] text-[#233D7C] fill-current" viewBox="0 0 14 14">
+              <path
+                d="M 2.414 0 L 13 0 A 1 1 0 0 1 14 1 L 14 11.586 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 2.414 0 Z" />
+            </svg>
+          </a>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Standard Footer Component -->
+  <footer class="bg-[#F2F2F2] text-black py-16 lg:py-15">
+    <div class="container-page flex flex-col space-y-10">
+
+      <div class="grid grid-cols-1 pb-2 md:grid-cols-12 gap-8 lg:gap-12 items-start">
+
+        <div class="md:col-span-3">
+          <a href="index.html">
+            <img src="/assets/img/home/bluelogo.svg" alt="One Health" class="h-8 object-contain" />
+          </a>
+        </div>
+
+        <div class="md:col-span-8 grid grid-cols-1 sm:grid-cols-3 gap-8">
+
+          <div class="flex flex-col space-y-3">
+            <h4 class="font-aktiv text-[14px] font-semibold text-black">Company</h4>
+            <ul class="flex flex-col space-y-2 font-din text-[14px] text-[#00000066]">
+              <li><a href="index.html" class="hover:text-black transition">Home</a></li>
+              <li><a href="about.html" class="hover:text-black transition">About</a></li>
+              <li><a href="medtrust.html" class="hover:text-black transition">MedTrust</a></li>
+              <li><a href="news.html" class="hover:text-black transition">Insights <span class="font-sans font-medium">&amp;</span> media</a></li>
+              <li><a href="careers.html" class="hover:text-black transition">Careers</a></li>
+              <li><a href="contact.html" class="hover:text-black transition">Contact</a></li>
+            </ul>
+          </div>
+
+          <div class="flex flex-col space-y-3">
+            <h4 class="font-aktiv text-[14px] font-semibold text-black">Our capabilities</h4>
+            <ul class="flex flex-col space-y-2 font-din text-[14px] text-[#00000066]">
+              <li><a href="ivd-life-sciences.html" class="hover:text-black transition">IVD <span class="font-sans font-medium">&amp;</span> life sciences</a></li>
+              <li><a href="medical-products.html" class="hover:text-black transition">Medical products <span class="font-sans font-medium">&amp;</span> projects</a></li>
+              <li><a href="facilities-and-technical-services.html" class="hover:text-black transition">Facilities <span class="font-sans font-medium">&amp;</span> technical services</a></li>
+              <li><a href="supplychain.html" class="hover:text-black transition">Supply chain management</a></li>
+              <li><a href="business-development.html" class="text-black font-medium transition">Business development</a></li>
+              <li><a href="#" class="hover:text-black transition">Channel management</a></li>
+            </ul>
+          </div>
+
+          <div class="flex flex-col space-y-3">
+            <h4 class="font-aktiv text-[14px] font-semibold text-black">Legal</h4>
+            <ul class="flex flex-col space-y-2 font-din text-[14px] text-[#00000066]">
+              <li><a href="privacy.html" class="hover:text-black transition">Privacy Policy</a></li>
+              <li><a href="terms.html" class="hover:text-black transition">Terms of Service</a></li>
+              <li><a href="cookies.html" class="hover:text-black transition">Cookie preferences</a></li>
+            </ul>
+          </div>
+
+        </div>
+
+        <div class="md:col-span-1 flex justify-start md:justify-end">
+          <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer"
+            class="w-6 h-6 bg-black text-white flex items-center justify-center rounded-[2px] hover:bg-brand transition"
+            aria-label="LinkedIn">
+            <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+              <path
+                d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.25V10.9H6.46M7.86 6.7a1.63 1.63 0 1 0 0 3.26 1.63 1.63 0 0 0 0-3.26Z" />
+            </svg>
+          </a>
+        </div>
+
+      </div>
+
+      <div class="pt-8 font-din text-[14px] text-[#00000066] text-center">
+        &copy; 2026 OneHealth. All rights reserved
+      </div>
+
+    </div>
+  </footer>
+
+</body>
+</html>
