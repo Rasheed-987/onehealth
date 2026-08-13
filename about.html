@@ -156,7 +156,7 @@
         <h1 class="font-aktiv text-4xl sm:text-6xl  2xl:text-[80px] font-medium leading-[1.1] text-black max-w-[820px]">
           Engineering the systems healthcare depends on
         </h1>
-        <p class="font-aktiv text-[14px] text-black leading-[1.2] max-w-[376px]">
+        <p class="font-din text-[16px] text-black leading-[1.2] max-w-[376px]">
           OneHealth is a national scale healthcare systems and engineering partner. We supply the equipment, the
           diagnostics and the infrastructure UAE hospitals and laboratories depend on, and we keep all of it working as
           one system.
@@ -171,228 +171,282 @@
       class="w-full h-full object-cover" />
   </section>
 
-  <!-- Stats numbers -->
+  <!-- Stats numbers. Same count-up as the home page: the figures stay in the
+       markup as the pre-JS fallback and x-text takes over once Alpine runs. -->
   <section class="container-page py-12 lg:py-16">
-    <div class="grid grid-cols-2 sm:grid-cols-4 gap-8 lg:gap-12 text-center">
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-8 lg:gap-12 text-center" x-data="statsCounter()" x-init="init()">
       <div class="flex flex-col items-center gap-2">
-        <p class="font-aktiv text-4xl sm:text-5xl lg:text-[80px] font-medium leading-[1.1] text-brand">140K+</p>
+        <p class="font-aktiv text-4xl sm:text-5xl lg:text-[80px] font-medium leading-[1.1] text-brand"
+          x-text="format(counts[0])">140K+</p>
         <p class="font-aktiv text-[14px] text-black tracking-wide">Assets maintained</p>
       </div>
       <div class="flex flex-col items-center gap-2">
-        <p class="font-aktiv text-4xl sm:text-5xl lg:text-[80px] font-medium leading-[1.1] text-brand">110+</p>
+        <p class="font-aktiv text-4xl sm:text-5xl lg:text-[80px] font-medium leading-[1.1] text-brand"
+          x-text="format(counts[1])">110+</p>
         <p class="font-aktiv text-[14px] text-black tracking-wide">Hospitals served</p>
       </div>
       <div class="flex flex-col items-center gap-2">
-        <p class="font-aktiv text-4xl sm:text-5xl lg:text-[80px] font-medium leading-[1.1] text-brand">300+</p>
+        <p class="font-aktiv text-4xl sm:text-5xl lg:text-[80px] font-medium leading-[1.1] text-brand"
+          x-text="format(counts[2])">300+</p>
         <p class="font-aktiv text-[14px] text-black tracking-wide">Engineers</p>
       </div>
       <div class="flex flex-col items-center gap-2">
-        <p class="font-aktiv text-4xl sm:text-5xl lg:text-[80px] font-medium leading-[1.1] text-brand">30+</p>
+        <p class="font-aktiv text-4xl sm:text-5xl lg:text-[80px] font-medium leading-[1.1] text-brand"
+          x-text="format(counts[3])">30+</p>
         <p class="font-aktiv text-[14px] text-black tracking-wide">Manufacturers represented</p>
       </div>
     </div>
   </section>
 
+  <script>
+    // Counts each figure up from zero the first time the block scrolls into
+    // view. Runs once — the observer disconnects on the first intersection.
+    function statsCounter() {
+      return {
+        targets: [140000, 110, 300, 30],
+        counts: [0, 0, 0, 0],
+        started: false,
+
+        init() {
+          if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            this.counts = [...this.targets];
+            return;
+          }
+
+          const io = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting && !this.started) {
+                this.started = true;
+                this.run();
+                io.disconnect();
+              }
+            });
+          }, { threshold: 0.3 });
+          io.observe(this.$el);
+        },
+
+        run() {
+          const duration = 700;
+          const startTime = performance.now();
+          const easeOutQuad = (t) => 1 - (1 - t) * (1 - t);
+
+          const step = (now) => {
+            const progress = Math.min((now - startTime) / duration, 1);
+            const eased = easeOutQuad(progress);
+            this.counts = this.targets.map((t) => t * eased);
+            if (progress < 1) {
+              requestAnimationFrame(step);
+            } else {
+              this.counts = [...this.targets];
+            }
+          };
+          requestAnimationFrame(step);
+        },
+
+        // Mirrors the "140K+" / "110+" formatting as the count animates.
+        format(n) {
+          return n >= 1000 ? `${Math.round(n / 1000)}K+` : `${Math.round(n)}+`;
+        }
+      };
+    }
+  </script>
+
   <main>
 
-    <!-- component: about-section -->
-    <section class="bg-white container-page text-black py-20 lg:py-24">
-      <div class=" border-t border-[#00000033] pt-6 sm:pt-8 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
+ <!-- component: credibilities-section -->
+  <section class="bg-white   container-page text-black py-20 lg:py-24">
+    <div class=" border-t border-[#00000033] pt-6 sm:pt-8 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
 
-        <!-- Left Column: Section Subtitle -->
-        <div class="lg:col-span-4">
-          <h2 class="font-din text-[16px] font-normal tracking-wider text-black">
-            About PureHealth
-          </h2>
+      <!-- Left Column: Section Subtitle -->
+      <div class="lg:col-span-4">
+        <h2 class="font-din text-[16px] font-normal tracking-wider text-black">
+          About PureHealth
+        </h2>
+      </div>
+
+      <!-- Right Column: Heading, description, and stats -->
+      <div class="lg:col-span-8">
+        <!-- PureHealth Heading -->
+        <div class="space-y-4">
+          <div
+            class="flex flex-wrap items-baseline gap-x-3 gap-y-2 text-4xl sm:text-5xl lg:text-[56px] font-aktiv font-normal text-black tracking-tight leading-none">
+            <span>A</span>
+            <img src="/assets/img/logos/purehealth.svg" alt="Pure Health"
+              class="h-9 sm:h-12 lg:h-[64px] w-auto align-baseline" />
+            <span>asset</span>
+          </div>
+          <p class="font-din text-[16px] font-normal text-black max-w-md">
+            The largest integrated healthcare network<br>in the United Arab Emirates.
+          </p>
         </div>
 
-        <!-- Right Column: Heading, description, and stats -->
-        <div class="lg:col-span-8">
-          <!-- PureHealth Heading -->
-          <div class="space-y-4">
-            <div
-              class="flex flex-wrap items-baseline gap-x-3 gap-y-2 text-4xl sm:text-5xl lg:text-[56px] font-aktiv font-normal text-black tracking-tight leading-none">
-              <span>A</span>
-              <img src="/assets/img/logos/purehealth.svg" alt="Pure Health"
-                class="h-9 sm:h-12 lg:h-[64px] w-auto align-baseline" />
-              <span>asset</span>
-            </div>
-            <p class="font-din text-[16px] font-normal text-black max-w-md">
-              The largest integrated healthcare network<br>in the United Arab Emirates.
-            </p>
+        <!-- Image and 3 Columns -->
+        <div class="mt-12 space-y-8">
+          <!-- Image with top-right corner chamfer -->
+          <div class="relative w-full aspect-[350/200]  lg:aspect-[1056/500]  overflow-hidden rounded-[4px]"
+            style="clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 0 100%);">
+            <img src="/assets/img/home/about.png" alt="About PureHealth" class="w-full h-full object-cover" />
           </div>
 
-          <!-- Image and 3 Columns -->
-          <div class="mt-12 space-y-8">
-            <!-- Image with top-right corner chamfer -->
-            <div class="relative w-full overflow-hidden rounded-[4px]"
-              style="clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 0 100%);">
-              <img src="/assets/img/home/about.png" alt="About PureHealth" class="w-full h-auto object-cover" />
+          <!-- 3 Columns Grid -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div>
+              <p class="font-din text-[16px] font-normal text-black leading-relaxed">
+                PureHealth is a brand of scientific innovation where we combine our imagination and advances in technology to unlock time in order to extend human possibility through life, meaning and purpose.
+              </p>
             </div>
-
-            <!-- 3 Columns Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div>
-                <p class="font-din text-[16px] font-normal text-black leading-relaxed">
-                  PureHealth is a brand of scientific innovation where we combine our imagination and advances in
-                  technology to unlock time in order to extend human possibility through life, meaning and purpose.
-                </p>
-              </div>
-              <div>
-                <p class="font-din text-[16px] font-normal text-black leading-relaxed">
-                  With an across-category ecosystem that covers hospitals, clinics, diagnostics, insurance, pharmacies,
-                  health-tech, procurement, and more, we are on the ground and in the cloud to advance the science of
-                  longevity.
-                </p>
-              </div>
-              <div>
-                <p class="font-din text-[16px] font-normal text-black leading-relaxed">
-                  Pioneering groundbreaking innovations and leading from the edge of tomorrow, we're on a mission to
-                  unlock time for humankind.
-                </p>
-              </div>
+            <div>
+              <p class="font-din text-[16px] font-normal text-black leading-relaxed">
+                With an across-category ecosystem that covers hospitals, clinics, diagnostics, insurance, pharmacies, health-tech, procurement, and more, we are on the ground and in the cloud to advance the science of longevity.
+              </p>
+            </div>
+            <div>
+              <p class="font-din text-[16px] font-normal text-black leading-relaxed">
+                Pioneering groundbreaking innovations and leading from the edge of tomorrow, we're on a mission to unlock time for humankind.
+              </p>
             </div>
           </div>
-
         </div>
 
       </div>
-    </section>
+
+    </div>
+  </section>
     <!-- /component: credibilities-section -->
 
     <!-- component: logos-carasole -->
     <section class="bg-white py-12  overflow-hidden">
       <div class="marquee-container relative w-full overflow-hidden">
-        <div class="marquee-content flex gap-6 pr-6">
+        <div class="marquee-content flex gap-3 pr-3 lg:gap-6 lg:pr-6">
 
           <!-- Group 1 -->
-          <div class="flex gap-6 flex-shrink-0">
+          <div class="flex gap-3 lg:gap-6 flex-shrink-0">
             <div
-              class="w-[240px] h-[160px] bg-[#F2F2F2] rounded-[4px] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+              class="w-[104px] h-[69px] p-3 lg:w-[240px] lg:h-[160px] lg:p-6 bg-[#F2F2F2] rounded-[4px] flex items-center justify-center transition duration-200 hover:brightness-95">
               <img src="/assets/img/logos/seha.svg" alt="SEHA" class="max-w-full max-h-full object-contain" />
             </div>
             <div
-              class="w-[240px] h-[160px] bg-[#F2F2F2] rounded-[4px] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+              class="w-[104px] h-[69px] p-3 lg:w-[240px] lg:h-[160px] lg:p-6 bg-[#F2F2F2] rounded-[4px] flex items-center justify-center transition duration-200 hover:brightness-95">
               <img src="/assets/img/logos/ssmc.svg" alt="SSMC" class="max-w-full max-h-full object-contain" />
             </div>
             <div
-              class="w-[240px] h-[160px] bg-[#F2F2F2] rounded-[4px] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+              class="w-[104px] h-[69px] p-3 lg:w-[240px] lg:h-[160px] lg:p-6 bg-[#F2F2F2] rounded-[4px] flex items-center justify-center transition duration-200 hover:brightness-95">
               <img src="/assets/img/logos/seha_clinics.svg" alt="SEHA Clinics"
                 class="max-w-full max-h-full object-contain" />
             </div>
             <div
-              class="w-[240px] h-[160px] bg-[#F2F2F2] rounded-[4px] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+              class="w-[104px] h-[69px] p-3 lg:w-[240px] lg:h-[160px] lg:p-6 bg-[#F2F2F2] rounded-[4px] flex items-center justify-center transition duration-200 hover:brightness-95">
               <img src="/assets/img/logos/circle_health_group.svg" alt="Circle Health Group"
                 class="max-w-full max-h-full object-contain" />
             </div>
             <div
-              class="w-[240px] h-[160px] bg-[#F2F2F2] rounded-[4px] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+              class="w-[104px] h-[69px] p-3 lg:w-[240px] lg:h-[160px] lg:p-6 bg-[#F2F2F2] rounded-[4px] flex items-center justify-center transition duration-200 hover:brightness-95">
               <img src="/assets/img/logos/hhg.svg" alt="HHG" class="max-w-full max-h-full object-contain" />
             </div>
             <div
-              class="w-[240px] h-[160px] bg-[#F2F2F2] rounded-[4px] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+              class="w-[104px] h-[69px] p-3 lg:w-[240px] lg:h-[160px] lg:p-6 bg-[#F2F2F2] rounded-[4px] flex items-center justify-center transition duration-200 hover:brightness-95">
               <img src="/assets/img/logos/argent_health.svg" alt="Ardent Health"
                 class="max-w-full max-h-full object-contain" />
             </div>
             <div
-              class="w-[240px] h-[160px] bg-[#F2F2F2] rounded-[4px] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+              class="w-[104px] h-[69px] p-3 lg:w-[240px] lg:h-[160px] lg:p-6 bg-[#F2F2F2] rounded-[4px] flex items-center justify-center transition duration-200 hover:brightness-95">
               <img src="/assets/img/logos/purehealth.svg" alt="PureHealth"
                 class="max-w-full max-h-full object-contain" />
             </div>
             <div
-              class="w-[240px] h-[160px] bg-[#F2F2F2] rounded-[4px] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+              class="w-[104px] h-[69px] p-3 lg:w-[240px] lg:h-[160px] lg:p-6 bg-[#F2F2F2] rounded-[4px] flex items-center justify-center transition duration-200 hover:brightness-95">
               <img src="/assets/img/logos/baxter.svg" alt="Baxter" class="max-w-full max-h-full object-contain" />
             </div>
             <div
-              class="w-[240px] h-[160px] bg-[#F2F2F2] rounded-[4px] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+              class="w-[104px] h-[69px] p-3 lg:w-[240px] lg:h-[160px] lg:p-6 bg-[#F2F2F2] rounded-[4px] flex items-center justify-center transition duration-200 hover:brightness-95">
               <img src="/assets/img/logos/ge_health_care.svg" alt="GE Healthcare"
                 class="max-w-full max-h-full object-contain" />
             </div>
             <div
-              class="w-[240px] h-[160px] bg-[#F2F2F2] rounded-[4px] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+              class="w-[104px] h-[69px] p-3 lg:w-[240px] lg:h-[160px] lg:p-6 bg-[#F2F2F2] rounded-[4px] flex items-center justify-center transition duration-200 hover:brightness-95">
               <img src="/assets/img/logos/siemens.svg" alt="Siemens" class="max-w-full max-h-full object-contain" />
             </div>
             <div
-              class="w-[240px] h-[160px] bg-[#F2F2F2] rounded-[4px] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+              class="w-[104px] h-[69px] p-3 lg:w-[240px] lg:h-[160px] lg:p-6 bg-[#F2F2F2] rounded-[4px] flex items-center justify-center transition duration-200 hover:brightness-95">
               <img src="/assets/img/logos/daman.svg" alt="Daman" class="max-w-full max-h-full object-contain" />
             </div>
             <div
-              class="w-[240px] h-[160px] bg-[#F2F2F2] rounded-[4px] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+              class="w-[104px] h-[69px] p-3 lg:w-[240px] lg:h-[160px] lg:p-6 bg-[#F2F2F2] rounded-[4px] flex items-center justify-center transition duration-200 hover:brightness-95">
               <img src="/assets/img/logos/thermo_fisher.svg" alt="Thermo Fisher"
                 class="max-w-full max-h-full object-contain" />
             </div>
             <div
-              class="w-[240px] h-[160px] bg-[#F2F2F2] rounded-[4px] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+              class="w-[104px] h-[69px] p-3 lg:w-[240px] lg:h-[160px] lg:p-6 bg-[#F2F2F2] rounded-[4px] flex items-center justify-center transition duration-200 hover:brightness-95">
               <img src="/assets/img/logos/planmeca.svg" alt="Planmeca" class="max-w-full max-h-full object-contain" />
             </div>
             <div
-              class="w-[240px] h-[160px] bg-[#F2F2F2] rounded-[4px] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+              class="w-[104px] h-[69px] p-3 lg:w-[240px] lg:h-[160px] lg:p-6 bg-[#F2F2F2] rounded-[4px] flex items-center justify-center transition duration-200 hover:brightness-95">
               <img src="/assets/img/logos/medline.svg" alt="Medline" class="max-w-full max-h-full object-contain" />
             </div>
           </div>
 
           <!-- Group 2 (Duplicate for infinite seamless loop) -->
-          <div class="flex gap-6 flex-shrink-0">
+          <div class="flex gap-3 lg:gap-6 flex-shrink-0">
             <div
-              class="w-[240px] h-[160px] bg-[#F2F2F2] rounded-[4px] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+              class="w-[104px] h-[69px] p-3 lg:w-[240px] lg:h-[160px] lg:p-6 bg-[#F2F2F2] rounded-[4px] flex items-center justify-center transition duration-200 hover:brightness-95">
               <img src="/assets/img/logos/seha.svg" alt="SEHA" class="max-w-full max-h-full object-contain" />
             </div>
             <div
-              class="w-[240px] h-[160px] bg-[#F2F2F2] rounded-[4px] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+              class="w-[104px] h-[69px] p-3 lg:w-[240px] lg:h-[160px] lg:p-6 bg-[#F2F2F2] rounded-[4px] flex items-center justify-center transition duration-200 hover:brightness-95">
               <img src="/assets/img/logos/ssmc.svg" alt="SSMC" class="max-w-full max-h-full object-contain" />
             </div>
             <div
-              class="w-[240px] h-[160px] bg-[#F2F2F2] rounded-[4px] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+              class="w-[104px] h-[69px] p-3 lg:w-[240px] lg:h-[160px] lg:p-6 bg-[#F2F2F2] rounded-[4px] flex items-center justify-center transition duration-200 hover:brightness-95">
               <img src="/assets/img/logos/seha_clinics.svg" alt="SEHA Clinics"
                 class="max-w-full max-h-full object-contain" />
             </div>
             <div
-              class="w-[240px] h-[160px] bg-[#F2F2F2] rounded-[4px] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+              class="w-[104px] h-[69px] p-3 lg:w-[240px] lg:h-[160px] lg:p-6 bg-[#F2F2F2] rounded-[4px] flex items-center justify-center transition duration-200 hover:brightness-95">
               <img src="/assets/img/logos/circle_health_group.svg" alt="Circle Health Group"
                 class="max-w-full max-h-full object-contain" />
             </div>
             <div
-              class="w-[240px] h-[160px] bg-[#F2F2F2] rounded-[4px] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+              class="w-[104px] h-[69px] p-3 lg:w-[240px] lg:h-[160px] lg:p-6 bg-[#F2F2F2] rounded-[4px] flex items-center justify-center transition duration-200 hover:brightness-95">
               <img src="/assets/img/logos/hhg.svg" alt="HHG" class="max-w-full max-h-full object-contain" />
             </div>
             <div
-              class="w-[240px] h-[160px] bg-[#F2F2F2] rounded-[4px] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+              class="w-[104px] h-[69px] p-3 lg:w-[240px] lg:h-[160px] lg:p-6 bg-[#F2F2F2] rounded-[4px] flex items-center justify-center transition duration-200 hover:brightness-95">
               <img src="/assets/img/logos/argent_health.svg" alt="Ardent Health"
                 class="max-w-full max-h-full object-contain" />
             </div>
             <div
-              class="w-[240px] h-[160px] bg-[#F2F2F2] rounded-[4px] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+              class="w-[104px] h-[69px] p-3 lg:w-[240px] lg:h-[160px] lg:p-6 bg-[#F2F2F2] rounded-[4px] flex items-center justify-center transition duration-200 hover:brightness-95">
               <img src="/assets/img/logos/purehealth.svg" alt="PureHealth"
                 class="max-w-full max-h-full object-contain" />
             </div>
             <div
-              class="w-[240px] h-[160px] bg-[#F2F2F2] rounded-[4px] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+              class="w-[104px] h-[69px] p-3 lg:w-[240px] lg:h-[160px] lg:p-6 bg-[#F2F2F2] rounded-[4px] flex items-center justify-center transition duration-200 hover:brightness-95">
               <img src="/assets/img/logos/baxter.svg" alt="Baxter" class="max-w-full max-h-full object-contain" />
             </div>
             <div
-              class="w-[240px] h-[160px] bg-[#F2F2F2] rounded-[4px] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+              class="w-[104px] h-[69px] p-3 lg:w-[240px] lg:h-[160px] lg:p-6 bg-[#F2F2F2] rounded-[4px] flex items-center justify-center transition duration-200 hover:brightness-95">
               <img src="/assets/img/logos/ge_health_care.svg" alt="GE Healthcare"
                 class="max-w-full max-h-full object-contain" />
             </div>
             <div
-              class="w-[240px] h-[160px] bg-[#F2F2F2] rounded-[4px] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+              class="w-[104px] h-[69px] p-3 lg:w-[240px] lg:h-[160px] lg:p-6 bg-[#F2F2F2] rounded-[4px] flex items-center justify-center transition duration-200 hover:brightness-95">
               <img src="/assets/img/logos/siemens.svg" alt="Siemens" class="max-w-full max-h-full object-contain" />
             </div>
             <div
-              class="w-[240px] h-[160px] bg-[#F2F2F2] rounded-[4px] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+              class="w-[104px] h-[69px] p-3 lg:w-[240px] lg:h-[160px] lg:p-6 bg-[#F2F2F2] rounded-[4px] flex items-center justify-center transition duration-200 hover:brightness-95">
               <img src="/assets/img/logos/daman.svg" alt="Daman" class="max-w-full max-h-full object-contain" />
             </div>
             <div
-              class="w-[240px] h-[160px] bg-[#F2F2F2] rounded-[4px] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+              class="w-[104px] h-[69px] p-3 lg:w-[240px] lg:h-[160px] lg:p-6 bg-[#F2F2F2] rounded-[4px] flex items-center justify-center transition duration-200 hover:brightness-95">
               <img src="/assets/img/logos/thermo_fisher.svg" alt="Thermo Fisher"
                 class="max-w-full max-h-full object-contain" />
             </div>
             <div
-              class="w-[240px] h-[160px] bg-[#F2F2F2] rounded-[4px] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+              class="w-[104px] h-[69px] p-3 lg:w-[240px] lg:h-[160px] lg:p-6 bg-[#F2F2F2] rounded-[4px] flex items-center justify-center transition duration-200 hover:brightness-95">
               <img src="/assets/img/logos/planmeca.svg" alt="Planmeca" class="max-w-full max-h-full object-contain" />
             </div>
             <div
-              class="w-[240px] h-[160px] bg-[#F2F2F2] rounded-[4px] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+              class="w-[104px] h-[69px] p-3 lg:w-[240px] lg:h-[160px] lg:p-6 bg-[#F2F2F2] rounded-[4px] flex items-center justify-center transition duration-200 hover:brightness-95">
               <img src="/assets/img/logos/medline.svg" alt="Medline" class="max-w-full max-h-full object-contain" />
             </div>
           </div>
@@ -412,10 +466,10 @@
         </div>
 
         <div class="lg:col-span-8 flex flex-col space-y-8">
-          <h2 class="font-aktiv text-3xl sm:text-4xl lg:text-[56px] font-medium leading-[1.2] text-black">
+          <h2 class="font-aktiv text-[24px] sm:text-4xl lg:text-[56px] font-medium leading-[1.2] text-black">
             Most of the work begins after delivery.
           </h2>
-          <div class="grid grid-cols-1 md:grid-cols-2  items-start">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-2 items-start">
             <div class="w-full max-w-[376px] aspect-[376/382] rounded-[4px] overflow-hidden"
               style="clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 0 100%);">
               <img src="/assets/img/about/lifecycle-photo.jpg" alt="" class="w-full h-full object-cover" />
@@ -438,12 +492,13 @@
     </section>
 
     <!-- How we started: 2022 timeline -->
-    <section x-data="timelineScroll()" x-ref="container" class="relative w-full text-white overflow-visible"
+    <section  x-data="timelineScroll()" x-ref="container" class="relative  w-full text-white overflow-visible"
       style="height: 200vh;">
       <!-- Sticky container wrapper -->
       <div class="sticky top-0 h-screen w-full flex items-center overflow-hidden">
         <!-- Background Image -->
-        <img src="/assets/img/about/timeline-bg.png" alt="" class="absolute inset-0 w-full h-full object-cover" />
+        <img src="/assets/img/about/timeline-bg.png" alt=""
+          class="drift-slow absolute inset-0 w-full h-full object-cover" />
         <div class="absolute inset-0 bg-[#0B1B3F]/40"></div>
 
         <div class="relative w-full h-screen">
@@ -968,29 +1023,43 @@
                     </template>
                   </div>
 
+                  <!-- Mask reveal on the pillar switch, same idea as the MedTrust
+                       block on the home page: each line of type sits inside its own
+                       overflow-hidden strip and travels a full line-height, so it
+                       rises out from behind the strip's edge rather than fading in
+                       place. Outgoing text keeps moving the same way (up and out),
+                       which reads as one continuous roll rather than a crossfade. -->
                   <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-12">
                     <div class="relative">
                       <template x-for="(slide, i) in slides" :key="'title-' + i">
-                        <h3 x-show="activeIndex === i" x-transition:enter="transition ease-out duration-[900ms]"
-                          x-transition:enter-start="opacity-0 -rotate-[5deg] translate-y-3"
-                          x-transition:enter-end="opacity-100 rotate-0 translate-y-0"
-                          x-transition:leave="transition ease-in duration-200" x-transition:leave-end="opacity-0"
-                          :class="activeIndex === i ? 'relative' : 'absolute inset-0'"
-                          class="origin-left font-aktiv text-[24px] sm:text-4xl lg:text-[56px] font-medium leading-[1.2]"
-                          x-text="slide.title"></h3>
+                        <div class="overflow-hidden pb-[0.08em]"
+                          :class="activeIndex === i ? 'relative' : 'absolute inset-0 pointer-events-none'">
+                          <h3 x-show="activeIndex === i" x-transition:enter="transition ease-out duration-[900ms]"
+                            x-transition:enter-start="translate-y-full" x-transition:enter-end="translate-y-0"
+                            x-transition:leave="transition ease-in duration-[400ms]"
+                            x-transition:leave-start="translate-y-0" x-transition:leave-end="-translate-y-full"
+                            class="font-aktiv text-[24px] sm:text-4xl lg:text-[56px] font-medium leading-[1.2]"
+                            x-text="slide.title"></h3>
+                        </div>
                       </template>
                     </div>
 
                     <div class="relative">
                       <template x-for="(slide, i) in slides" :key="'para-' + i">
-                        <div x-show="activeIndex === i" :class="activeIndex === i ? 'relative' : 'absolute inset-0'">
+                        <div :class="activeIndex === i ? 'relative' : 'absolute inset-0 pointer-events-none'">
+                          <!-- x-show sits on the line itself, not on a shared parent:
+                               a transition only runs on the element whose own x-show
+                               toggles, and each line needs its own so the stagger
+                               below has something to offset. -->
                           <template x-for="(line, li) in slide.lines" :key="'line-' + i + '-' + li">
-                            <div x-transition:enter="transition ease-out duration-[900ms]"
-                              x-transition:enter-start="opacity-0 -rotate-[5deg] translate-y-2"
-                              x-transition:enter-end="opacity-100 rotate-0 translate-y-0"
-                              x-transition:leave="transition ease-in duration-200" x-transition:leave-end="opacity-0"
-                              :style="{ transitionDelay: (li * 90) + 'ms' }"
-                              class="origin-left font-aktiv text-[16px] leading-[1.2] text-black" x-text="line"></div>
+                            <div class="overflow-hidden">
+                              <div x-show="activeIndex === i" x-transition:enter="transition ease-out duration-[900ms]"
+                                x-transition:enter-start="translate-y-full" x-transition:enter-end="translate-y-0"
+                                x-transition:leave="transition ease-in duration-[400ms]"
+                                x-transition:leave-start="translate-y-0" x-transition:leave-end="-translate-y-full"
+                                :style="{ transitionDelay: (li * 90) + 'ms' }"
+                                class="font-aktiv text-[16px] leading-[1.2] text-black" x-text="line"></div>
+                            </div>
                           </template>
                         </div>
                       </template>
@@ -1181,74 +1250,94 @@
 
   </main>
 
-  <!-- Standard Footer Component -->
-  <footer class="bg-[#F2F2F2] text-black py-16 lg:py-15">
-    <div class="container-page flex flex-col space-y-10">
+  <footer class="bg-[#F2F2F2] text-black pt-5 pb-5 md:pt-10 md:pb-10">
+    <div class="container-page">
+      <div class="border-t border-[#00000033] pt-5 grid grid-cols-2 gap-x-5 gap-y-12 md:grid-cols-12 md:gap-8 lg:gap-12 items-start
+                  font-din text-[16px] tracking-[0.32px]">
 
-      <div class="grid grid-cols-1 pb-2 md:grid-cols-12 gap-8 lg:gap-12 items-start">
-
-        <div class="md:col-span-3">
-          <a href="index.html">
-            <img src="/assets/img/home/bluelogo.svg" alt="One Health" class="h-8 object-contain" />
+        <!-- Left: Logo and the PureHealth endorsement. Side by side split by a
+             vertical rule on mobile; stacked with the rule turned horizontal
+             from md up. -->
+        <div class="col-span-2 mb-8 md:mb-0 md:col-span-4 md:row-start-1 flex items-start gap-5 md:flex-col md:gap-0">
+          <a href="index.html" class="inline-block shrink-0">
+            <img src="/assets/img/home/bluelogo.svg" alt="One Health" class="h-[42px] w-auto object-contain" />
           </a>
+
+          <div class="h-[42px] shrink-0 border-l border-[#00000033]
+                      md:h-0 md:w-[143px] md:border-l-0 md:border-t md:mt-4"></div>
+
+          <div class="flex flex-wrap items-baseline gap-x-2 opacity-40 max-w-[130px] md:max-w-none md:mt-2">
+            <span>A</span>
+            <img src="/assets/img/logos/purehealth.svg" alt="PureHealth" class="h-[19px] w-auto align-baseline" />
+            <span>asset</span>
+          </div>
         </div>
 
-        <div class="md:col-span-8 grid grid-cols-1 sm:grid-cols-3 gap-8">
-
-          <div class="flex flex-col space-y-3">
-            <h4 class="font-aktiv text-[14px] font-semibold text-black">Company</h4>
-            <ul class="flex flex-col space-y-2 font-din text-[14px] text-[#00000066]">
-              <li><a href="index.html" class="hover:text-black transition">Home</a></li>
-              <li><a href="about.html" class="text-black font-medium transition">About</a></li>
-              <li><a href="medtrust.html" class="hover:text-black transition">MedTrust</a></li>
-              <li><a href="news.html" class="hover:text-black transition">Insights <span
-                    class="font-sans font-medium">&amp;</span> media</a></li>
-              <li><a href="careers.html" class="hover:text-black transition">Careers</a></li>
-              <li><a href="contact.html" class="hover:text-black transition">Contact</a></li>
-            </ul>
-          </div>
-
-          <div class="flex flex-col space-y-3">
-            <h4 class="font-aktiv text-[14px] font-semibold text-black">Our capabilities</h4>
-            <ul class="flex flex-col space-y-2 font-din text-[14px] text-[#00000066]">
-              <li><a href="ivd-life-sciences.html" class="hover:text-black transition">IVD <span
-                    class="font-sans font-medium">&amp;</span> life sciences</a></li>
-              <li><a href="medical-products.html" class="hover:text-black transition">Medical products <span
-                    class="font-sans font-medium">&amp;</span> projects</a></li>
-              <li><a href="facilities-and-technical-services.html" class="hover:text-black transition">Facilities <span
-                    class="font-sans font-medium">&amp;</span> technical services</a></li>
-              <li><a href="supplychain.html" class="hover:text-black transition">Supply chain management</a></li>
-              <li><a href="business-development.html" class="hover:text-black transition">Business development</a></li>
-              <li><a href="#" class="hover:text-black transition">Channel management</a></li>
-            </ul>
-          </div>
-
-          <div class="flex flex-col space-y-3">
-            <h4 class="font-aktiv text-[14px] font-semibold text-black">Legal</h4>
-            <ul class="flex flex-col space-y-2 font-din text-[14px] text-[#00000066]">
-              <li><a href="privacy.html" class="hover:text-black transition">Privacy Policy</a></li>
-              <li><a href="terms.html" class="hover:text-black transition">Terms of Service</a></li>
-              <li><a href="cookies.html" class="hover:text-black transition">Cookie preferences</a></li>
-            </ul>
-          </div>
-
+        <!-- Column 1: Company -->
+        <div class="flex flex-col gap-5 md:gap-8 md:col-start-5 md:col-span-2 md:row-start-1">
+          <h4 class="font-semibold text-black">Company</h4>
+          <ul class="flex flex-col gap-1">
+            <li><a href="index.html" class="opacity-40 hover:opacity-100 transition">Home</a></li>
+            <li><a href="about.html" class="opacity-40 hover:opacity-100 transition">About</a></li>
+            <li><a href="medtrust.html" class="opacity-40 hover:opacity-100 transition">MedTrust</a></li>
+            <li><a href="news.html" class="opacity-40 hover:opacity-100 transition">Insights <span
+                  class="font-sans font-medium">&amp;</span> media</a></li>
+            <li><a href="careers.html" class="opacity-40 hover:opacity-100 transition">Careers</a></li>
+            <li><a href="contact.html" class="opacity-40 hover:opacity-100 transition">Contact</a></li>
+          </ul>
         </div>
 
-        <div class="md:col-span-1 flex justify-start md:justify-end">
-          <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer"
-            class="w-6 h-6 bg-black text-white flex items-center justify-center rounded-[2px] hover:bg-brand transition"
-            aria-label="LinkedIn">
-            <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
-              <path
-                d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.25V10.9H6.46M7.86 6.7a1.63 1.63 0 1 0 0 3.26 1.63 1.63 0 0 0 0-3.26Z" />
-            </svg>
-          </a>
+        <!-- Column 2: Legal. Sits beside Company on mobile (design puts it in
+             the second half of the 350px row), and back in column 9 on desktop
+             — hence the explicit row/column placement on all three, which stops
+             grid auto-placement from pushing Divisions onto a second row. -->
+        <div class="flex flex-col gap-5 md:gap-8 md:col-start-9 md:col-span-2 md:row-start-1">
+          <h4 class="font-semibold text-black">Legal</h4>
+          <ul class="flex flex-col gap-1">
+            <li><a href="privacy.html" class="opacity-40 hover:opacity-100 transition">Privacy Policy</a></li>
+            <li><a href="terms.html" class="opacity-40 hover:opacity-100 transition">Terms of Service</a></li>
+            <li><a href="cookies.html" class="opacity-40 hover:opacity-100 transition">Cookie preferences</a></li>
+          </ul>
+        </div>
+
+        <!-- Column 3: Divisions. Full width under the pair on mobile. -->
+        <div class="col-span-2 flex flex-col gap-5 md:gap-8 md:col-start-7 md:col-span-2 md:row-start-1">
+          <h4 class="font-semibold text-black">Divisions</h4>
+          <ul class="flex flex-col gap-1">
+            <li><a href="ivd-life-sciences.html" class="opacity-40 hover:opacity-100 transition">IVD <span
+                  class="font-sans font-medium">&amp;</span> life sciences</a></li>
+            <li><a href="medical-products.html" class="opacity-40 hover:opacity-100 transition">Medical products <span
+                  class="font-sans font-medium">&amp;</span> projects</a></li>
+            <li><a href="facilities-and-technical-services.html"
+                class="opacity-40 hover:opacity-100 transition">Facilities <span
+                  class="font-sans font-medium">&amp;</span> technical services</a></li>
+            <li><a href="supplychain.html" class="opacity-40 hover:opacity-100 transition">Supply chain management</a>
+            </li>
+            <li><a href="business-development.html" class="opacity-40 hover:opacity-100 transition">Business
+                development</a></li>
+            <li><a href="#" class="opacity-40 hover:opacity-100 transition">Channel management</a></li>
+          </ul>
         </div>
 
       </div>
 
-      <div class="pt-8 font-din text-[14px] text-[#00000066] text-center">
-        &copy; 2026 OneHealth. All rights reserved
+      <!-- Bottom Row: social icons left, copyright stacked under them on mobile
+           and level with the Company column from md up. -->
+      <div class="mt-20 lg:mt-44 grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12 items-center">
+        <div class="flex items-center gap-4 md:col-span-4">
+          <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer"
+            class="size-6 overflow-clip hover:opacity-70 transition" aria-label="LinkedIn">
+            <img src="/assets/img/social-linkedin.svg" alt="" class="w-full h-full" />
+          </a>
+          <a href="https://instagram.com" target="_blank" rel="noopener noreferrer"
+            class="size-6 overflow-clip hover:opacity-70 transition" aria-label="Instagram">
+            <img src="/assets/img/social-instagram.svg" alt="" class="w-full h-full" />
+          </a>
+        </div>
+
+        <p class="font-din text-[16px] tracking-[0.32px] text-black/50 md:col-start-5 md:col-span-8">
+          &copy; 2026 OneHealth. All rights reserved
+        </p>
       </div>
 
     </div>

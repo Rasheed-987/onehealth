@@ -8,14 +8,23 @@
    TRIAL/DEMO files under /assets/fonts — fine for building + previewing,
    but not licensed for production. Buy the full license (or swap in the
    licensed files under the same names) before handover.
-   unicode-range excludes ampersand (&), apostrophe ('), and right single quote (’) so they fall back to system sans-serif font instead of rendering demo watermark icons. */
+   The DIN 2014 TRIAL files substitute one watermark icon for 28 codepoints —
+   verified by hashing every glyph outline: `! " # $ % & ' ( ) * + - / 4 < = >
+   @ [ \ ] ^ _ ` { | } ~` all draw the identical shape. The unicode-range on
+   those faces omits exactly those, so the browser skips DIN for them and falls
+   back to the next font in the stack. Note it includes the DIGIT 4, so "140K+"
+   renders its 4 in the fallback face until the licensed files land — mismatched
+   but legible, which beats a watermark glyph.
+
+   Aktiv Grotesk's trial files are clean (all glyphs distinct), so those faces
+   carry no unicode-range at all. Re-check with a glyph-hash scan if the font
+   files are ever swapped. */
 @font-face {
   font-family: "Aktiv Grotesk";
   src: url("/assets/fonts/aktiv-grotesk/AktivGrotesk-Thin.ttf") format("truetype");
   font-weight: 100;
   font-style: normal;
   font-display: swap;
-  unicode-range: U+0000-0025, U+0028-2018, U+201A-FFFF;
 }
 @font-face {
   font-family: "Aktiv Grotesk";
@@ -23,7 +32,6 @@
   font-weight: 300;
   font-style: normal;
   font-display: swap;
-  unicode-range: U+0000-0025, U+0028-2018, U+201A-FFFF;
 }
 @font-face {
   font-family: "Aktiv Grotesk";
@@ -31,7 +39,6 @@
   font-weight: 400;
   font-style: normal;
   font-display: swap;
-  unicode-range: U+0000-0025, U+0028-2018, U+201A-FFFF;
 }
 @font-face {
   font-family: "Aktiv Grotesk";
@@ -39,7 +46,6 @@
   font-weight: 400;
   font-style: italic;
   font-display: swap;
-  unicode-range: U+0000-0025, U+0028-2018, U+201A-FFFF;
 }
 @font-face {
   font-family: "Aktiv Grotesk";
@@ -47,7 +53,6 @@
   font-weight: 500;
   font-style: normal;
   font-display: swap;
-  unicode-range: U+0000-0025, U+0028-2018, U+201A-FFFF;
 }
 @font-face {
   font-family: "Aktiv Grotesk";
@@ -55,7 +60,6 @@
   font-weight: 600;
   font-style: normal;
   font-display: swap;
-  unicode-range: U+0000-0025, U+0028-2018, U+201A-FFFF;
 }
 @font-face {
   font-family: "Aktiv Grotesk";
@@ -63,7 +67,6 @@
   font-weight: 700;
   font-style: normal;
   font-display: swap;
-  unicode-range: U+0000-0025, U+0028-2018, U+201A-FFFF;
 }
 @font-face {
   font-family: "Aktiv Grotesk";
@@ -71,7 +74,6 @@
   font-weight: 700;
   font-style: italic;
   font-display: swap;
-  unicode-range: U+0000-0025, U+0028-2018, U+201A-FFFF;
 }
 @font-face {
   font-family: "Aktiv Grotesk";
@@ -79,7 +81,6 @@
   font-weight: 800;
   font-style: normal;
   font-display: swap;
-  unicode-range: U+0000-0025, U+0028-2018, U+201A-FFFF;
 }
 @font-face {
   font-family: "Aktiv Grotesk";
@@ -87,7 +88,6 @@
   font-weight: 900;
   font-style: normal;
   font-display: swap;
-  unicode-range: U+0000-0025, U+0028-2018, U+201A-FFFF;
 }
 
 @font-face {
@@ -96,7 +96,7 @@
   font-weight: 200;
   font-style: normal;
   font-display: swap;
-  unicode-range: U+0000-0025, U+0028-2018, U+201A-FFFF;
+  unicode-range: U+0000-0020, U+002C, U+002E, U+0030-0033, U+0035-003B, U+003F, U+0041-005A, U+0061-007A, U+007F-10FFFF;
 }
 @font-face {
   font-family: "DIN 2014";
@@ -104,7 +104,7 @@
   font-weight: 300;
   font-style: normal;
   font-display: swap;
-  unicode-range: U+0000-0025, U+0028-2018, U+201A-FFFF;
+  unicode-range: U+0000-0020, U+002C, U+002E, U+0030-0033, U+0035-003B, U+003F, U+0041-005A, U+0061-007A, U+007F-10FFFF;
 }
 @font-face {
   font-family: "DIN 2014";
@@ -112,7 +112,7 @@
   font-weight: 400;
   font-style: normal;
   font-display: swap;
-  unicode-range: U+0000-0025, U+0028-2018, U+201A-FFFF;
+  unicode-range: U+0000-0020, U+002C, U+002E, U+0030-0033, U+0035-003B, U+003F, U+0041-005A, U+0061-007A, U+007F-10FFFF;
 }
 @font-face {
   font-family: "DIN 2014";
@@ -120,7 +120,7 @@
   font-weight: 600;
   font-style: normal;
   font-display: swap;
-  unicode-range: U+0000-0025, U+0028-2018, U+201A-FFFF;
+  unicode-range: U+0000-0020, U+002C, U+002E, U+0030-0033, U+0035-003B, U+003F, U+0041-005A, U+0061-007A, U+007F-10FFFF;
 }
 @font-face {
   font-family: "DIN 2014";
@@ -128,7 +128,7 @@
   font-weight: 700;
   font-style: normal;
   font-display: swap;
-  unicode-range: U+0000-0025, U+0028-2018, U+201A-FFFF;
+  unicode-range: U+0000-0020, U+002C, U+002E, U+0030-0033, U+0035-003B, U+003F, U+0041-005A, U+0061-007A, U+007F-10FFFF;
 }
 @font-face {
   font-family: "DIN 2014";
@@ -136,7 +136,7 @@
   font-weight: 800;
   font-style: normal;
   font-display: swap;
-  unicode-range: U+0000-0025, U+0028-2018, U+201A-FFFF;
+  unicode-range: U+0000-0020, U+002C, U+002E, U+0030-0033, U+0035-003B, U+003F, U+0041-005A, U+0061-007A, U+007F-10FFFF;
 }
 
 /* ---- Design tokens — pull every value from Figma ---- */
@@ -272,14 +272,12 @@
    which is why the settle continues after the scroll stops. `.is-revealed` is
    added by the observer at the foot of the page.
 
-   Duration and curve are paired to the travel: the reference moves only 5%, so
-   it can afford a hard front-loaded ease. Over a jump this size that same curve
-   spends most of the distance in the first fraction of a second and reads as a
-   snap, so this runs long on a sine-out — the gentlest of the ease-outs, near
-   linear off the start, no initial lunge. Shorten the duration if you pull the
-   starting scale back toward 0.95. */
+   Duration and curve are paired to the travel: a cubic-out over ~900ms covers
+   the 12% jump briskly without the lurch a harder front-loaded ease (quart,
+   expo) gives at this distance. Lengthen it if you push the starting scale
+   further from 1; shorten it if you pull it back toward 0.95. */
 .scale-in-view {
-  transform: scale(0.80);
+  transform: scale(0.88);
   transform-origin: left top;
   /* Keeps the box on its own compositor layer — a scaling photo this large
      otherwise re-rasterises mid-transition and stutters. */
@@ -288,7 +286,7 @@
 
 .scale-in-view.is-revealed {
   transform: scale(1);
-  transition: transform 2000ms cubic-bezier(0.61, 1, 0.88, 1);
+  transition: transform 900ms cubic-bezier(0.33, 1, 0.68, 1);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -296,6 +294,55 @@
   .scale-in-view.is-revealed {
     transform: none;
     transition: none;
+  }
+}
+
+/* The "AI Lab calculator" wordmark reads against two different grounds: white
+   page at mobile, dark hero from lg up. A gradient can't be swapped from an
+   inline style, so the two live here. */
+.ai-wordmark {
+  background-image: linear-gradient(90deg, #233D7C 0%, #208BDB 100%);
+}
+
+@media (min-width: 1024px) {
+  .ai-wordmark {
+    background-image: linear-gradient(90deg, #B7CCFF 0%, #5ECEFF 100%);
+  }
+}
+
+/* Ambient motion for full-bleed background photography — a very slow pan and
+   zoom that never settles, so a still image doesn't read as frozen behind
+   content that moves. The transform stays above scale(1) for the whole cycle
+   and the drift is smaller than the resulting overhang, so no edge can creep
+   into frame; the parent should still clip. */
+/* Edge safety when tuning these: translate is applied in the scaled coordinate
+   space, so the real shift is translate x scale, and the room available is
+   (scale - 1) / 2 per side. Keep translate% * scale under that and no edge can
+   pull into frame. The 4% / 2.5% drift here is well inside the 6% the 1.12
+   floor provides. */
+@keyframes drift-slow {
+  0% {
+    transform: scale(1.12) translate3d(-4%, -2.5%, 0);
+  }
+  50% {
+    transform: scale(1.3) translate3d(4%, 2.5%, 0);
+  }
+  100% {
+    transform: scale(1.12) translate3d(-4%, -2.5%, 0);
+  }
+}
+
+/* 12s, down from the 45s this started at: spreading a small transform over a
+   very long cycle moves the image a couple of pixels a second, which reads as
+   not moving at all. */
+.drift-slow {
+  animation: drift-slow 12s ease-in-out infinite;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .drift-slow {
+    animation: none;
   }
 }
 
@@ -333,6 +380,24 @@
     position: relative;
     z-index: 20;
   }
+
+
+.purpose {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  .purpose ~ * {
+    position: relative;
+    z-index: 20;
+  }
+
+
+
+
+
+
+
   /* The floating lab-calculator widget is itself one of those lifted
      siblings, so the rule above would flatten its `fixed` utility class to
      `relative` — same selector specificity, and this file is unlayered plain

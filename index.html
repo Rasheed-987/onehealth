@@ -25,16 +25,19 @@
           <img src="/assets/img/whitelogo.svg" alt="One Health" class="h-8 sm:h-10 w-auto" />
         </a>
 
-        <!-- Header Actions (Aligned with the 331px wide widget below) -->
-        <div class="flex items-center justify-between gap-2 w-full max-w-[331px]">
+        <!-- Header Actions. On phones this is just the two icon buttons, so the
+             row shrinks to fit them; from sm up it widens to align with the
+             331px widget below. -->
+        <div class="flex items-center justify-end gap-2 w-auto sm:w-full sm:max-w-[331px] sm:justify-between">
+          <button
+            class="flex items-center bg-white justify-center w-[44px] h-[44px] flex-shrink-0 rounded-[4px] border border-[#00000033] transition"
+            aria-label="Search">
+            <img src="/assets/img/about/search-icon.svg" alt="" class="w-5 h-5 " />
+          </button>
+
           <!-- Contact Us Button (Corner-Fold Variant) -->
-           <button
-          class="hidden sm:flex items-center bg-white justify-center w-[44px] h-[44px] flex-shrink-0 rounded-[4px] border border-[#00000033] transition"
-          aria-label="Search">
-          <img src="/assets/img/about/search-icon.svg" alt="" class="w-5 h-5 " />
-        </button>
           <a href="contact.html"
-            class="relative overflow-hidden inline-flex items-center justify-between h-[44px] rounded-[4px] bg-brand px-5 flex-1 text-xs font-semibold text-white shadow-sm hover:bg-brand/90 transition duration-200">
+            class="relative overflow-hidden hidden sm:inline-flex items-center justify-between h-[44px] rounded-[4px] bg-brand px-5 flex-1 text-xs font-semibold text-white shadow-sm hover:bg-brand/90 transition duration-200">
             <span class="font-din tracking-wide pr-5">Contact us</span>
             <svg class="absolute top-[4px] right-[4px] w-[14px] h-[14px] text-white fill-current" viewBox="0 0 14 14">
               <path
@@ -156,7 +159,7 @@
     </header>
 
     <!-- Hero Main Body -->
-    <main class="relative z-10 container-page flex-1 flex flex-col justify-between gap-12 py-12 lg:py-16">
+    <main class="relative z-10 container-page flex-1 flex flex-col justify-end  lg:justify-between gap-12 py-12 lg:py-16">
 
       <!-- Headline -->
       <div class="pt-6 sm:pt-10 max-w-3xl">
@@ -169,9 +172,11 @@
       <!-- Bottom Content -->
       <div class="w-full flex flex-col md:flex-row justify-between items-end gap-8">
 
-        <!-- Bottom Left: Paragraph & Button -->
-        <div class="w-full md:max-w-xl space-y-6">
-          <p class="font-din text-[16px]    max-w-sm">
+        <!-- Bottom Left: Paragraph & Button. One max-width on the block rather
+             than on each part, so the copy and the button always share the same
+             right edge instead of drifting apart as the viewport changes. -->
+        <div class="w-full max-w-sm space-y-6">
+          <p class="font-din text-[16px]">
             One Health supplies the equipment, medicines and infrastructure UAE healthcare is built on. We then
             integrate and maintain it as one working system.
           </p>
@@ -179,7 +184,7 @@
           <div>
             <!-- Explore our divisions Button (UI-Kit Corner-Fold) -->
             <a href="#"
-              class="relative overflow-hidden inline-flex items-center justify-between w-full sm:w-auto min-w-[260px] rounded-[4px] bg-white px-6 py-4 text-brand font-semibold  transition duration-200">
+              class="relative overflow-hidden inline-flex items-center justify-between w-full rounded-[4px] bg-white px-6 py-4 text-brand font-semibold  transition duration-200">
               <span class="font-din text-[16px] tracking-wide text-brand">Explore our divisions</span>
               <svg class="absolute top-[4px] right-[4px] w-[14px] h-[14px] text-brand fill-current" viewBox="0 0 14 14">
                 <path
@@ -210,11 +215,20 @@
        whole card physically squeezes down — width and height both — into the
        persistent "AI Lab calculator" pill, right-edge anchored, its
        "Get started" button morphing in place into the pill's label. -->
+  <!-- Below lg the widget is an ordinary block sitting in the flow under the
+       hero (Figma mobile: 350px wide, 20px in from the left, hugging its own
+       height) — no pinning and no card→pill morph, which is why the width and
+       height animations below are all lg-scoped. A phone has too little
+       viewport to give up to a floating panel, and the collapse only exists to
+       get it out of the way of a tall scrolling page. -->
   <div x-data="labWidget()"
-    class="js-lab-widget fixed bottom-6 right-4 lg:bottom-10 lg:right-10 z-50 max-w-[calc(100vw-2rem)] pointer-events-none transition-[width] duration-500 ease-out"
-    :class="collapsed ? 'w-[210px]' : 'w-[331px]'">
-    <div class="relative w-full overflow-hidden rounded-[4px] p-[12px] flex flex-col justify-between transition-[height] duration-500 ease-out"
-      :class="collapsed ? 'h-[68px]' : 'h-[182px]'">
+    class="js-lab-widget relative mx-5 mt-6 mb-40 w-[350px] max-w-[calc(100%-2.5rem)] z-50 pointer-events-none
+           lg:fixed lg:bottom-10 lg:right-10 lg:mx-0 lg:mt-0 lg:mb-0 lg:max-w-[calc(100vw-2rem)] lg:transition-[width] lg:duration-500 lg:ease-out"
+    :class="collapsed ? 'lg:w-[210px]' : 'lg:w-[331px]'">
+    <div
+      class="relative w-full overflow-hidden rounded-[4px] p-[12px] flex flex-col justify-between gap-8 border border-black/20
+             lg:gap-0 lg:border-0 lg:transition-[height] lg:duration-500 lg:ease-out"
+      :class="collapsed ? 'lg:h-[68px]' : 'lg:h-[182px]'">
 
       <!-- Card glass background, fading out on collapse -->
       <div class="absolute inset-0 rounded-[4px] transition-opacity duration-500 ease-out"
@@ -229,8 +243,11 @@
            target height. -->
       <div class="relative flex min-h-0 items-center gap-1.5 transition-opacity duration-500 ease-out"
         :class="collapsed ? 'opacity-0' : 'opacity-100'">
+        <!-- Two sparkles: the light one below reads on the dark hero, the flat
+             navy asset on the white mobile card. -->
+        <img src="/assets/img/home/sparklesmbl.svg" alt="" class="w-3.5 h-3.5 lg:hidden" />
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"
-          class="w-3.5 h-3.5">
+          class="hidden w-3.5 h-3.5 lg:block">
           <path
             d="M6.62654 1.30059C6.52181 1.38756 6.4508 1.50842 6.4258 1.64223L5.81267 4.88427C5.76912 5.11476 5.65709 5.32678 5.49121 5.49264C5.32532 5.65851 5.11328 5.77052 4.88276 5.81406L1.64033 6.42712C1.50651 6.45212 1.38564 6.52312 1.29866 6.62784C1.21168 6.73256 1.16406 6.86439 1.16406 7.00052C1.16406 7.13664 1.21168 7.26848 1.29866 7.37319C1.38564 7.47791 1.50651 7.54892 1.64033 7.57391L4.88276 8.18697C5.11328 8.23051 5.32532 8.34252 5.49121 8.50839C5.65709 8.67426 5.76912 8.88627 5.81267 9.11677L6.4258 12.3588C6.4508 12.4926 6.52181 12.6135 6.62654 12.7004C6.73127 12.7874 6.86312 12.835 6.99926 12.835C7.1354 12.835 7.26726 12.7874 7.37199 12.7004C7.47672 12.6135 7.54773 12.4926 7.57273 12.3588L8.18586 9.11677C8.22941 8.88627 8.34143 8.67426 8.50732 8.50839C8.6732 8.34252 8.88525 8.23051 9.11577 8.18697L12.3582 7.57391C12.492 7.54892 12.6129 7.47791 12.6999 7.37319C12.7868 7.26848 12.8345 7.13664 12.8345 7.00052C12.8345 6.86439 12.7868 6.73256 12.6999 6.62784C12.6129 6.52312 12.492 6.45212 12.3582 6.42712L9.11577 5.81406C8.88525 5.77052 8.6732 5.65851 8.50732 5.49264C8.34143 5.32678 8.22941 5.11476 8.18586 4.88427L7.57273 1.64223C7.54773 1.50842 7.47672 1.38756 7.37199 1.30059C7.26726 1.21362 7.1354 1.16602 6.99926 1.16602C6.86312 1.16602 6.73127 1.21362 6.62654 1.30059Z"
             fill="#5ECEFF" />
@@ -239,12 +256,12 @@
             fill="#5ECEFF" />
           <path d="M11.6668 1.16797V3.50121M12.8335 2.33459H10.5" stroke="#5ECEFF" stroke-linecap="round" />
         </svg>
-        <span class="font-din text-[16px] font-semibold tracking-wide bg-clip-text text-transparent"
-          style="background-image: linear-gradient(90deg, #B7CCFF 0%, #5ECEFF 100%);">AI Lab calculator</span>
+        <span class="ai-wordmark font-din text-[16px] font-semibold tracking-wide bg-clip-text text-transparent">AI Lab
+          calculator</span>
       </div>
 
       <!-- Widget Description. Same min-h-0 fix as the header above. -->
-      <p class="relative min-h-0 font-din text-[16px] font-normal text-white transition-opacity duration-500 ease-out"
+      <p class="relative min-h-0 font-din text-[16px] font-normal text-black lg:text-white transition-opacity duration-500 ease-out"
         :class="collapsed ? 'opacity-0' : 'opacity-100'">
         Calculator estimates the equipment, infrastructure, and consumables, with a 5-year cost forecast
       </p>
@@ -270,7 +287,7 @@
       <div class="relative flex flex-shrink-0 justify-end">
         <a href="#"
           class="relative overflow-hidden grid w-full rounded-[4px] border whitespace-nowrap pointer-events-auto transition-colors duration-500 ease-out"
-          :class="collapsed ? 'border-[#233D7C]/20' : 'border-[#FFFFFF4D]'">
+          :class="collapsed ? 'border-[#233D7C]/20' : 'border-black/20 lg:border-[#FFFFFF4D]'">
 
           <!-- Collapsed pill fill + blur, fading in -->
           <div class="absolute inset-0 rounded-[4px] transition-opacity duration-500 ease-out"
@@ -278,7 +295,7 @@
             :class="collapsed ? 'opacity-100' : 'opacity-0'"></div>
 
           <span
-            class="relative col-start-1 row-start-1 font-din text-[16px] font-semibold tracking-wide text-white px-4 py-2.5 transition-opacity duration-500 ease-out"
+            class="relative col-start-1 row-start-1 font-din text-[16px] font-semibold tracking-wide text-[#233D7C] lg:text-white px-4 py-2.5 transition-opacity duration-500 ease-out"
             :class="collapsed ? 'opacity-0' : 'opacity-100'">Get started</span>
           <span
             class="relative col-start-1 row-start-1 flex items-center gap-2 px-4 py-2.5 font-din text-[16px] font-semibold tracking-wide text-[#233D7C] transition-opacity duration-500 ease-out"
@@ -296,7 +313,7 @@
             AI Lab calculator
           </span>
           <svg class="absolute top-[4px] right-[4px] w-[14px] h-[14px] fill-current transition-colors duration-500 ease-out"
-            :class="collapsed ? 'text-[#233D7C]' : 'text-white'" viewBox="0 0 14 14">
+            :class="collapsed ? 'text-[#233D7C]' : 'text-[#233D7C] lg:text-white'" viewBox="0 0 14 14">
             <path
               d="M 2.414 0 L 13 0 A 1 1 0 0 1 14 1 L 14 11.586 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 2.414 0 Z" />
           </svg>
@@ -314,11 +331,19 @@
       return {
         collapsed: false,
         init() {
+          // Below lg the widget sits in the page flow, so there is nothing to
+          // get out of the way of — the morph stays off at every scroll
+          // position, and the breakpoint listener flips it back on if the
+          // window is resized up to desktop.
+          const desktop = window.matchMedia('(min-width: 1024px)');
+
           const update = () => {
-            this.collapsed = window.scrollY > window.innerHeight * 0.35;
+            this.collapsed = desktop.matches && window.scrollY > window.innerHeight * 0.35;
           };
+
           window.addEventListener('scroll', update, { passive: true });
           window.addEventListener('resize', update);
+          desktop.addEventListener('change', update);
           update();
         }
       }
@@ -327,8 +352,8 @@
   <!-- /component -->
 
   <!-- component: continuity-section -->
-  <section class="bg-[#F2F2F2] credibilities-pinned container-page text-black py-20 lg:py-6 lg:h-screen lg:flex lg:flex-col lg:justify-center lg:overflow-hidden">
-    <div class=" border-t border-[#00000033] pt-6 sm:pt-8 lg:pt-4 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-6">
+  <section class="bg-[#F2F2F2] credibilities-pinned container-page text-black py-4 lg:py-6 lg:h-screen lg:flex lg:flex-col lg:justify-center lg:overflow-hidden">
+    <div class=" border-t border-[#00000033] pt-6 sm:pt-8 lg:pt-4 grid grid-cols-1 lg:grid-cols-12 gap-3 lg:gap-6">
 
       <!-- Left Column: Section Subtitle -->
       <div class="lg:col-span-3">
@@ -348,30 +373,25 @@
           Healthcare depends on thousands of interconnected systems working together every day.
         </h3>
 
-        <!-- Inner Content Grid -->
-        <div class="mt-16 lg:mt-8 grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-start">
+        <!-- Inner Content Grid. Image, copy and button are three flat children
+             rather than a nested image+button column, so the button can follow
+             the copy on a phone (single column, DOM order) and still sit
+             directly under the image on desktop via explicit row placement.
+             The row gap is 8px so image (326) + gap + button (48) restores the
+             376x382 block; the copy spans both rows, so that tight gap never
+             affects it. -->
+        <div
+          class="mt-16 lg:mt-8 grid grid-cols-1 gap-8 items-start md:grid-cols-2 md:grid-rows-[auto_auto] md:gap-x-12 md:gap-y-2 lg:gap-x-16">
 
-          <!-- Left Column: Microscope Image and Button container (exactly 376x382px on desktop) -->
-          <div class="w-full max-w-[376px] h-[382px] flex flex-col gap-2">
-            <!-- Image (taking all remaining height) -->
-            <div class="relative flex-1 overflow-hidden rounded-[4px]"
-              style="clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 0 100%);">
-              <img src="/assets/img/home/microsope.svg" alt="Microscope" class="w-full h-full object-cover" />
-            </div>
-
-            <!-- More about us Button (Integrated as a bottom bar with top-right corner fold) -->
-            <a href="/about"
-              class="relative flex items-center justify-between w-full h-[48px] flex-shrink-0 bg-brand px-4 py-2.5 text-white font-semibold hover:bg-brand/90 transition duration-200 rounded-[4px]">
-              <span class="font-din text-xs tracking-wide text-white">More about us</span>
-              <svg class="absolute top-[4px] right-[4px] w-[14px] h-[14px] text-white fill-current" viewBox="0 0 14 14">
-                <path
-                  d="M 2.414 0 L 13 0 A 1 1 0 0 1 14 1 L 14 11.586 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 2.414 0 Z" />
-              </svg>
-            </a>
+          <!-- Microscope Image -->
+          <div class="relative w-full max-w-[376px] h-[326px] overflow-hidden rounded-[4px] md:col-start-1 md:row-start-1"
+            style="clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 0 100%);">
+            <img src="/assets/img/home/microsope.svg" alt="Microscope" class="w-full h-full object-cover" />
           </div>
 
-          <!-- Right Column: Paragraphs -->
-          <div class="space-y-6 text-black font-normal max-w-sm font-din text-[16px] leading-relaxed">
+          <!-- Paragraphs -->
+          <div
+            class="space-y-6 text-black font-normal max-w-sm font-din text-[16px] leading-relaxed md:col-start-2 md:row-start-1 md:row-span-2">
             <p>
               From diagnostic equipment and laboratory infrastructure to maintenance, medical technologies, and
               operational support, every component plays a critical role in delivering care.
@@ -382,6 +402,17 @@
             </p>
           </div>
 
+          <!-- More about us Button. Last in the DOM so it falls below the copy
+               on a phone; pinned back under the image from md up. -->
+          <a href="/about"
+            class="relative flex items-center justify-between w-full max-w-[376px] h-[48px] flex-shrink-0 bg-brand px-4 py-2.5 text-white font-semibold hover:bg-brand/90 transition duration-200 rounded-[4px] md:col-start-1 md:row-start-2">
+            <span class="font-din text-xs tracking-wide text-white">More about us</span>
+            <svg class="absolute top-[4px] right-[4px] w-[14px] h-[14px] text-white fill-current" viewBox="0 0 14 14">
+              <path
+                d="M 2.414 0 L 13 0 A 1 1 0 0 1 14 1 L 14 11.586 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 2.414 0 Z" />
+            </svg>
+          </a>
+
         </div>
       </div>
 
@@ -390,7 +421,8 @@
 
 
         <!-- Stats Block -->
-        <div class="mt-16 lg:mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-10"
+        <!-- Two up on phones (a 2x2 block), four across from lg. -->
+        <div class="mt-16 lg:mt-6 grid grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-10"
           x-data="statsCounter()" x-init="init()">
           <div class="pt-8 pb-8 lg:pt-2 lg:pb-2 text-center">
             <div class="font-aktiv text-[40px] sm:text-[48px] lg:text-[80px] font-medium text-brand leading-none" x-text="format(counts[0])">0+</div>
@@ -496,9 +528,9 @@
         <!-- Image and 3 Columns -->
         <div class="mt-12 space-y-8">
           <!-- Image with top-right corner chamfer -->
-          <div class="relative w-full overflow-hidden rounded-[4px]"
+          <div class="relative w-full aspect-[350/200]  lg:aspect-[1056/500]  overflow-hidden rounded-[4px]"
             style="clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 0 100%);">
-            <img src="/assets/img/home/about.png" alt="About PureHealth" class="w-full h-auto object-cover" />
+            <img src="/assets/img/home/about.png" alt="About PureHealth" class="w-full h-full object-cover" />
           </div>
 
           <!-- 3 Columns Grid -->
@@ -530,136 +562,136 @@
  <!-- component: logos-carasole -->
     <section class="bg-white py-12  overflow-hidden">
       <div class="marquee-container relative w-full overflow-hidden">
-        <div class="marquee-content flex gap-6 pr-6">
+        <div class="marquee-content flex gap-3 pr-3 lg:gap-6 lg:pr-6">
 
           <!-- Group 1 -->
-          <div class="flex gap-6 flex-shrink-0">
+          <div class="flex gap-3 lg:gap-6 flex-shrink-0">
             <div
-              class="w-[240px] h-[160px] bg-[#F2F2F2] rounded-[4px] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+              class="w-[104px] h-[69px] p-3 lg:w-[240px] lg:h-[160px] lg:p-6 bg-[#F2F2F2] rounded-[4px] flex items-center justify-center transition duration-200 hover:brightness-95">
               <img src="/assets/img/logos/seha.svg" alt="SEHA" class="max-w-full max-h-full object-contain" />
             </div>
             <div
-              class="w-[240px] h-[160px] bg-[#F2F2F2] rounded-[4px] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+              class="w-[104px] h-[69px] p-3 lg:w-[240px] lg:h-[160px] lg:p-6 bg-[#F2F2F2] rounded-[4px] flex items-center justify-center transition duration-200 hover:brightness-95">
               <img src="/assets/img/logos/ssmc.svg" alt="SSMC" class="max-w-full max-h-full object-contain" />
             </div>
             <div
-              class="w-[240px] h-[160px] bg-[#F2F2F2] rounded-[4px] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+              class="w-[104px] h-[69px] p-3 lg:w-[240px] lg:h-[160px] lg:p-6 bg-[#F2F2F2] rounded-[4px] flex items-center justify-center transition duration-200 hover:brightness-95">
               <img src="/assets/img/logos/seha_clinics.svg" alt="SEHA Clinics"
                 class="max-w-full max-h-full object-contain" />
             </div>
             <div
-              class="w-[240px] h-[160px] bg-[#F2F2F2] rounded-[4px] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+              class="w-[104px] h-[69px] p-3 lg:w-[240px] lg:h-[160px] lg:p-6 bg-[#F2F2F2] rounded-[4px] flex items-center justify-center transition duration-200 hover:brightness-95">
               <img src="/assets/img/logos/circle_health_group.svg" alt="Circle Health Group"
                 class="max-w-full max-h-full object-contain" />
             </div>
             <div
-              class="w-[240px] h-[160px] bg-[#F2F2F2] rounded-[4px] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+              class="w-[104px] h-[69px] p-3 lg:w-[240px] lg:h-[160px] lg:p-6 bg-[#F2F2F2] rounded-[4px] flex items-center justify-center transition duration-200 hover:brightness-95">
               <img src="/assets/img/logos/hhg.svg" alt="HHG" class="max-w-full max-h-full object-contain" />
             </div>
             <div
-              class="w-[240px] h-[160px] bg-[#F2F2F2] rounded-[4px] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+              class="w-[104px] h-[69px] p-3 lg:w-[240px] lg:h-[160px] lg:p-6 bg-[#F2F2F2] rounded-[4px] flex items-center justify-center transition duration-200 hover:brightness-95">
               <img src="/assets/img/logos/argent_health.svg" alt="Ardent Health"
                 class="max-w-full max-h-full object-contain" />
             </div>
             <div
-              class="w-[240px] h-[160px] bg-[#F2F2F2] rounded-[4px] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+              class="w-[104px] h-[69px] p-3 lg:w-[240px] lg:h-[160px] lg:p-6 bg-[#F2F2F2] rounded-[4px] flex items-center justify-center transition duration-200 hover:brightness-95">
               <img src="/assets/img/logos/purehealth.svg" alt="PureHealth"
                 class="max-w-full max-h-full object-contain" />
             </div>
             <div
-              class="w-[240px] h-[160px] bg-[#F2F2F2] rounded-[4px] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+              class="w-[104px] h-[69px] p-3 lg:w-[240px] lg:h-[160px] lg:p-6 bg-[#F2F2F2] rounded-[4px] flex items-center justify-center transition duration-200 hover:brightness-95">
               <img src="/assets/img/logos/baxter.svg" alt="Baxter" class="max-w-full max-h-full object-contain" />
             </div>
             <div
-              class="w-[240px] h-[160px] bg-[#F2F2F2] rounded-[4px] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+              class="w-[104px] h-[69px] p-3 lg:w-[240px] lg:h-[160px] lg:p-6 bg-[#F2F2F2] rounded-[4px] flex items-center justify-center transition duration-200 hover:brightness-95">
               <img src="/assets/img/logos/ge_health_care.svg" alt="GE Healthcare"
                 class="max-w-full max-h-full object-contain" />
             </div>
             <div
-              class="w-[240px] h-[160px] bg-[#F2F2F2] rounded-[4px] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+              class="w-[104px] h-[69px] p-3 lg:w-[240px] lg:h-[160px] lg:p-6 bg-[#F2F2F2] rounded-[4px] flex items-center justify-center transition duration-200 hover:brightness-95">
               <img src="/assets/img/logos/siemens.svg" alt="Siemens" class="max-w-full max-h-full object-contain" />
             </div>
             <div
-              class="w-[240px] h-[160px] bg-[#F2F2F2] rounded-[4px] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+              class="w-[104px] h-[69px] p-3 lg:w-[240px] lg:h-[160px] lg:p-6 bg-[#F2F2F2] rounded-[4px] flex items-center justify-center transition duration-200 hover:brightness-95">
               <img src="/assets/img/logos/daman.svg" alt="Daman" class="max-w-full max-h-full object-contain" />
             </div>
             <div
-              class="w-[240px] h-[160px] bg-[#F2F2F2] rounded-[4px] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+              class="w-[104px] h-[69px] p-3 lg:w-[240px] lg:h-[160px] lg:p-6 bg-[#F2F2F2] rounded-[4px] flex items-center justify-center transition duration-200 hover:brightness-95">
               <img src="/assets/img/logos/thermo_fisher.svg" alt="Thermo Fisher"
                 class="max-w-full max-h-full object-contain" />
             </div>
             <div
-              class="w-[240px] h-[160px] bg-[#F2F2F2] rounded-[4px] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+              class="w-[104px] h-[69px] p-3 lg:w-[240px] lg:h-[160px] lg:p-6 bg-[#F2F2F2] rounded-[4px] flex items-center justify-center transition duration-200 hover:brightness-95">
               <img src="/assets/img/logos/planmeca.svg" alt="Planmeca" class="max-w-full max-h-full object-contain" />
             </div>
             <div
-              class="w-[240px] h-[160px] bg-[#F2F2F2] rounded-[4px] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+              class="w-[104px] h-[69px] p-3 lg:w-[240px] lg:h-[160px] lg:p-6 bg-[#F2F2F2] rounded-[4px] flex items-center justify-center transition duration-200 hover:brightness-95">
               <img src="/assets/img/logos/medline.svg" alt="Medline" class="max-w-full max-h-full object-contain" />
             </div>
           </div>
 
           <!-- Group 2 (Duplicate for infinite seamless loop) -->
-          <div class="flex gap-6 flex-shrink-0">
+          <div class="flex gap-3 lg:gap-6 flex-shrink-0">
             <div
-              class="w-[240px] h-[160px] bg-[#F2F2F2] rounded-[4px] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+              class="w-[104px] h-[69px] p-3 lg:w-[240px] lg:h-[160px] lg:p-6 bg-[#F2F2F2] rounded-[4px] flex items-center justify-center transition duration-200 hover:brightness-95">
               <img src="/assets/img/logos/seha.svg" alt="SEHA" class="max-w-full max-h-full object-contain" />
             </div>
             <div
-              class="w-[240px] h-[160px] bg-[#F2F2F2] rounded-[4px] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+              class="w-[104px] h-[69px] p-3 lg:w-[240px] lg:h-[160px] lg:p-6 bg-[#F2F2F2] rounded-[4px] flex items-center justify-center transition duration-200 hover:brightness-95">
               <img src="/assets/img/logos/ssmc.svg" alt="SSMC" class="max-w-full max-h-full object-contain" />
             </div>
             <div
-              class="w-[240px] h-[160px] bg-[#F2F2F2] rounded-[4px] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+              class="w-[104px] h-[69px] p-3 lg:w-[240px] lg:h-[160px] lg:p-6 bg-[#F2F2F2] rounded-[4px] flex items-center justify-center transition duration-200 hover:brightness-95">
               <img src="/assets/img/logos/seha_clinics.svg" alt="SEHA Clinics"
                 class="max-w-full max-h-full object-contain" />
             </div>
             <div
-              class="w-[240px] h-[160px] bg-[#F2F2F2] rounded-[4px] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+              class="w-[104px] h-[69px] p-3 lg:w-[240px] lg:h-[160px] lg:p-6 bg-[#F2F2F2] rounded-[4px] flex items-center justify-center transition duration-200 hover:brightness-95">
               <img src="/assets/img/logos/circle_health_group.svg" alt="Circle Health Group"
                 class="max-w-full max-h-full object-contain" />
             </div>
             <div
-              class="w-[240px] h-[160px] bg-[#F2F2F2] rounded-[4px] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+              class="w-[104px] h-[69px] p-3 lg:w-[240px] lg:h-[160px] lg:p-6 bg-[#F2F2F2] rounded-[4px] flex items-center justify-center transition duration-200 hover:brightness-95">
               <img src="/assets/img/logos/hhg.svg" alt="HHG" class="max-w-full max-h-full object-contain" />
             </div>
             <div
-              class="w-[240px] h-[160px] bg-[#F2F2F2] rounded-[4px] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+              class="w-[104px] h-[69px] p-3 lg:w-[240px] lg:h-[160px] lg:p-6 bg-[#F2F2F2] rounded-[4px] flex items-center justify-center transition duration-200 hover:brightness-95">
               <img src="/assets/img/logos/argent_health.svg" alt="Ardent Health"
                 class="max-w-full max-h-full object-contain" />
             </div>
             <div
-              class="w-[240px] h-[160px] bg-[#F2F2F2] rounded-[4px] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+              class="w-[104px] h-[69px] p-3 lg:w-[240px] lg:h-[160px] lg:p-6 bg-[#F2F2F2] rounded-[4px] flex items-center justify-center transition duration-200 hover:brightness-95">
               <img src="/assets/img/logos/purehealth.svg" alt="PureHealth"
                 class="max-w-full max-h-full object-contain" />
             </div>
             <div
-              class="w-[240px] h-[160px] bg-[#F2F2F2] rounded-[4px] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+              class="w-[104px] h-[69px] p-3 lg:w-[240px] lg:h-[160px] lg:p-6 bg-[#F2F2F2] rounded-[4px] flex items-center justify-center transition duration-200 hover:brightness-95">
               <img src="/assets/img/logos/baxter.svg" alt="Baxter" class="max-w-full max-h-full object-contain" />
             </div>
             <div
-              class="w-[240px] h-[160px] bg-[#F2F2F2] rounded-[4px] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+              class="w-[104px] h-[69px] p-3 lg:w-[240px] lg:h-[160px] lg:p-6 bg-[#F2F2F2] rounded-[4px] flex items-center justify-center transition duration-200 hover:brightness-95">
               <img src="/assets/img/logos/ge_health_care.svg" alt="GE Healthcare"
                 class="max-w-full max-h-full object-contain" />
             </div>
             <div
-              class="w-[240px] h-[160px] bg-[#F2F2F2] rounded-[4px] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+              class="w-[104px] h-[69px] p-3 lg:w-[240px] lg:h-[160px] lg:p-6 bg-[#F2F2F2] rounded-[4px] flex items-center justify-center transition duration-200 hover:brightness-95">
               <img src="/assets/img/logos/siemens.svg" alt="Siemens" class="max-w-full max-h-full object-contain" />
             </div>
             <div
-              class="w-[240px] h-[160px] bg-[#F2F2F2] rounded-[4px] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+              class="w-[104px] h-[69px] p-3 lg:w-[240px] lg:h-[160px] lg:p-6 bg-[#F2F2F2] rounded-[4px] flex items-center justify-center transition duration-200 hover:brightness-95">
               <img src="/assets/img/logos/daman.svg" alt="Daman" class="max-w-full max-h-full object-contain" />
             </div>
             <div
-              class="w-[240px] h-[160px] bg-[#F2F2F2] rounded-[4px] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+              class="w-[104px] h-[69px] p-3 lg:w-[240px] lg:h-[160px] lg:p-6 bg-[#F2F2F2] rounded-[4px] flex items-center justify-center transition duration-200 hover:brightness-95">
               <img src="/assets/img/logos/thermo_fisher.svg" alt="Thermo Fisher"
                 class="max-w-full max-h-full object-contain" />
             </div>
             <div
-              class="w-[240px] h-[160px] bg-[#F2F2F2] rounded-[4px] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+              class="w-[104px] h-[69px] p-3 lg:w-[240px] lg:h-[160px] lg:p-6 bg-[#F2F2F2] rounded-[4px] flex items-center justify-center transition duration-200 hover:brightness-95">
               <img src="/assets/img/logos/planmeca.svg" alt="Planmeca" class="max-w-full max-h-full object-contain" />
             </div>
             <div
-              class="w-[240px] h-[160px] bg-[#F2F2F2] rounded-[4px] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+              class="w-[104px] h-[69px] p-3 lg:w-[240px] lg:h-[160px] lg:p-6 bg-[#F2F2F2] rounded-[4px] flex items-center justify-center transition duration-200 hover:brightness-95">
               <img src="/assets/img/logos/medline.svg" alt="Medline" class="max-w-full max-h-full object-contain" />
             </div>
           </div>
@@ -701,14 +733,16 @@
       <!-- Heading -->
       <div class="grid lg:col-span-12 gap-8 lg:gap-12">
         <h3
-          class="divisions-heading font-aktiv text-4xl sm:text-5xl md:text-6xl lg:text-[80px] font-medium leading-[1.1] text-black tracking-tight  max-w-4xl mx-auto ">
+          class="divisions-heading font-aktiv text-[40px] sm:text-5xl md:text-6xl lg:text-[80px] font-medium leading-[1.1] text-black tracking-tight  max-w-4xl mx-auto ">
           What OneHealth delivers across the business
         </h3>
       </div>
 
 
-      <!-- Left Column: Section Subtitle (pinned to viewport centre while cards scroll) -->
-      <div class="lg:col-span-2 lg:self-start lg:sticky lg:top-1/2 lg:-translate-y-1/2">
+      <!-- Left Column: Section Subtitle (pinned to viewport centre while cards
+           scroll). Hidden on phones, where the cards run edge to edge and the
+           counter opposite is hidden too. -->
+      <div class="hidden lg:block lg:col-span-2 lg:self-start lg:sticky lg:top-1/2 lg:-translate-y-1/2">
         <h2 class="font-din text-[14px] font-normal tracking-wider text-black">
           Our divisions
         </h2>
@@ -719,17 +753,17 @@
 
         <!-- Card 1: IVD & life sciences -->
         <div data-card-id="1"
-          class="relative flex flex-col md:flex-row md:h-[220px] rounded-[4px] overflow-hidden max-w-[510px] mx-auto transition duration-500"
+          class="relative flex flex-row h-[180px] md:h-[220px] rounded-[4px] overflow-hidden max-w-[510px] mx-auto transition duration-500"
           :class="activeCard === 1 ? 'opacity-100' : 'opacity-30'">
           <!-- Left: Image -->
-          <div class="md:w-[45%] h-64 md:h-full relative">
+          <div class="w-[35%] md:w-[45%] h-full relative">
             <img src="/assets/img/home/img1.png" alt="IVD & life sciences" class="w-full h-full object-cover" />
           </div>
           <!-- Right: Text Content -->
-          <div class="p-8 md:w-[55%] h-full flex flex-col justify-center space-y-3"
+          <div class="p-5 md:p-8 w-[65%] md:w-[55%] h-full flex flex-col justify-center space-y-2 md:space-y-3"
             style="background-image: url('/assets/img/home/cardsbg.png'); background-size: cover;">
-            <h4 class="font-aktiv text-[28px] font-medium text-black">IVD <span class="font-sans font-medium">&</span> life sciences</h4>
-            <p class="font-din text-[14px] text-[#00000080] leading-relaxed">
+            <h4 class="font-aktiv text-[18px] md:text-[28px] font-medium text-black leading-tight">IVD <span class="font-sans font-medium">&</span> life sciences</h4>
+            <p class="font-din text-[16px]  text-[#00000080] leading-relaxed">
               Diagnostics and genomics for the country<span class="font-sans font-medium">'</span>s laboratories.
             </p>
           </div>
@@ -737,17 +771,17 @@
 
         <!-- Card 2: Medical products & projects -->
         <div data-card-id="2"
-          class="relative flex flex-col md:flex-row md:h-[220px] rounded-[4px] overflow-hidden max-w-[510px] mx-auto transition duration-500"
+          class="relative flex flex-row h-[180px] md:h-[220px] rounded-[4px] overflow-hidden max-w-[510px] mx-auto transition duration-500"
           :class="activeCard === 2 ? 'opacity-100' : 'opacity-30'">
           <!-- Left: Image -->
-          <div class="md:w-[45%] h-64 md:h-full relative">
+          <div class="w-[35%] md:w-[45%] h-full relative">
             <img src="/assets/img/home/img2.png" alt="Medical products & projects" class="w-full h-full object-cover" />
           </div>
           <!-- Right: Text Content -->
-          <div class="p-8 md:w-[55%] h-full flex flex-col justify-center space-y-3"
+          <div class="p-5 md:p-8 w-[65%] md:w-[55%] h-full flex flex-col justify-center space-y-2 md:space-y-3"
             style="background-image: url('/assets/img/home/cardsbg.png'); background-size: cover;">
-            <h4 class="font-aktiv text-[28px] font-medium text-black">Medical products <span class="font-sans font-medium">&</span> projects</h4>
-            <p class="font-din text-[14px] text-[#00000080] leading-relaxed">
+            <h4 class="font-aktiv text-[18px] md:text-[28px] font-medium text-black leading-tight">Medical products <span class="font-sans font-medium">&</span> projects</h4>
+            <p class="font-din text-[16px] text-[#00000080] leading-relaxed">
               Medical devices, medicines and the turnkey projects that install them.
             </p>
           </div>
@@ -755,18 +789,18 @@
 
         <!-- Card 3: Facilities & technical services -->
         <div data-card-id="3"
-          class="relative flex flex-col md:flex-row md:h-[220px] rounded-[4px] overflow-hidden max-w-[510px] mx-auto transition duration-500"
+          class="relative flex flex-row h-[180px] md:h-[220px] rounded-[4px] overflow-hidden max-w-[510px] mx-auto transition duration-500"
           :class="activeCard === 3 ? 'opacity-100' : 'opacity-30'">
           <!-- Left: Image -->
-          <div class="md:w-[45%] h-64 md:h-full relative">
+          <div class="w-[35%] md:w-[45%] h-full relative">
             <img src="/assets/img/home/img3.png" alt="Facilities & technical services"
               class="w-full h-full object-cover" />
           </div>
           <!-- Right: Text Content -->
-          <div class="p-8 md:w-[55%] h-full flex flex-col justify-center space-y-3"
+          <div class="p-5 md:p-8 w-[65%] md:w-[55%] h-full flex flex-col justify-center space-y-2 md:space-y-3"
             style="background-image: url('/assets/img/home/cardsbg.png'); background-size: cover;">
-            <h4 class="font-aktiv text-[28px] font-medium text-black">Facilities <span class="font-sans font-medium">&</span> technical services</h4>
-            <p class="font-din text-[14px] text-[#00000080] leading-relaxed">
+            <h4 class="font-aktiv text-[18px] md:text-[28px] font-medium text-black leading-tight">Facilities <span class="font-sans font-medium">&</span> technical services</h4>
+            <p class="font-din text-[16px] text-[#00000080] leading-relaxed">
               A hospital<span class="font-sans font-medium">'</span>s building, equipment and sterile services, under one contract.
             </p>
           </div>
@@ -774,17 +808,17 @@
 
         <!-- Card 4: Supply chain management -->
         <div data-card-id="4"
-          class="relative flex flex-col md:flex-row md:h-[220px] rounded-[4px] overflow-hidden max-w-[510px] mx-auto transition duration-500"
+          class="relative flex flex-row h-[180px] md:h-[220px] rounded-[4px] overflow-hidden max-w-[510px] mx-auto transition duration-500"
           :class="activeCard === 4 ? 'opacity-100' : 'opacity-30'">
           <!-- Left: Image -->
-          <div class="md:w-[45%] h-64 md:h-full relative">
+          <div class="w-[35%] md:w-[45%] h-full relative">
             <img src="/assets/img/home/img4.png" alt="Supply chain management" class="w-full h-full object-cover" />
           </div>
           <!-- Right: Text Content -->
-          <div class="p-8 md:w-[55%] h-full flex flex-col justify-center space-y-3"
+          <div class="p-5 md:p-8 w-[65%] md:w-[55%] h-full flex flex-col justify-center space-y-2 md:space-y-3"
             style="background-image: url('/assets/img/home/cardsbg.png'); background-size: cover;">
-            <h4 class="font-aktiv text-[28px] font-medium text-black">Supply chain management</h4>
-            <p class="font-din text-[14px] text-[#00000080] leading-relaxed">
+            <h4 class="font-aktiv text-[18px] md:text-[28px] font-medium text-black leading-tight">Supply chain management</h4>
+            <p class="font-din text-[16px]  text-[#00000080] leading-relaxed">
               Procurement, warehousing and logistics across the UAE and the GCC.
             </p>
           </div>
@@ -792,17 +826,17 @@
 
         <!-- Card 5: Business development -->
         <div data-card-id="5"
-          class="relative flex flex-col md:flex-row md:h-[220px] rounded-[4px] overflow-hidden max-w-[510px] mx-auto transition duration-500"
+          class="relative flex flex-row h-[180px] md:h-[220px] rounded-[4px] overflow-hidden max-w-[510px] mx-auto transition duration-500"
           :class="activeCard === 5 ? 'opacity-100' : 'opacity-30'">
           <!-- Left: Image -->
-          <div class="md:w-[45%] h-64 md:h-full relative">
+          <div class="w-[35%] md:w-[45%] h-full relative">
             <img src="/assets/img/home/img5.png" alt="Business development" class="w-full h-full object-cover" />
           </div>
           <!-- Right: Text Content -->
-          <div class="p-8 md:w-[55%] h-full flex flex-col justify-center space-y-3"
+          <div class="p-5 md:p-8 w-[65%] md:w-[55%] h-full flex flex-col justify-center space-y-2 md:space-y-3"
             style="background-image: url('/assets/img/home/cardsbg.png'); background-size: cover;">
-            <h4 class="font-aktiv text-[28px] font-medium text-black">Business development</h4>
-            <p class="font-din text-[14px] text-[#00000080] leading-relaxed">
+            <h4 class="font-aktiv text-[18px] md:text-[28px] font-medium text-black leading-tight">Business development</h4>
+            <p class="font-din text-[16px] text-[#00000080] leading-relaxed">
               A UAE route to market for global healthcare technology.
             </p>
           </div>
@@ -810,17 +844,17 @@
 
         <!-- Card 6: Channel management -->
         <div data-card-id="6"
-          class="relative flex flex-col md:flex-row md:h-[220px] rounded-[4px] overflow-hidden max-w-[510px] mx-auto transition duration-500"
+          class="relative flex flex-row h-[180px] md:h-[220px] rounded-[4px] overflow-hidden max-w-[510px] mx-auto transition duration-500"
           :class="activeCard === 6 ? 'opacity-100' : 'opacity-30'">
           <!-- Left: Image -->
-          <div class="md:w-[45%] h-64 md:h-full relative">
+          <div class="w-[35%] md:w-[45%] h-full relative">
             <img src="/assets/img/home/img6.png" alt="Channel management" class="w-full h-full object-cover" />
           </div>
           <!-- Right: Text Content -->
-          <div class="p-8 md:w-[55%] h-full flex flex-col justify-center space-y-3"
+          <div class="p-5 md:p-8 w-[65%] md:w-[55%] h-full flex flex-col justify-center space-y-2 md:space-y-3"
             style="background-image: url('/assets/img/home/cardsbg.png'); background-size: cover;">
-            <h4 class="font-aktiv text-[28px] font-medium text-black">Channel management</h4>
-            <p class="font-din text-[14px] text-[#00000080] leading-relaxed">
+            <h4 class="font-aktiv text-[18px] md:text-[28px] font-medium text-black leading-tight">Channel management</h4>
+            <p class="font-din text-[16px]  text-[#00000080] leading-relaxed">
               Distribution and partner management for global healthcare brands across the UAE.
             </p>
           </div>
@@ -846,136 +880,136 @@
   <!-- component: logos-carasole -->
     <section class="bg-white py-12  overflow-hidden">
       <div class="marquee-container relative w-full overflow-hidden">
-        <div class="marquee-content flex gap-6 pr-6">
+        <div class="marquee-content flex gap-3 pr-3 lg:gap-6 lg:pr-6">
 
           <!-- Group 1 -->
-          <div class="flex gap-6 flex-shrink-0">
+          <div class="flex gap-3 lg:gap-6 flex-shrink-0">
             <div
-              class="w-[240px] h-[160px] bg-[#F2F2F2] rounded-[4px] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+              class="w-[104px] h-[69px] p-3 lg:w-[240px] lg:h-[160px] lg:p-6 bg-[#F2F2F2] rounded-[4px] flex items-center justify-center transition duration-200 hover:brightness-95">
               <img src="/assets/img/logos/seha.svg" alt="SEHA" class="max-w-full max-h-full object-contain" />
             </div>
             <div
-              class="w-[240px] h-[160px] bg-[#F2F2F2] rounded-[4px] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+              class="w-[104px] h-[69px] p-3 lg:w-[240px] lg:h-[160px] lg:p-6 bg-[#F2F2F2] rounded-[4px] flex items-center justify-center transition duration-200 hover:brightness-95">
               <img src="/assets/img/logos/ssmc.svg" alt="SSMC" class="max-w-full max-h-full object-contain" />
             </div>
             <div
-              class="w-[240px] h-[160px] bg-[#F2F2F2] rounded-[4px] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+              class="w-[104px] h-[69px] p-3 lg:w-[240px] lg:h-[160px] lg:p-6 bg-[#F2F2F2] rounded-[4px] flex items-center justify-center transition duration-200 hover:brightness-95">
               <img src="/assets/img/logos/seha_clinics.svg" alt="SEHA Clinics"
                 class="max-w-full max-h-full object-contain" />
             </div>
             <div
-              class="w-[240px] h-[160px] bg-[#F2F2F2] rounded-[4px] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+              class="w-[104px] h-[69px] p-3 lg:w-[240px] lg:h-[160px] lg:p-6 bg-[#F2F2F2] rounded-[4px] flex items-center justify-center transition duration-200 hover:brightness-95">
               <img src="/assets/img/logos/circle_health_group.svg" alt="Circle Health Group"
                 class="max-w-full max-h-full object-contain" />
             </div>
             <div
-              class="w-[240px] h-[160px] bg-[#F2F2F2] rounded-[4px] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+              class="w-[104px] h-[69px] p-3 lg:w-[240px] lg:h-[160px] lg:p-6 bg-[#F2F2F2] rounded-[4px] flex items-center justify-center transition duration-200 hover:brightness-95">
               <img src="/assets/img/logos/hhg.svg" alt="HHG" class="max-w-full max-h-full object-contain" />
             </div>
             <div
-              class="w-[240px] h-[160px] bg-[#F2F2F2] rounded-[4px] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+              class="w-[104px] h-[69px] p-3 lg:w-[240px] lg:h-[160px] lg:p-6 bg-[#F2F2F2] rounded-[4px] flex items-center justify-center transition duration-200 hover:brightness-95">
               <img src="/assets/img/logos/argent_health.svg" alt="Ardent Health"
                 class="max-w-full max-h-full object-contain" />
             </div>
             <div
-              class="w-[240px] h-[160px] bg-[#F2F2F2] rounded-[4px] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+              class="w-[104px] h-[69px] p-3 lg:w-[240px] lg:h-[160px] lg:p-6 bg-[#F2F2F2] rounded-[4px] flex items-center justify-center transition duration-200 hover:brightness-95">
               <img src="/assets/img/logos/purehealth.svg" alt="PureHealth"
                 class="max-w-full max-h-full object-contain" />
             </div>
             <div
-              class="w-[240px] h-[160px] bg-[#F2F2F2] rounded-[4px] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+              class="w-[104px] h-[69px] p-3 lg:w-[240px] lg:h-[160px] lg:p-6 bg-[#F2F2F2] rounded-[4px] flex items-center justify-center transition duration-200 hover:brightness-95">
               <img src="/assets/img/logos/baxter.svg" alt="Baxter" class="max-w-full max-h-full object-contain" />
             </div>
             <div
-              class="w-[240px] h-[160px] bg-[#F2F2F2] rounded-[4px] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+              class="w-[104px] h-[69px] p-3 lg:w-[240px] lg:h-[160px] lg:p-6 bg-[#F2F2F2] rounded-[4px] flex items-center justify-center transition duration-200 hover:brightness-95">
               <img src="/assets/img/logos/ge_health_care.svg" alt="GE Healthcare"
                 class="max-w-full max-h-full object-contain" />
             </div>
             <div
-              class="w-[240px] h-[160px] bg-[#F2F2F2] rounded-[4px] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+              class="w-[104px] h-[69px] p-3 lg:w-[240px] lg:h-[160px] lg:p-6 bg-[#F2F2F2] rounded-[4px] flex items-center justify-center transition duration-200 hover:brightness-95">
               <img src="/assets/img/logos/siemens.svg" alt="Siemens" class="max-w-full max-h-full object-contain" />
             </div>
             <div
-              class="w-[240px] h-[160px] bg-[#F2F2F2] rounded-[4px] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+              class="w-[104px] h-[69px] p-3 lg:w-[240px] lg:h-[160px] lg:p-6 bg-[#F2F2F2] rounded-[4px] flex items-center justify-center transition duration-200 hover:brightness-95">
               <img src="/assets/img/logos/daman.svg" alt="Daman" class="max-w-full max-h-full object-contain" />
             </div>
             <div
-              class="w-[240px] h-[160px] bg-[#F2F2F2] rounded-[4px] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+              class="w-[104px] h-[69px] p-3 lg:w-[240px] lg:h-[160px] lg:p-6 bg-[#F2F2F2] rounded-[4px] flex items-center justify-center transition duration-200 hover:brightness-95">
               <img src="/assets/img/logos/thermo_fisher.svg" alt="Thermo Fisher"
                 class="max-w-full max-h-full object-contain" />
             </div>
             <div
-              class="w-[240px] h-[160px] bg-[#F2F2F2] rounded-[4px] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+              class="w-[104px] h-[69px] p-3 lg:w-[240px] lg:h-[160px] lg:p-6 bg-[#F2F2F2] rounded-[4px] flex items-center justify-center transition duration-200 hover:brightness-95">
               <img src="/assets/img/logos/planmeca.svg" alt="Planmeca" class="max-w-full max-h-full object-contain" />
             </div>
             <div
-              class="w-[240px] h-[160px] bg-[#F2F2F2] rounded-[4px] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+              class="w-[104px] h-[69px] p-3 lg:w-[240px] lg:h-[160px] lg:p-6 bg-[#F2F2F2] rounded-[4px] flex items-center justify-center transition duration-200 hover:brightness-95">
               <img src="/assets/img/logos/medline.svg" alt="Medline" class="max-w-full max-h-full object-contain" />
             </div>
           </div>
 
           <!-- Group 2 (Duplicate for infinite seamless loop) -->
-          <div class="flex gap-6 flex-shrink-0">
+          <div class="flex gap-3 lg:gap-6 flex-shrink-0">
             <div
-              class="w-[240px] h-[160px] bg-[#F2F2F2] rounded-[4px] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+              class="w-[104px] h-[69px] p-3 lg:w-[240px] lg:h-[160px] lg:p-6 bg-[#F2F2F2] rounded-[4px] flex items-center justify-center transition duration-200 hover:brightness-95">
               <img src="/assets/img/logos/seha.svg" alt="SEHA" class="max-w-full max-h-full object-contain" />
             </div>
             <div
-              class="w-[240px] h-[160px] bg-[#F2F2F2] rounded-[4px] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+              class="w-[104px] h-[69px] p-3 lg:w-[240px] lg:h-[160px] lg:p-6 bg-[#F2F2F2] rounded-[4px] flex items-center justify-center transition duration-200 hover:brightness-95">
               <img src="/assets/img/logos/ssmc.svg" alt="SSMC" class="max-w-full max-h-full object-contain" />
             </div>
             <div
-              class="w-[240px] h-[160px] bg-[#F2F2F2] rounded-[4px] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+              class="w-[104px] h-[69px] p-3 lg:w-[240px] lg:h-[160px] lg:p-6 bg-[#F2F2F2] rounded-[4px] flex items-center justify-center transition duration-200 hover:brightness-95">
               <img src="/assets/img/logos/seha_clinics.svg" alt="SEHA Clinics"
                 class="max-w-full max-h-full object-contain" />
             </div>
             <div
-              class="w-[240px] h-[160px] bg-[#F2F2F2] rounded-[4px] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+              class="w-[104px] h-[69px] p-3 lg:w-[240px] lg:h-[160px] lg:p-6 bg-[#F2F2F2] rounded-[4px] flex items-center justify-center transition duration-200 hover:brightness-95">
               <img src="/assets/img/logos/circle_health_group.svg" alt="Circle Health Group"
                 class="max-w-full max-h-full object-contain" />
             </div>
             <div
-              class="w-[240px] h-[160px] bg-[#F2F2F2] rounded-[4px] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+              class="w-[104px] h-[69px] p-3 lg:w-[240px] lg:h-[160px] lg:p-6 bg-[#F2F2F2] rounded-[4px] flex items-center justify-center transition duration-200 hover:brightness-95">
               <img src="/assets/img/logos/hhg.svg" alt="HHG" class="max-w-full max-h-full object-contain" />
             </div>
             <div
-              class="w-[240px] h-[160px] bg-[#F2F2F2] rounded-[4px] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+              class="w-[104px] h-[69px] p-3 lg:w-[240px] lg:h-[160px] lg:p-6 bg-[#F2F2F2] rounded-[4px] flex items-center justify-center transition duration-200 hover:brightness-95">
               <img src="/assets/img/logos/argent_health.svg" alt="Ardent Health"
                 class="max-w-full max-h-full object-contain" />
             </div>
             <div
-              class="w-[240px] h-[160px] bg-[#F2F2F2] rounded-[4px] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+              class="w-[104px] h-[69px] p-3 lg:w-[240px] lg:h-[160px] lg:p-6 bg-[#F2F2F2] rounded-[4px] flex items-center justify-center transition duration-200 hover:brightness-95">
               <img src="/assets/img/logos/purehealth.svg" alt="PureHealth"
                 class="max-w-full max-h-full object-contain" />
             </div>
             <div
-              class="w-[240px] h-[160px] bg-[#F2F2F2] rounded-[4px] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+              class="w-[104px] h-[69px] p-3 lg:w-[240px] lg:h-[160px] lg:p-6 bg-[#F2F2F2] rounded-[4px] flex items-center justify-center transition duration-200 hover:brightness-95">
               <img src="/assets/img/logos/baxter.svg" alt="Baxter" class="max-w-full max-h-full object-contain" />
             </div>
             <div
-              class="w-[240px] h-[160px] bg-[#F2F2F2] rounded-[4px] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+              class="w-[104px] h-[69px] p-3 lg:w-[240px] lg:h-[160px] lg:p-6 bg-[#F2F2F2] rounded-[4px] flex items-center justify-center transition duration-200 hover:brightness-95">
               <img src="/assets/img/logos/ge_health_care.svg" alt="GE Healthcare"
                 class="max-w-full max-h-full object-contain" />
             </div>
             <div
-              class="w-[240px] h-[160px] bg-[#F2F2F2] rounded-[4px] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+              class="w-[104px] h-[69px] p-3 lg:w-[240px] lg:h-[160px] lg:p-6 bg-[#F2F2F2] rounded-[4px] flex items-center justify-center transition duration-200 hover:brightness-95">
               <img src="/assets/img/logos/siemens.svg" alt="Siemens" class="max-w-full max-h-full object-contain" />
             </div>
             <div
-              class="w-[240px] h-[160px] bg-[#F2F2F2] rounded-[4px] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+              class="w-[104px] h-[69px] p-3 lg:w-[240px] lg:h-[160px] lg:p-6 bg-[#F2F2F2] rounded-[4px] flex items-center justify-center transition duration-200 hover:brightness-95">
               <img src="/assets/img/logos/daman.svg" alt="Daman" class="max-w-full max-h-full object-contain" />
             </div>
             <div
-              class="w-[240px] h-[160px] bg-[#F2F2F2] rounded-[4px] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+              class="w-[104px] h-[69px] p-3 lg:w-[240px] lg:h-[160px] lg:p-6 bg-[#F2F2F2] rounded-[4px] flex items-center justify-center transition duration-200 hover:brightness-95">
               <img src="/assets/img/logos/thermo_fisher.svg" alt="Thermo Fisher"
                 class="max-w-full max-h-full object-contain" />
             </div>
             <div
-              class="w-[240px] h-[160px] bg-[#F2F2F2] rounded-[4px] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+              class="w-[104px] h-[69px] p-3 lg:w-[240px] lg:h-[160px] lg:p-6 bg-[#F2F2F2] rounded-[4px] flex items-center justify-center transition duration-200 hover:brightness-95">
               <img src="/assets/img/logos/planmeca.svg" alt="Planmeca" class="max-w-full max-h-full object-contain" />
             </div>
             <div
-              class="w-[240px] h-[160px] bg-[#F2F2F2] rounded-[4px] flex items-center justify-center p-6 transition duration-200 hover:brightness-95">
+              class="w-[104px] h-[69px] p-3 lg:w-[240px] lg:h-[160px] lg:p-6 bg-[#F2F2F2] rounded-[4px] flex items-center justify-center transition duration-200 hover:brightness-95">
               <img src="/assets/img/logos/medline.svg" alt="Medline" class="max-w-full max-h-full object-contain" />
             </div>
           </div>
@@ -1049,7 +1083,7 @@
 
             <!-- Explore MedTrust Button (UI-Kit Corner-Fold) -->
             <a href="medtrust.html"
-              class="relative overflow-hidden flex items-center justify-between min-w-[200px] rounded-[4px] bg-brand px-6 py-3.5 text-white font-semibold hover:bg-brand/90 transition duration-200 shadow-sm">
+              class="relative overflow-hidden flex items-center justify-between w-full md:w-auto min-w-[200px] rounded-[4px] bg-brand px-6 py-3.5 text-white font-semibold hover:bg-brand/90 transition duration-200 shadow-sm">
               <span class="font-din text-sm tracking-wide text-white mr-8">Explore MedTrust</span>
               <svg class="absolute top-[4px] right-[4px] w-[14px] h-[14px] text-white fill-current" viewBox="0 0 14 14">
                 <path
@@ -1133,43 +1167,58 @@
   <section class="bg-white text-black pt-36 pb-24 container-page">
     <div class="border-t border-[#00000033] pt-6 sm:pt-8 flex flex-col w-full">
 
-      <!-- Subtitle -->
-      <div class="mb-16">
-        <h2 class="font-din text-[16px] font-normal tracking-wider text-black">
+      <!-- Subtitle + portfolio link. Same column template and gap as the card
+           grid below, so the button lands exactly on the last card's column —
+           edges aligned rather than eyeballed. -->
+      <div class="mb-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 items-center">
+        <h2 class="font-din text-[16px] font-normal tracking-wider text-black md:col-span-1 lg:col-span-3">
           Recent work across the UAE
         </h2>
+
+        <!-- View portfolio Button (Desktop: top right of the header row) -->
+        <a href="/work"
+          class="relative overflow-hidden hidden md:flex items-center justify-between w-full h-[48px] bg-brand px-4 py-2.5 text-white font-semibold hover:bg-brand/90 transition duration-200 rounded-[4px] md:col-start-2 lg:col-start-4">
+          <span class="font-din text-xs tracking-wide text-white">View portfolio</span>
+          <svg class="absolute top-[4px] right-[4px] w-[14px] h-[14px] text-white fill-current" viewBox="0 0 14 14">
+            <path
+              d="M 2.414 0 L 13 0 A 1 1 0 0 1 14 1 L 14 11.586 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 2.414 0 Z" />
+          </svg>
+        </a>
       </div>
 
-      <!-- 3-Column Grid for Cards -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
+      <!-- 4-Column Grid for Cards (two up on tablet) -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 items-start">
 
-        <!-- Card 1: SSMC Pura Longevity Clinic -->
+        <!-- Card 1: SEHA Saadiyat Clinic -->
         <div class="flex flex-col space-y-4">
           <!-- Top Tag & Border -->
           <div class="flex flex-col space-y-2">
-            <span class="font-din text-[16px] text-[#00000080]">Abu Dhabi</span>
+            <span class="font-din text-[16px] text-[#00000080]">Saadiyat Island</span>
             <div class="border-t border-black/10 w-full"></div>
           </div>
 
-          <!-- Header (Title & Description Row) -->
-          <div class="grid grid-cols-2 gap-4 min-h-[110px] items-start">
-            <h3 class="font-aktiv text-[28px] font-medium text-black leading-tight">
-              SSMC Pura Longevity Clinic
+          <!-- Header (Title over Description). The min-height is what keeps
+               every card's image starting on the same line regardless of how
+               many lines the title and copy run to. -->
+          <div class="flex flex-col gap-4 md:min-h-[210px]">
+            <h3 class="font-aktiv text-[18px]  lg:text-[28px] font-medium text-black leading-tight">
+              Delivered a premium outpatient clinic turnkey
             </h3>
             <p class="font-din text-[16px] text-black leading-relaxed">
-              Hyperbaric oxygen therapy chamber installed and commissioned at Sheikh Shakhbout Medical City.
+              SEHA Saadiyat Clinic on Saadiyat Island. Our projects team took it through supply, installation and
+              commissioning and handed it over ready to open.
             </p>
           </div>
 
           <!-- Image -->
           <div class="scale-in-view relative w-full aspect-[4/3] rounded-[4px] overflow-hidden mt-4"
             style="clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 0 100%);">
-            <img src="/assets/img/home/work1.png" alt="SSMC Pura Longevity Clinic"
+            <img src="/assets/img/home/work1.png" alt="Delivered a premium outpatient clinic turnkey"
               class="w-full h-full object-cover" />
           </div>
         </div>
 
-        <!-- Card 2: SEHA Saadiyat Clinic -->
+        <!-- Card 2: Pura Longevity Clinic -->
         <div class="flex flex-col space-y-4">
           <!-- Top Tag & Border -->
           <div class="flex flex-col space-y-2">
@@ -1177,35 +1226,56 @@
             <div class="border-t border-black/10 w-full"></div>
           </div>
 
-          <!-- Header (Title & Description Row) -->
-          <div class="grid grid-cols-2 gap-4 min-h-[110px] items-start">
-            <h3 class="font-aktiv text-[28px] font-medium text-black leading-tight">
-              SEHA Saadiyat Clinic
+          <!-- Header (Title over Description). The min-height is what keeps
+               every card's image starting on the same line regardless of how
+               many lines the title and copy run to. -->
+          <div class="flex flex-col gap-4 md:min-h-[210px]">
+            <h3 class="font-aktiv text-[18px]  lg:text-[28px] font-medium text-black leading-tight">
+              Installed and commissioned a hyperbaric therapy chamber
             </h3>
             <p class="font-din text-[16px] text-black leading-relaxed">
-              A premium outpatient clinic on Saadiyat Island, delivered as a turnkey project.
+              The chamber serves Pura Longevity Clinic at Sheikh Shakhbout Medical City, extending what the clinic can
+              offer its patients.
             </p>
           </div>
 
           <!-- Image -->
           <div class="scale-in-view relative w-full aspect-[4/3] rounded-[4px] overflow-hidden mt-4"
             style="clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 0 100%);">
-            <img src="/assets/img/home/work2.png" alt="SEHA Saadiyat Clinic"
+            <img src="/assets/img/home/work2.png" alt="Installed and commissioned a hyperbaric therapy chamber"
               class="w-full h-full object-cover" />
           </div>
-
-          <!-- See more of our work Button (UI-Kit Corner-Fold) -->
-          <a href="/work"
-            class="relative overflow-hidden flex items-center justify-between w-full h-[48px] bg-brand px-4 py-2.5 text-white font-semibold hover:bg-brand/90 transition duration-200 rounded-[4px] mt-4">
-            <span class="font-din text-xs tracking-wide text-white">See more of our work</span>
-            <svg class="absolute top-[4px] right-[4px] w-[14px] h-[14px] text-white fill-current" viewBox="0 0 14 14">
-              <path
-                d="M 2.414 0 L 13 0 A 1 1 0 0 1 14 1 L 14 11.586 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 2.414 0 Z" />
-            </svg>
-          </a>
         </div>
 
-        <!-- Card 3: SAKINA for Children -->
+        <!-- Card 3: Mobile clinics and screening buses -->
+        <div class="flex flex-col space-y-4">
+          <!-- Top Tag & Border -->
+          <div class="flex flex-col space-y-2">
+            <span class="font-din text-[16px] text-[#00000080]">Mobile</span>
+            <div class="border-t border-black/10 w-full"></div>
+          </div>
+
+          <!-- Header (Title over Description). The min-height is what keeps
+               every card's image starting on the same line regardless of how
+               many lines the title and copy run to. -->
+          <div class="flex flex-col gap-4 md:min-h-[210px]">
+            <h3 class="font-aktiv text-[18px]  lg:text-[28px] font-medium text-black leading-tight">
+              Built mobile clinics and screening buses
+            </h3>
+            <p class="font-din text-[16px] text-black leading-relaxed">
+              A diagnostic clinic and a screening bus for SEHA, taking X ray and laboratory testing into the community.
+            </p>
+          </div>
+
+          <!-- Image -->
+          <div class="scale-in-view relative w-full aspect-[4/3] rounded-[4px] overflow-hidden mt-4"
+            style="clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 0 100%);">
+            <img src="/assets/img/home/thirditem.png" alt="Built mobile clinics and screening buses"
+              class="w-full h-full object-cover" />
+          </div>
+        </div>
+
+        <!-- Card 4: SAKINA for Children -->
         <div class="flex flex-col space-y-4">
           <!-- Top Tag & Border -->
           <div class="flex flex-col space-y-2">
@@ -1213,25 +1283,38 @@
             <div class="border-t border-black/10 w-full"></div>
           </div>
 
-          <!-- Header (Title & Description Row) -->
-          <div class="grid grid-cols-2 gap-4 min-h-[110px] items-start">
-            <h3 class="font-aktiv text-[28px] font-medium text-black leading-tight">
-              SAKINA for Children
+          <!-- Header (Title over Description). The min-height is what keeps
+               every card's image starting on the same line regardless of how
+               many lines the title and copy run to. -->
+          <div class="flex flex-col gap-4 md:min-h-[210px]">
+            <h3 class="font-aktiv text-[18px]  lg:text-[28px] font-medium text-black leading-tight">
+              Fitted out and equipped a children<span class="font-sans font-medium">'</span>s mental health clinic
             </h3>
             <p class="font-din text-[16px] text-black leading-relaxed">
-              Purpose built paediatric mental health clinic, equipped for assessment and treatment.
+              SAKINA for Children at Sheikh Khalifa Medical City, purpose built and equipped with medical and
+              occupational therapy systems for assessment and treatment.
             </p>
           </div>
 
           <!-- Image -->
           <div class="scale-in-view relative w-full aspect-[4/3] rounded-[4px] overflow-hidden mt-4"
             style="clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 0 100%);">
-            <img src="/assets/img/home/work3.png" alt="SAKINA for Children"
+            <img src="/assets/img/home/work3.png" alt="Fitted out and equipped a children's mental health clinic"
               class="w-full h-full object-cover" />
           </div>
         </div>
 
       </div>
+
+      <!-- View portfolio Button (Mobile: at bottom of all cards) -->
+      <a href="/work"
+        class="relative overflow-hidden flex md:hidden items-center justify-between w-full h-[48px] bg-brand px-4 py-2.5 text-white font-semibold hover:bg-brand/90 transition duration-200 rounded-[4px] mt-8">
+        <span class="font-din text-xs tracking-wide text-white">View portfolio</span>
+        <svg class="absolute top-[4px] right-[4px] w-[14px] h-[14px] text-white fill-current" viewBox="0 0 14 14">
+          <path
+            d="M 2.414 0 L 13 0 A 1 1 0 0 1 14 1 L 14 11.586 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 2.414 0 Z" />
+        </svg>
+      </a>
 
     </div>
   </section>
@@ -1255,7 +1338,7 @@
 
       <!-- Right Column: Text & Action Button (with vertical line border-l) -->
       <div
-        class="lg:col-span-5 flex flex-col justify-between h-full min-h-[340px] lg:border-l lg:border-white/10 lg:pl-10 lg:py-4 space-y-6">
+        class="lg:col-span-5 flex flex-col justify-end lg:justify-between h-full min-h-[340px] lg:border-l lg:border-white/10 lg:pl-10 lg:py-4 space-y-6">
 
         <div class="flex flex-col space-y-4">
           <!-- Powered by AI Label -->
@@ -1300,11 +1383,22 @@
   <section class="bg-white text-black py-20 lg:py-24 container-page">
     <div class="border-t border-[#00000033] pt-6 sm:pt-8 flex flex-col w-full">
 
-      <!-- Subtitle -->
-      <div class="mb-12">
-        <h2 class="font-din text-[16px] font-normal tracking-wider text-black">
+      <!-- Subtitle + news link. Same column template and gap as the card grid
+           below, so the button sits exactly on the last card's column. -->
+      <div class="mb-12 grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
+        <h2 class="font-din text-[16px] font-normal tracking-wider text-black md:col-span-2">
           Latest from One Health
         </h2>
+
+        <!-- All news and downloads Button (Desktop: top right of the header row) -->
+        <a href="news.html"
+          class="relative overflow-hidden hidden md:flex items-center justify-between w-full h-[48px] bg-brand px-4 py-2.5 text-white font-semibold hover:bg-brand/90 transition duration-200 rounded-[4px] md:col-start-3">
+          <span class="font-din text-xs tracking-wide text-white">All news and downloads</span>
+          <svg class="absolute top-[4px] right-[4px] w-[14px] h-[14px] text-white fill-current" viewBox="0 0 14 14">
+            <path
+              d="M 2.414 0 L 13 0 A 1 1 0 0 1 14 1 L 14 11.586 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 2.414 0 Z" />
+          </svg>
+        </a>
       </div>
 
       <!-- 3-Column Grid for Article Cards -->
@@ -1319,17 +1413,18 @@
           </div>
 
           <!-- Title -->
-          <h3 class="font-aktiv text-[28px] font-medium text-black leading-[1.2] tracking-tight mt-6 mb-3">
+          <h3
+            class="order-2 md:order-none font-aktiv text-[18px] lg:text-[28px] font-medium text-black leading-[1.2] tracking-tight mt-3 md:mt-6 mb-3">
             Backing an EHS team at the ISBT transfusion congress
           </h3>
 
           <!-- Description -->
-          <p class="font-din text-[16px] text-[#000000b3] leading-relaxed mb-4">
+          <p class="order-2 md:order-none font-din text-[16px] text-[#000000b3] leading-relaxed mb-0 md:mb-4">
             One Health sponsored a delegation from Emirates Health Services at the ISBT congress in Kuala Lumpur.
           </p>
 
           <!-- Date (Directly below description) -->
-          <span class="font-din text-[16px] text-[#00000080]">25 June 2026</span>
+          <span class="order-1 md:order-none mt-6 md:mt-0 font-din text-[16px] text-[#00000080]">25 June 2026</span>
         </div>
 
         <!-- Card 2 -->
@@ -1341,27 +1436,18 @@
           </div>
 
           <!-- Title -->
-          <h3 class="font-aktiv text-[28px] font-medium text-black leading-[1.2] tracking-tight mt-6 mb-3">
+          <h3
+            class="order-2 md:order-none font-aktiv text-[18px] lg:text-[28px] font-medium text-black leading-[1.2] tracking-tight mt-3 md:mt-6 mb-3">
             World Blood Donor Day with EHS in Dubai
           </h3>
 
           <!-- Description -->
-          <p class="font-din text-[16px] text-[#000000b3] leading-relaxed mb-4">
+          <p class="order-2 md:order-none font-din text-[16px] text-[#000000b3] leading-relaxed mb-0 md:mb-4">
             Emirates Health Services marked World Blood Donor Day in Dubai, with One Health supporting the campaign.
           </p>
 
           <!-- Date (Directly below description) -->
-          <span class="font-din text-[16px] text-[#00000080]">11 June 2026</span>
-
-          <!-- All news and downloads Button (Desktop: in Card 2) -->
-          <a href="news.html"
-            class="relative overflow-hidden hidden md:flex items-center justify-between w-full h-[48px] bg-brand px-4 py-2.5 text-white font-semibold hover:bg-brand/90 transition duration-200 rounded-[4px] mt-6">
-            <span class="font-din text-xs tracking-wide text-white">All news and downloads</span>
-            <svg class="absolute top-[4px] right-[4px] w-[14px] h-[14px] text-white fill-current" viewBox="0 0 14 14">
-              <path
-                d="M 2.414 0 L 13 0 A 1 1 0 0 1 14 1 L 14 11.586 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 2.414 0 Z" />
-            </svg>
-          </a>
+          <span class="order-1 md:order-none mt-6 md:mt-0 font-din text-[16px] text-[#00000080]">11 June 2026</span>
         </div>
 
         <!-- Card 3 -->
@@ -1374,19 +1460,20 @@
           </div>
 
           <!-- Title -->
-          <h3 class="font-aktiv text-[28px] font-medium text-black leading-[1.2] tracking-tight mt-6 mb-3">
+          <h3
+            class="order-2 md:order-none font-aktiv text-[18px] lg:text-[28px] font-medium text-black leading-[1.2] tracking-tight mt-3 md:mt-6 mb-3">
             One Health and FUJIFILM at the Urology Care Consortium
           </h3>
 
           <!-- Description -->
-          <p class="font-din text-[16px] text-[#000000b3] leading-relaxed mb-4">
+          <p class="order-2 md:order-none font-din text-[16px] text-[#000000b3] leading-relaxed mb-0 md:mb-4">
             The Interdisciplinary Urology Care Consortium in Dubai brought One Health<span
               class="font-sans font-medium">'</span>s device team together with
             FUJIFILM.
           </p>
 
           <!-- Date (Directly below description) -->
-          <span class="font-din text-[16px] text-[#00000080]">7 June 2026</span>
+          <span class="order-1 md:order-none mt-6 md:mt-0 font-din text-[16px] text-[#00000080]">7 June 2026</span>
         </div>
 
       </div>
@@ -1410,12 +1497,12 @@
        page, so a transparent section would let it show through its padding. -->
   <section class="bg-white pt-12 pb-20 lg:pb-24 container-page">
     <div
-      class="relative w-full bg-[#233D7C] rounded-[4px] p-6 lg:p-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center overflow-hidden">
+      class="relative w-full bg-[#233D7C] rounded-[4px] p-4 lg:p-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center overflow-hidden">
 
       <!-- Left Column: Image (lg:col-span-3) -->
       <div class="lg:col-span-3 w-full aspect-[299/299] relative overflow-hidden rounded-[4px]"
         style="clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 0 100%);">
-        <img src="/assets/img/home/microsope.svg" alt="Supporting healthcare" class="w-full h-full object-cover" />
+        <img src="/assets/img/home/ctaimage.png" alt="Supporting healthcare" class="w-full h-full object-cover" />
       </div>
 
       <!-- Middle Column: Spacer -->
@@ -1443,85 +1530,100 @@
   </section>
   <!-- /component -->
 
-  <!-- component: footer -->
-  <footer class="bg-[#F2F2F2] text-black py-16 lg:py-15">
-    <div class="container-page flex flex-col space-y-10">
+ 
+  <footer class="bg-[#F2F2F2] text-black pt-5 pb-5 md:pt-10 md:pb-10">
+    <div class="container-page">
+      <div class="border-t border-[#00000033] pt-5 grid grid-cols-2 gap-x-5 gap-y-12 md:grid-cols-12 md:gap-8 lg:gap-12 items-start
+                  font-din text-[16px] tracking-[0.32px]">
 
-      <!-- Top Row: Logo, Navigation Columns, LinkedIn -->
-      <div class="grid grid-cols-1 pb-2  md:grid-cols-12 gap-8 lg:gap-12 items-start">
-
-        <!-- Left: Logo -->
-        <div class="md:col-span-3">
-          <a href="index.html">
-            <img src="/assets/img/home/bluelogo.svg" alt="One Health" class="h-8 object-contain" />
+        <!-- Left: Logo and the PureHealth endorsement. Side by side split by a
+             vertical rule on mobile; stacked with the rule turned horizontal
+             from md up. -->
+        <div class="col-span-2 mb-8 md:mb-0 md:col-span-4 md:row-start-1 flex items-start gap-5 md:flex-col md:gap-0">
+          <a href="index.html" class="inline-block shrink-0">
+            <img src="/assets/img/home/bluelogo.svg" alt="One Health" class="h-[42px] w-auto object-contain" />
           </a>
+
+          <div class="h-[42px] shrink-0 border-l border-[#00000033]
+                      md:h-0 md:w-[143px] md:border-l-0 md:border-t md:mt-4"></div>
+
+          <div class="flex flex-wrap items-baseline gap-x-2 opacity-40 max-w-[130px] md:max-w-none md:mt-2">
+            <span>A</span>
+            <img src="/assets/img/logos/purehealth.svg" alt="PureHealth" class="h-[19px] w-auto align-baseline" />
+            <span>asset</span>
+          </div>
         </div>
 
-        <!-- Center: 3 Navigation Columns -->
-        <div class="md:col-span-8 grid grid-cols-1 sm:grid-cols-3 gap-8">
-
-          <!-- Column 1: Company -->
-          <div class="flex flex-col space-y-3">
-            <h4 class="font-aktiv text-[16px] font-semibold text-black">Company</h4>
-            <ul class="flex flex-col space-y-2 font-din text-[16px] text-[#00000066]">
-              <li><a href="index.html" class="hover:text-black transition">Home</a></li>
-              <li><a href="about.html" class="hover:text-black transition">About</a></li>
-              <li><a href="medtrust.html" class="hover:text-black transition">MedTrust</a></li>
-              <li><a href="news.html" class="hover:text-black transition">Insights <span
-                    class="font-sans font-medium">&amp;</span> media</a></li>
-              <li><a href="careers.html" class="hover:text-black transition">Careers</a></li>
-              <li><a href="contact.html" class="hover:text-black transition">Contact</a></li>
-            </ul>
-          </div>
-
-          <!-- Column 2: Our divisions -->
-          <div class="flex flex-col space-y-3">
-            <h4 class="font-aktiv text-[16px] font-semibold text-black">Our divisions</h4>
-            <ul class="flex flex-col space-y-2 font-din text-[16px] text-[#00000066]">
-              <li><a href="ivd-life-sciences.html" class="hover:text-black transition">IVD <span
-                    class="font-sans font-medium">&amp;</span> life sciences</a></li>
-              <li><a href="medical-products.html" class="hover:text-black transition">Medical products <span
-                    class="font-sans font-medium">&amp;</span> projects</a></li>
-              <li><a href="facilities-and-technical-services.html" class="hover:text-black transition">Facilities <span
-                    class="font-sans font-medium">&amp;</span> technical services</a></li>
-              <li><a href="supplychain.html" class="hover:text-black transition">Supply chain management</a></li>
-            </ul>
-          </div>
-
-          <!-- Column 3: Legal -->
-          <div class="flex flex-col space-y-3">
-            <h4 class="font-aktiv text-[16px] font-semibold text-black">Legal</h4>
-            <ul class="flex flex-col space-y-2 font-din text-[16px] text-[#00000066]">
-              <li><a href="privacy.html" class="hover:text-black transition">Privacy Policy</a></li>
-              <li><a href="terms.html" class="hover:text-black transition">Terms of Service</a></li>
-              <li><a href="cookies.html" class="hover:text-black transition">Cookie preferences</a></li>
-            </ul>
-          </div>
-
+        <!-- Column 1: Company -->
+        <div class="flex flex-col gap-5 md:gap-8 md:col-start-5 md:col-span-2 md:row-start-1">
+          <h4 class="font-semibold text-black">Company</h4>
+          <ul class="flex flex-col gap-1">
+            <li><a href="index.html" class="opacity-40 hover:opacity-100 transition">Home</a></li>
+            <li><a href="about.html" class="opacity-40 hover:opacity-100 transition">About</a></li>
+            <li><a href="medtrust.html" class="opacity-40 hover:opacity-100 transition">MedTrust</a></li>
+            <li><a href="news.html" class="opacity-40 hover:opacity-100 transition">Insights <span
+                  class="font-sans font-medium">&amp;</span> media</a></li>
+            <li><a href="careers.html" class="opacity-40 hover:opacity-100 transition">Careers</a></li>
+            <li><a href="contact.html" class="opacity-40 hover:opacity-100 transition">Contact</a></li>
+          </ul>
         </div>
 
-        <!-- Right: LinkedIn Icon -->
-        <div class="md:col-span-1 flex justify-start md:justify-end">
-          <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer"
-            class="w-6 h-6 bg-black text-white flex items-center justify-center rounded-[2px] hover:bg-brand transition"
-            aria-label="LinkedIn">
-            <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
-              <path
-                d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.25V10.9H6.46M7.86 6.7a1.63 1.63 0 1 0 0 3.26 1.63 1.63 0 0 0 0-3.26Z" />
-            </svg>
-          </a>
+        <!-- Column 2: Legal. Sits beside Company on mobile (design puts it in
+             the second half of the 350px row), and back in column 9 on desktop
+             — hence the explicit row/column placement on all three, which stops
+             grid auto-placement from pushing Divisions onto a second row. -->
+        <div class="flex flex-col gap-5 md:gap-8 md:col-start-9 md:col-span-2 md:row-start-1">
+          <h4 class="font-semibold text-black">Legal</h4>
+          <ul class="flex flex-col gap-1">
+            <li><a href="privacy.html" class="opacity-40 hover:opacity-100 transition">Privacy Policy</a></li>
+            <li><a href="terms.html" class="opacity-40 hover:opacity-100 transition">Terms of Service</a></li>
+            <li><a href="cookies.html" class="opacity-40 hover:opacity-100 transition">Cookie preferences</a></li>
+          </ul>
+        </div>
+
+        <!-- Column 3: Divisions. Full width under the pair on mobile. -->
+        <div class="col-span-2 flex flex-col gap-5 md:gap-8 md:col-start-7 md:col-span-2 md:row-start-1">
+          <h4 class="font-semibold text-black">Divisions</h4>
+          <ul class="flex flex-col gap-1">
+            <li><a href="ivd-life-sciences.html" class="opacity-40 hover:opacity-100 transition">IVD <span
+                  class="font-sans font-medium">&amp;</span> life sciences</a></li>
+            <li><a href="medical-products.html" class="opacity-40 hover:opacity-100 transition">Medical products <span
+                  class="font-sans font-medium">&amp;</span> projects</a></li>
+            <li><a href="facilities-and-technical-services.html"
+                class="opacity-40 hover:opacity-100 transition">Facilities <span
+                  class="font-sans font-medium">&amp;</span> technical services</a></li>
+            <li><a href="supplychain.html" class="opacity-40 hover:opacity-100 transition">Supply chain management</a>
+            </li>
+            <li><a href="business-development.html" class="opacity-40 hover:opacity-100 transition">Business
+                development</a></li>
+            <li><a href="#" class="opacity-40 hover:opacity-100 transition">Channel management</a></li>
+          </ul>
         </div>
 
       </div>
 
-      <!-- Bottom Row: Copyright Notice -->
-      <div class="pt-8 font-din text-[16px] text-[#00000066] text-center">
-        &copy; 2026 OneHealth. All rights reserved
+      <!-- Bottom Row: social icons left, copyright stacked under them on mobile
+           and level with the Company column from md up. -->
+      <div class="mt-20 lg:mt-44 grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12 items-center">
+        <div class="flex items-center gap-4 md:col-span-4">
+          <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer"
+            class="size-6 overflow-clip hover:opacity-70 transition" aria-label="LinkedIn">
+            <img src="/assets/img/social-linkedin.svg" alt="" class="w-full h-full" />
+          </a>
+          <a href="https://instagram.com" target="_blank" rel="noopener noreferrer"
+            class="size-6 overflow-clip hover:opacity-70 transition" aria-label="Instagram">
+            <img src="/assets/img/social-instagram.svg" alt="" class="w-full h-full" />
+          </a>
+        </div>
+
+        <p class="font-din text-[16px] tracking-[0.32px] text-black/50 md:col-start-5 md:col-span-8">
+          &copy; 2026 OneHealth. All rights reserved
+        </p>
       </div>
 
     </div>
   </footer>
-  <!-- /component -->
+
 
   <script>
     // Framed photos (.scale-in-view) ease up from 95% to full size the first
