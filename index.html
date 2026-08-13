@@ -26,8 +26,13 @@
         </a>
 
         <!-- Header Actions (Aligned with the 331px wide widget below) -->
-        <div class="flex items-center justify-between gap-3 w-full max-w-[331px]">
+        <div class="flex items-center justify-between gap-2 w-full max-w-[331px]">
           <!-- Contact Us Button (Corner-Fold Variant) -->
+           <button
+          class="hidden sm:flex items-center bg-white justify-center w-[44px] h-[44px] flex-shrink-0 rounded-[4px] border border-[#00000033] transition"
+          aria-label="Search">
+          <img src="/assets/img/about/search-icon.svg" alt="" class="w-5 h-5 " />
+        </button>
           <a href="contact.html"
             class="relative overflow-hidden inline-flex items-center justify-between h-[44px] rounded-[4px] bg-brand px-5 flex-1 text-xs font-semibold text-white shadow-sm hover:bg-brand/90 transition duration-200">
             <span class="font-din tracking-wide pr-5">Contact us</span>
@@ -322,8 +327,8 @@
   <!-- /component -->
 
   <!-- component: continuity-section -->
-  <section class="bg-[#F2F2F2] container-page text-black py-20">
-    <div class=" border-t border-[#00000033] pt-6 sm:pt-8 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
+  <section class="bg-[#F2F2F2] credibilities-pinned container-page text-black py-20 lg:py-6 lg:h-screen lg:flex lg:flex-col lg:justify-center lg:overflow-hidden">
+    <div class=" border-t border-[#00000033] pt-6 sm:pt-8 lg:pt-4 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-6">
 
       <!-- Left Column: Section Subtitle -->
       <div class="lg:col-span-3">
@@ -344,7 +349,7 @@
         </h3>
 
         <!-- Inner Content Grid -->
-        <div class="mt-16 grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-start">
+        <div class="mt-16 lg:mt-8 grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-start">
 
           <!-- Left Column: Microscope Image and Button container (exactly 376x382px on desktop) -->
           <div class="w-full max-w-[376px] h-[382px] flex flex-col gap-2">
@@ -385,21 +390,21 @@
 
 
         <!-- Stats Block -->
-        <div class="mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-10"
+        <div class="mt-16 lg:mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-10"
           x-data="statsCounter()" x-init="init()">
-          <div class="pt-8 pb-8 text-center">
+          <div class="pt-8 pb-8 lg:pt-2 lg:pb-2 text-center">
             <div class="font-aktiv text-[40px] sm:text-[48px] lg:text-[80px] font-medium text-brand leading-none" x-text="format(counts[0])">0+</div>
             <div class="font-din text-[14px] text-black mt-3 tracking-wide">Assets maintained</div>
           </div>
-          <div class="pt-8 pb-8 text-center">
+          <div class="pt-8 pb-8 lg:pt-2 lg:pb-2 text-center">
             <div class="font-aktiv text-[40px] sm:text-[48px] lg:text-[80px] font-medium text-brand leading-none" x-text="format(counts[1])">0+</div>
             <div class="font-din text-[14px] text-black mt-3 tracking-wide">Hospitals served</div>
           </div>
-          <div class="pt-8 pb-8 text-center">
+          <div class="pt-8 pb-8 lg:pt-2 lg:pb-2 text-center">
             <div class="font-aktiv text-[40px] sm:text-[48px] lg:text-[80px] font-medium text-brand leading-none" x-text="format(counts[2])">0+</div>
             <div class="font-din text-[14px] text-black mt-3 tracking-wide">Engineers</div>
           </div>
-          <div class="pt-8 pb-8 text-center">
+          <div class="pt-8 pb-8 lg:pt-2 lg:pb-2 text-center">
             <div class="font-aktiv text-[40px] sm:text-[48px] lg:text-[80px] font-medium text-brand leading-none" x-text="format(counts[3])">0+</div>
             <div class="font-din text-[14px] text-black mt-3 tracking-wide">Manufacturers represented</div>
           </div>
@@ -462,7 +467,7 @@
 
 
  <!-- component: credibilities-section -->
-  <section class="bg-white container-page text-black py-20 lg:py-24">
+  <section class="bg-white   container-page text-black py-20 lg:py-24">
     <div class=" border-t border-[#00000033] pt-6 sm:pt-8 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
 
       <!-- Left Column: Section Subtitle -->
@@ -998,6 +1003,7 @@
 
         <div class="lg:col-span-6 flex justify-start items-center w-full">
           <span class="font-din text-xs md:text-[16px] font-semibold tracking-wider bg-clip-text text-transparent"
+            :class="{ fadeInLeft: headerIn }"
             style="background-image: linear-gradient(90deg, #35AFE5 0%, #233D7C 100%); -webkit-background-clip: text;"
             :style="{
               opacity: headerIn ? 1 : 0,
@@ -1018,30 +1024,39 @@
       <!-- Main Content Grid: second stage, revealed once this block itself
            scrolls into view. Heading, copy and CTA rise in sequence. -->
       <div x-ref="content" class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start mt-4">
-        <!-- Left Column: Title -->
-        <div class="lg:col-span-6" :style="riseStyle(0)">
-          <h3
-            class="font-aktiv text-3xl sm:text-4xl lg:text-[56px] font-medium leading-[1.1] text-black tracking-tight max-w-xl">
-            Medical consumables, made to standard
-          </h3>
+        <!-- Left Column: Title. The wrapper clips at the separator line so the
+             heading slides out from under it instead of over it. -->
+        <div class="lg:col-span-6 overflow-hidden">
+          <div :class="{ fadeInDown: contentIn }" :style="riseStyle(0)">
+            <h3
+              class="font-aktiv text-3xl sm:text-4xl lg:text-[56px] font-medium leading-[1.1] text-black tracking-tight max-w-xl">
+              Medical consumables, made to standard
+            </h3>
+          </div>
         </div>
 
         <!-- Right Column: Description & Button -->
-        <div class="lg:col-span-6 flex flex-col items-start space-y-6">
-          <p class="font-din text-[16px] leading-relaxed text-black max-w-lg" :style="riseStyle(200)">
-            Our own UAE brand of medical consumables and infection control products, supplied to healthcare providers
-            across the UAE and the GCC.
-          </p>
+        <div class="lg:col-span-6 overflow-hidden">
+          <!-- Copy and CTA ride out together as one block — they have to stay
+               visible during the slide for the reveal to read, so the stagger
+               lives in the animation-delay rather than in per-part fades. -->
+          <div class="flex flex-col items-start space-y-6" :class="{ fadeInDown: contentIn }"
+            :style="{ ...riseStyle(0), animationDelay: '150ms' }">
+            <p class="font-din text-[16px] leading-relaxed text-black max-w-lg">
+              Our own UAE brand of medical consumables and infection control products, supplied to healthcare providers
+              across the UAE and the GCC.
+            </p>
 
-          <!-- Explore MedTrust Button (UI-Kit Corner-Fold) -->
-          <a href="medtrust.html" :style="riseStyle(400)"
-            class="relative overflow-hidden flex items-center justify-between min-w-[200px] rounded-[4px] bg-brand px-6 py-3.5 text-white font-semibold hover:bg-brand/90 transition duration-200 shadow-sm">
-            <span class="font-din text-sm tracking-wide text-white mr-8">Explore MedTrust</span>
-            <svg class="absolute top-[4px] right-[4px] w-[14px] h-[14px] text-white fill-current" viewBox="0 0 14 14">
-              <path
-                d="M 2.414 0 L 13 0 A 1 1 0 0 1 14 1 L 14 11.586 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 2.414 0 Z" />
-            </svg>
-          </a>
+            <!-- Explore MedTrust Button (UI-Kit Corner-Fold) -->
+            <a href="medtrust.html"
+              class="relative overflow-hidden flex items-center justify-between min-w-[200px] rounded-[4px] bg-brand px-6 py-3.5 text-white font-semibold hover:bg-brand/90 transition duration-200 shadow-sm">
+              <span class="font-din text-sm tracking-wide text-white mr-8">Explore MedTrust</span>
+              <svg class="absolute top-[4px] right-[4px] w-[14px] h-[14px] text-white fill-current" viewBox="0 0 14 14">
+                <path
+                  d="M 2.414 0 L 13 0 A 1 1 0 0 1 14 1 L 14 11.586 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 2.414 0 Z" />
+              </svg>
+            </a>
+          </div>
         </div>
       </div>
 
@@ -1147,9 +1162,10 @@
           </div>
 
           <!-- Image -->
-          <div class="relative w-full aspect-[4/3] rounded-[4px] overflow-hidden mt-4"
+          <div class="scale-in-view relative w-full aspect-[4/3] rounded-[4px] overflow-hidden mt-4"
             style="clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 0 100%);">
-            <img src="/assets/img/home/work1.png" alt="SSMC Pura Longevity Clinic" class="w-full h-full object-cover" />
+            <img src="/assets/img/home/work1.png" alt="SSMC Pura Longevity Clinic"
+              class="w-full h-full object-cover" />
           </div>
         </div>
 
@@ -1172,9 +1188,10 @@
           </div>
 
           <!-- Image -->
-          <div class="relative w-full aspect-[4/3] rounded-[4px] overflow-hidden mt-4"
+          <div class="scale-in-view relative w-full aspect-[4/3] rounded-[4px] overflow-hidden mt-4"
             style="clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 0 100%);">
-            <img src="/assets/img/home/work2.png" alt="SEHA Saadiyat Clinic" class="w-full h-full object-cover" />
+            <img src="/assets/img/home/work2.png" alt="SEHA Saadiyat Clinic"
+              class="w-full h-full object-cover" />
           </div>
 
           <!-- See more of our work Button (UI-Kit Corner-Fold) -->
@@ -1207,9 +1224,10 @@
           </div>
 
           <!-- Image -->
-          <div class="relative w-full aspect-[4/3] rounded-[4px] overflow-hidden mt-4"
+          <div class="scale-in-view relative w-full aspect-[4/3] rounded-[4px] overflow-hidden mt-4"
             style="clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 0 100%);">
-            <img src="/assets/img/home/work3.png" alt="SAKINA for Children" class="w-full h-full object-cover" />
+            <img src="/assets/img/home/work3.png" alt="SAKINA for Children"
+              class="w-full h-full object-cover" />
           </div>
         </div>
 
@@ -1226,7 +1244,8 @@
       class="relative w-full bg-brand rounded-[4px] p-6 lg:p-8 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center overflow-hidden">
 
       <!-- Left Column: Lab Image with top-right cut corner matching the card -->
-      <div class="lg:col-span-6 w-full h-[300px] lg:h-[480px] relative overflow-hidden rounded-[4px]"
+      <div
+        class="scale-in-view lg:col-span-6 w-full h-[300px] lg:h-[480px] relative overflow-hidden rounded-[4px]"
         style="clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 0 100%);">
         <img src="/assets/img/home/labotoray.svg" alt="Laboratory" class="w-full h-full object-cover" />
       </div>
@@ -1294,7 +1313,7 @@
         <!-- Card 1 -->
         <div class="flex flex-col">
           <!-- Image with Top-Right Cut Corner -->
-          <div class="relative w-full aspect-[4/3] rounded-[4px] overflow-hidden"
+          <div class="scale-in-view relative w-full aspect-[4/3] rounded-[4px] overflow-hidden"
             style="clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 0 100%);">
             <img src="/assets/img/home/article1.png" alt="Backing an EHS team" class="w-full h-full object-cover" />
           </div>
@@ -1316,7 +1335,7 @@
         <!-- Card 2 -->
         <div class="flex flex-col">
           <!-- Image with Top-Right Cut Corner -->
-          <div class="relative w-full aspect-[4/5] rounded-[4px] overflow-hidden"
+          <div class="scale-in-view relative w-full aspect-[4/5] rounded-[4px] overflow-hidden"
             style="clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 0 100%);">
             <img src="/assets/img/home/article2.png" alt="World Blood Donor Day" class="w-full h-full object-cover" />
           </div>
@@ -1348,7 +1367,7 @@
         <!-- Card 3 -->
         <div class="flex flex-col">
           <!-- Image with Top-Right Cut Corner -->
-          <div class="relative w-full aspect-square rounded-[4px] overflow-hidden"
+          <div class="scale-in-view relative w-full aspect-square rounded-[4px] overflow-hidden"
             style="clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 0 100%);">
             <img src="/assets/img/home/article3.png" alt="FUJIFILM at Urology Consortium"
               class="w-full h-full object-cover" />
@@ -1503,6 +1522,43 @@
     </div>
   </footer>
   <!-- /component -->
+
+  <script>
+    // Framed photos (.scale-in-view) ease up from 95% to full size the first
+    // time they cross the fold. One observer for the whole page; each box
+    // unsubscribes once it has played, so scrolling back up leaves it settled.
+    (function () {
+      var els = document.querySelectorAll('.scale-in-view');
+      if (!els.length) return;
+
+      // No observer support, or the visitor asked for less motion: skip
+      // straight to the resting size.
+      if (!('IntersectionObserver' in window) ||
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        els.forEach(function (el) { el.classList.add('is-revealed'); });
+        return;
+      }
+
+      var io = new IntersectionObserver(function (entries) {
+        // A row of cards crosses the fold in the same callback. Moving them all
+        // at once lands as a single lurch however gentle each one is, so they
+        // are staggered left-to-right a beat apart and the row unfolds instead.
+        var arriving = entries.filter(function (e) { return e.isIntersecting; });
+
+        arriving.sort(function (a, b) {
+          return a.boundingClientRect.left - b.boundingClientRect.left;
+        });
+
+        arriving.forEach(function (e, i) {
+          e.target.style.transitionDelay = (i * 140) + 'ms';
+          e.target.classList.add('is-revealed');
+          io.unobserve(e.target);
+        });
+      }, { threshold: 0 });
+
+      els.forEach(function (el) { io.observe(el); });
+    })();
+  </script>
 
 </body>
 
