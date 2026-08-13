@@ -227,6 +227,25 @@
     position: relative;
     z-index: 10;
   }
+  .credibilities-pinned {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  .credibilities-pinned ~ * {
+    position: relative;
+    z-index: 20;
+  }
+  /* The floating lab-calculator widget is itself one of those lifted
+     siblings, so the rule above would flatten its `fixed` utility class to
+     `relative` — same selector specificity, and this file is unlayered plain
+     CSS, so it always outranks Tailwind's layered utilities regardless of
+     specificity or class order. Restated here, after the generic rule, so
+     source order settles the tie back in the widget's favour. */
+  .js-lab-widget {
+    position: fixed;
+    z-index: 50;
+  }
 }
 
 /* Divisions heading dissolves as the cards scroll up past it. Scroll-driven,
