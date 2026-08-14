@@ -7,10 +7,278 @@
   <title>Who we are — One Health</title>
 
   <link rel="stylesheet" href="/assets/css/app.css" />
+  <!-- Registers the `nav` Alpine store. Must come before Alpine itself — both
+       are deferred, so they run in document order and the alpine:init listener
+       is attached before Alpine boots. -->
+  <script defer src="/assets/js/nav.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3/dist/cdn.min.js"></script>
 </head>
 
 <body class="font-din antialiased bg-white text-black">
+
+  <!-- component: nav-overlay
+       Menu and search panels. They sit at the TOP LEVEL of the document, not
+       inside the header, because `.hero-pinned` is `position: sticky` from lg
+       up — that makes it a stacking context, so anything nested inside it
+       paints below the sections that follow no matter its z-index. State comes
+       from the `nav` Alpine store in /assets/js/nav.js.
+
+       Below lg each panel is a full-screen white sheet with its own header. At
+       lg the panels become the 512px floating card and the blurred backdrop
+       appears behind them — with a crisp copy of the page header drawn on top
+       of it, exactly as the Figma frame is built. The copy is what keeps the
+       logo and the close button legible over the blur. -->
+  <div x-data x-cloak x-show="$store.nav.menu"
+    x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0"
+    x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-200"
+    x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
+    class="hidden lg:block fixed inset-0 z-[90]">
+
+    <div x-on:click="$store.nav.close()" class="absolute inset-0 bg-brand/42 backdrop-blur-[19px]"></div>
+
+    <div class="relative container-page flex h-24 items-center justify-between">
+      <a href="index.html" class="block flex-shrink-0">
+        <img src="/assets/img/whitelogo.svg" alt="One Health" class="h-8 sm:h-10 w-auto" />
+      </a>
+
+      <div class="flex items-center justify-end gap-2 w-auto sm:w-full sm:max-w-[331px] sm:justify-between">
+        <button x-on:click="$store.nav.toggleSearch()"
+          class="flex items-center bg-white justify-center w-[44px] h-[44px] flex-shrink-0 rounded-[4px] border border-[#00000033] transition"
+          aria-label="Search">
+          <img src="/assets/img/about/search-icon.svg" alt="" class="w-5 h-5" />
+        </button>
+
+        <a href="contact.html"
+          class="relative overflow-hidden hidden sm:inline-flex items-center justify-between h-[44px] rounded-[4px] bg-brand px-5 flex-1 text-xs font-semibold text-white shadow-sm hover:bg-brand-hover transition duration-200">
+          <span class="type-button pr-5">Contact us</span>
+          <svg class="absolute top-[4px] right-[4px] w-[14px] h-[14px] text-white fill-current" viewBox="0 0 14 14">
+            <path
+              d="M 2.414 0 L 13 0 A 1 1 0 0 1 14 1 L 14 11.586 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 2.414 0 Z" />
+          </svg>
+        </a>
+
+        <button x-on:click="$store.nav.toggleMenu()"
+          class="flex items-center justify-center w-[44px] h-[44px] flex-shrink-0 rounded-[4px] bg-white hover:bg-white-hover transition shadow-sm"
+          :aria-label="$store.nav.menu ? 'Close menu' : 'Open menu'">
+          <img x-show="!$store.nav.menu" src="/assets/img/menuicon.svg" alt="" class="w-5 h-5" />
+          <img x-cloak x-show="$store.nav.menu" src="/assets/img/close-icon.svg" alt="" class="w-3.5 h-3.5" />
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Menu panel -->
+  <div x-data x-cloak x-show="$store.nav.menu" x-on:keydown.escape.window="$store.nav.close()"
+    x-transition:enter="transition ease-out duration-300"
+    x-transition:enter-start="opacity-0 lg:scale-95 lg:-translate-y-2"
+    x-transition:enter-end="opacity-100 lg:scale-100 lg:translate-y-0"
+    x-transition:leave="transition ease-in duration-200"
+    x-transition:leave-start="opacity-100 lg:scale-100 lg:translate-y-0"
+    x-transition:leave-end="opacity-0 lg:scale-95 lg:-translate-y-2"
+    class="panel-notch fixed inset-0 z-[100] flex flex-col bg-white text-black overflow-y-auto
+           lg:inset-auto lg:right-10 lg:top-[86px] lg:w-[512px] lg:max-h-[calc(100vh-126px)] lg:rounded-[4px]">
+
+    <!-- Sheet header (phones/tablets only). The desktop card has no header of
+         its own — the copy drawn over the backdrop above serves that role. -->
+    <div class="lg:hidden flex items-center justify-between p-5 flex-shrink-0">
+      <a href="index.html" class="block flex-shrink-0">
+        <img src="/assets/img/bluelogo.svg" alt="One Health" class="h-[42px] w-[79px]" />
+      </a>
+      <div class="flex items-center gap-1.5">
+        <button x-on:click="$store.nav.toggleSearch()"
+          class="flex items-center justify-center w-[42px] h-[42px] flex-shrink-0 rounded-[4px] border border-[#00000033] bg-white transition"
+          aria-label="Search">
+          <img src="/assets/img/about/search-icon.svg" alt="" class="w-6 h-6" />
+        </button>
+        <button x-on:click="$store.nav.close()"
+          class="flex items-center justify-center w-[42px] h-[42px] flex-shrink-0 rounded-[4px] border border-white/30 bg-brand hover:bg-brand-hover transition"
+          aria-label="Close menu">
+          <img src="/assets/img/close-icon-white.svg" alt="" class="w-3.5 h-3.5" />
+        </button>
+      </div>
+    </div>
+
+    <!-- Nav items. 24px on phones and 28px at 2xl, per the Mobile/Heading and
+         Desktop/Subheading styles in Figma — the only two sizes the frames
+         state, so the size overrides sit on top of type-subheading here. -->
+    <nav class="px-5 pt-8 pb-10 lg:p-8">
+      <ul class="flex flex-col w-full divide-y divide-black/20">
+
+        <li class="pb-5 lg:pb-4">
+          <a href="index.html"
+            class="block type-subheading text-[24px] 2xl:text-[28px] leading-[1.2] lg:leading-[1.1] text-black hover:text-brand transition">
+            Home
+          </a>
+        </li>
+
+        <li x-data="{ subOpen: false }" class="py-5 lg:py-4 flex flex-col">
+          <button x-on:click="subOpen = !subOpen" :class="subOpen ? 'items-start' : 'items-end'"
+            class="w-full flex justify-between text-left type-subheading text-[24px] 2xl:text-[28px] leading-[1.2] lg:leading-[1.1] text-black hover:text-brand transition focus:outline-none">
+            <span>Who we are</span>
+            <!-- The corner fold, flipped so its square corner sits bottom-right;
+                 opening the section swings it a quarter turn. -->
+            <svg class="w-3.5 h-3.5 flex-shrink-0 text-brand fill-current transition-transform duration-200"
+              :class="subOpen ? '-scale-y-100 -rotate-90' : '-scale-y-100'" viewBox="0 0 14 14" aria-hidden="true">
+              <path
+                d="M 2.414 0 L 13 0 A 1 1 0 0 1 14 1 L 14 11.586 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 2.414 0 Z" />
+            </svg>
+          </button>
+
+          <div x-show="subOpen" x-transition class="pt-5 lg:pt-4 flex flex-col gap-2 type-body text-black/50">
+            <a href="about.html" class="hover:text-black transition">About One Health</a>
+            <a href="medtrust.html" class="hover:text-black transition">MedTrust Brand</a>
+            <a href="about.html#leadership" class="hover:text-black transition">Leadership <span
+                class="font-sans font-medium">&amp;</span> Team</a>
+          </div>
+        </li>
+
+        <li x-data="{ subOpen: false }" class="py-5 lg:py-4 flex flex-col">
+          <button x-on:click="subOpen = !subOpen" :class="subOpen ? 'items-start' : 'items-end'"
+            class="w-full flex justify-between text-left type-subheading text-[24px] 2xl:text-[28px] leading-[1.2] lg:leading-[1.1] text-black hover:text-brand transition focus:outline-none">
+            <span>Our divisions</span>
+            <svg class="w-3.5 h-3.5 flex-shrink-0 text-brand fill-current transition-transform duration-200"
+              :class="subOpen ? '-scale-y-100 -rotate-90' : '-scale-y-100'" viewBox="0 0 14 14" aria-hidden="true">
+              <path
+                d="M 2.414 0 L 13 0 A 1 1 0 0 1 14 1 L 14 11.586 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 2.414 0 Z" />
+            </svg>
+          </button>
+
+          <div x-show="subOpen" x-transition class="pt-5 lg:pt-4 flex flex-col gap-2 type-body text-black/50">
+            <a href="ivd-life-sciences.html" class="hover:text-black transition">IVD and life sciences</a>
+            <a href="medical-products.html" class="hover:text-black transition">Medical products <span
+                class="font-sans font-medium">&amp;</span> projects</a>
+            <!-- Figma lists a Pharmaceutical division; there is no page for it
+                 yet, so this is a placeholder rather than a dead link. -->
+            <a href="#" class="hover:text-black transition">Pharmaceutical</a>
+            <a href="facilities-and-technical-services.html" class="hover:text-black transition">Services</a>
+            <a href="business-development.html" class="hover:text-black transition">Business development</a>
+            <a href="supplychain.html" class="hover:text-black transition">Supply chain management</a>
+          </div>
+        </li>
+
+        <li class="py-5 lg:py-4">
+          <a href="news.html"
+            class="block type-subheading text-[24px] 2xl:text-[28px] leading-[1.2] lg:leading-[1.1] text-black hover:text-brand transition">
+            Insights <span class="font-sans font-medium">&amp;</span> media
+          </a>
+        </li>
+
+        <li class="py-5 lg:py-4">
+          <a href="careers.html"
+            class="block type-subheading text-[24px] 2xl:text-[28px] leading-[1.2] lg:leading-[1.1] text-black hover:text-brand transition">
+            Careers
+          </a>
+        </li>
+
+        <li class="pt-5 lg:pt-4">
+          <a href="contact.html"
+            class="block type-subheading text-[24px] 2xl:text-[28px] leading-[1.2] lg:leading-[1.1] text-black hover:text-brand transition">
+            Contact
+          </a>
+        </li>
+
+      </ul>
+    </nav>
+  </div>
+
+  <!-- Search panel. A full-screen white view at EVERY breakpoint — both Figma
+       frames (390 and 1680) are whole pages, not a floating card, so this one
+       carries no notch and no backdrop. -->
+  <div x-data x-cloak x-show="$store.nav.search" x-on:keydown.escape.window="$store.nav.close()"
+    x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0"
+    x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-200"
+    x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
+    class="fixed inset-0 z-[100] bg-white text-black overflow-y-auto">
+
+    <!-- Header. The cross closes search; the second button hands straight over
+         to the menu. Contact us only joins from lg, as in the desktop frame,
+         and the menu button inverts to navy below it. -->
+    <div class="flex items-center justify-between p-5 lg:px-10 lg:pt-10 lg:pb-0">
+      <a href="index.html" class="block flex-shrink-0">
+        <img src="/assets/img/bluelogo.svg" alt="One Health" class="h-[42px] w-[79px]" />
+      </a>
+
+      <div class="flex items-center gap-1.5">
+        <button x-on:click="$store.nav.close()"
+          class="flex items-center justify-center w-[42px] h-[42px] flex-shrink-0 rounded-[4px] border border-[#00000033] bg-white hover:bg-white-hover transition"
+          aria-label="Close search">
+          <img src="/assets/img/close-icon.svg" alt="" class="w-3.5 h-3.5" />
+        </button>
+
+        <a href="contact.html"
+          class="relative overflow-hidden hidden lg:inline-flex items-center h-[42px] w-[280px] rounded-[4px] bg-brand pl-4 pr-6 text-white hover:bg-brand-hover transition duration-200">
+          <span class="type-button">Contact us</span>
+          <svg class="absolute top-[4px] right-[4px] w-[14px] h-[14px] text-white fill-current" viewBox="0 0 14 14">
+            <path d="M 2.414 0 L 13 0 A 1 1 0 0 1 14 1 L 14 11.586 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 2.414 0 Z" />
+          </svg>
+        </a>
+
+        <button x-on:click="$store.nav.toggleMenu()"
+          class="flex items-center justify-center w-[42px] h-[42px] flex-shrink-0 rounded-[4px] border border-white/30 bg-brand hover:bg-brand-hover lg:border-[#00000033] lg:bg-white lg:hover:bg-white-hover transition"
+          aria-label="Open menu">
+          <img src="/assets/img/menuicon-white.svg" alt="" class="w-5 h-[14px] lg:hidden" />
+          <img src="/assets/img/menuicon.svg" alt="" class="hidden lg:block w-5 h-[14px]" />
+        </button>
+      </div>
+    </div>
+
+    <div class="px-5 pt-8 pb-10 lg:px-10 lg:pt-20 lg:pb-16 flex flex-col gap-5">
+
+      <!-- No Figma frame covers the field itself — every search frame shows the
+           results state only — so this is built from the kit's input tokens. -->
+      <label class="relative block lg:max-w-[512px]">
+        <span class="sr-only">Search One Health</span>
+        <input type="search" x-model="$store.nav.query" placeholder="Search"
+          class="w-full h-[42px] rounded-[4px] border border-[#00000033] bg-white pl-11 pr-3 type-body text-black placeholder:text-black/50 focus:border-brand focus:outline-none transition" />
+        <img src="/assets/img/about/search-icon.svg" alt=""
+          class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5" />
+      </label>
+
+      <template x-if="$store.nav.query.trim()">
+        <div class="flex flex-col gap-5">
+
+          <!-- The result count is Mobile/Subheading at 390 and Desktop/Heading
+               at 1680 — 18 → 56, which no single type-* class spans. The steps
+               below restate type-heading's own ramp with an 18px base. -->
+          <div class="flex items-center justify-between gap-4">
+            <p
+              class="type-heading text-[18px] sm:text-[30px] md:text-[36px] lg:text-[44px] xl:text-[50px] 2xl:text-[56px] text-black"
+              x-text="$store.nav.resultsLabel"></p>
+            <button x-on:click="$store.nav.clear()"
+              class="type-body text-black/50 hover:text-black transition flex-shrink-0">Clear</button>
+          </div>
+
+          <ul class="flex flex-col divide-y divide-black/20 border-t border-black/20">
+            <!-- Keyed on url + text: one page contributes several snippets, so
+                 the url alone is not unique and Alpine would reuse rows. -->
+            <template x-for="(result, i) in $store.nav.results" :key="result.url + result.text">
+              <li>
+                <!-- Column track comes straight from the frame: at 1680 the
+                     number sits on the gutter, the title at 176 and the section
+                     label at 856. The section label drops out below lg, and a
+                     display:none grid item leaves no empty column behind. -->
+                <a :href="result.url"
+                  class="grid items-start grid-cols-[62px_1fr_14px] lg:grid-cols-[8.5%_42.5%_1fr_14px] py-5 lg:pt-10 lg:pb-5">
+                  <span class="type-body text-black/50" x-text="String(i + 1).padStart(2, '0')"></span>
+                  <span class="type-subheading text-black line-clamp-3 lg:line-clamp-2"
+                    x-html="$store.nav.highlight(result.text)"></span>
+                  <span class="hidden lg:block type-body text-black/50" x-text="result.section"></span>
+                  <svg class="w-3.5 h-3.5 text-brand fill-current" viewBox="0 0 14 14" aria-hidden="true">
+                    <path d="M 2.414 0 L 13 0 A 1 1 0 0 1 14 1 L 14 11.586 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 2.414 0 Z" />
+                  </svg>
+                </a>
+              </li>
+            </template>
+          </ul>
+
+          <p x-show="!$store.nav.results.length" class="type-body text-black/50">
+            Nothing matched that search.
+          </p>
+        </div>
+      </template>
+    </div>
+  </div>
+
 
   <!-- Top Navigation Header Component -->
   <header x-data="{ open: false }" class="relative z-50 w-full bg-white">
@@ -26,7 +294,7 @@
         <!-- Search Button -->
         <button
           class="hidden sm:flex items-center justify-center w-[44px] h-[44px] flex-shrink-0 rounded-[4px] border border-[#00000033] transition"
-          aria-label="Search">
+          x-on:click="$store.nav.toggleSearch()" aria-label="Search">
           <img src="/assets/img/about/search-icon.svg" alt="" class="w-5 h-5 " />
         </button>
 
@@ -41,110 +309,14 @@
         </a>
 
         <!-- Mobile / Navigation Menu Toggle -->
-        <button x-on:click="open = !open"
+        <button x-on:click="$store.nav.toggleMenu()"
           class="flex items-center justify-center w-[44px] h-[44px] flex-shrink-0 rounded-[4px] border border-[#0000001a] hover:bg-slate-50 transition shadow-sm relative z-50"
           aria-label="Toggle menu">
-          <img src="/assets/img/menuicon.svg" alt="Menu" class="w-5 h-5" />
+          <img x-show="!$store.nav.menu" src="/assets/img/menuicon.svg" alt="Menu" class="w-5 h-5" />
+          <img x-cloak x-show="$store.nav.menu" src="/assets/img/close-icon.svg" alt="" class="w-3.5 h-3.5" />
         </button>
       </div>
 
-    </div>
-
-    <!-- Backdrop Overlay -->
-    <div x-show="open" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0"
-      x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-200"
-      x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" x-on:click="open = false"
-      class="fixed inset-0 z-40 bg-[#233D7C]/42 backdrop-blur-md">
-    </div>
-
-    <!-- Floating Navbar Menu Modal Card -->
-    <div x-show="open" x-transition:enter="transition ease-out duration-300"
-      x-transition:enter-start="opacity-0 scale-95 -translate-y-2"
-      x-transition:enter-end="opacity-100 scale-100 translate-y-0" x-transition:leave="transition ease-in duration-200"
-      x-transition:leave-start="opacity-100 scale-100 translate-y-0"
-      x-transition:leave-end="opacity-0 scale-95 -translate-y-2"
-      class="absolute right-4 sm:right-8 md:right-12 top-[92px] z-50 w-full max-w-[448px] bg-white text-black p-8 sm:p-10 shadow-2xl rounded-[4px]"
-      style="clip-path: polygon(0 0, 100% 0, 100% 100%, 28px 100%, 0 calc(100% - 28px));">
-
-      <ul class="flex flex-col w-full divide-y divide-[#0000001a]">
-
-        <!-- Home -->
-        <li class="pb-4">
-          <a href="index.html"
-            class="block font-aktiv text-[28px] font-medium leading-[1.1] text-black hover:text-brand transition">
-            Home
-          </a>
-        </li>
-
-        <!-- Who we are (Accordion) -->
-        <li x-data="{ subOpen: true }" class="py-4 flex flex-col">
-          <button x-on:click="subOpen = !subOpen"
-            class="w-full flex items-center justify-between text-left font-aktiv text-[28px] font-medium leading-[1.1] text-brand transition focus:outline-none">
-            <span>Who we are</span>
-            <svg class="w-3.5 h-3.5 text-brand fill-current transition-transform duration-200"
-              :class="subOpen ? 'rotate-180' : ''" viewBox="0 0 14 14">
-              <path
-                d="M 2.414 0 L 13 0 A 1 1 0 0 1 14 1 L 14 11.586 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 2.414 0 Z" />
-            </svg>
-          </button>
-
-          <div x-show="subOpen" x-transition
-            class="pt-3 pb-1 flex flex-col space-y-2 type-body text-[#00000080]">
-            <a href="about.html" class="text-black font-medium transition">About One Health</a>
-            <a href="medtrust.html" class="hover:text-black transition">MedTrust Brand</a>
-            <a href="about.html#leadership" class="hover:text-black transition">Leadership <span
-                class="font-sans font-medium">&amp;</span> Team</a>
-          </div>
-        </li>
-
-        <!-- Divisions (Accordion) -->
-        <li x-data="{ subOpen: false }" class="py-4 flex flex-col">
-          <button x-on:click="subOpen = !subOpen"
-            class="w-full flex items-center justify-between text-left font-aktiv text-[28px] font-medium leading-[1.1] text-black hover:text-brand transition focus:outline-none">
-            <span>Divisions</span>
-            <svg class="w-3.5 h-3.5 text-brand fill-current transition-transform duration-200"
-              :class="subOpen ? 'rotate-180' : ''" viewBox="0 0 14 14">
-              <path
-                d="M 2.414 0 L 13 0 A 1 1 0 0 1 14 1 L 14 11.586 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 2.414 0 Z" />
-            </svg>
-          </button>
-
-          <div x-show="subOpen" x-transition
-            class="pt-3 pb-1 flex flex-col space-y-2 type-body text-[#00000080]">
-            <a href="ivd-life-sciences.html" class="hover:text-black transition">IVD and life sciences</a>
-            <a href="medical-products.html" class="hover:text-black transition">Medical products <span
-                class="font-sans font-medium">&amp;</span> projects</a>
-            <a href="facilities-and-technical-services.html" class="hover:text-black transition">Facilities <span
-                class="font-sans font-medium">&amp;</span> technical services</a>
-            <a href="supplychain.html" class="hover:text-black transition">Supply chain management</a>
-          </div>
-        </li>
-
-        <!-- Insights & media -->
-        <li class="py-4">
-          <a href="news.html"
-            class="block font-aktiv text-[28px] font-medium leading-[1.1] text-black hover:text-brand transition">
-            Insights <span class="font-sans font-medium">&amp;</span> media
-          </a>
-        </li>
-
-        <!-- Careers -->
-        <li class="py-4">
-          <a href="careers.html"
-            class="block font-aktiv text-[28px] font-medium leading-[1.1] text-black hover:text-brand transition">
-            Careers
-          </a>
-        </li>
-
-        <!-- Contact -->
-        <li class="pt-4">
-          <a href="contact.html"
-            class="block font-aktiv text-[28px] font-medium leading-[1.1] text-black hover:text-brand transition">
-            Contact
-          </a>
-        </li>
-
-      </ul>
     </div>
 
   </header>

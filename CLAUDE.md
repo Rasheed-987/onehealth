@@ -74,5 +74,16 @@ class.
 - **Header and footer are copy-pasted into every page and have drifted.** There
   is no include mechanism. Changing navigation means editing every `.html` file,
   and they are not currently identical. Treat this as the main structural debt.
+  The one exception is the **nav overlay** — the `<!-- component: nav-overlay -->`
+  block holding the menu and search panels sits immediately after `<body>` on
+  every page and is currently **byte-identical across all of them**. Keep it that
+  way: edit `index.html` and copy the whole block over, rather than patching each
+  file. It lives at the top level, not inside the header, because `.hero-pinned`
+  is `position: sticky` from lg up and so forms a stacking context that would
+  bury anything nested inside it. State comes from the `nav` Alpine store in
+  `assets/js/nav.js`, which also holds the search index — that file is scanned by
+  Tailwind (see the `@source` in `src/input.css`) because it builds class strings.
+- `careers.html` is still the untouched starter scaffold ("Institute", `/about`
+  links) and is not wired into the nav system.
 - `index.html`, `about.html` and `contact.html` are migrated to the type scale
   and colour tokens. The other pages are not yet.

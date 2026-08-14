@@ -3,6 +3,11 @@
 /* Which files Tailwind scans for class names. Path is relative to THIS file.
    Keep the glob narrow — a broad one scans node_modules and slows the build. */
 @source "../*.html";
+/* The nav/search store builds a couple of class strings (the search-hit
+   highlight) in JS, so that file has to be scanned too or those classes never
+   reach the stylesheet. Kept to the one directory — a broader glob would pull
+   in node_modules. */
+@source "../assets/js/*.js";
 
 /* ---- Local brand fonts ----
    TRIAL/DEMO files under /assets/fonts — fine for building + previewing,
@@ -228,6 +233,17 @@
 
   .type-label {
     @apply font-din font-normal text-[10px] tracking-[0.02em] leading-normal;
+  }
+}
+
+/* The nav and search panels are full-screen white sheets on phones and a
+   floating 512px card from lg up. Only the card carries the brand corner fold,
+   so the clip-path has to be breakpoint-gated — which an inline style cannot
+   do. 32px matches the Subtract shape in Figma (the notch spans 0→32px on both
+   edges); the frame variant elsewhere on the site is 24px. */
+@media (min-width: 1024px) {
+  .panel-notch {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 32px 100%, 0 calc(100% - 32px));
   }
 }
 
