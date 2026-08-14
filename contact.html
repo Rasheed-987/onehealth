@@ -34,8 +34,8 @@
 
         <!-- Contact Us Button (Corner-Fold Variant) -->
         <a href="contact.html"
-          class="hidden sm:inline-flex relative overflow-hidden items-center justify-between h-[44px] rounded-[4px] bg-[#233D7C] px-5 flex-1 text-xs font-semibold text-white shadow-sm hover:bg-[#233D7C]/90 transition duration-200">
-          <span class="font-din tracking-wide pr-5">Contact us</span>
+          class="hidden sm:inline-flex relative overflow-hidden items-center justify-between h-[44px] rounded-[4px] bg-brand px-5 flex-1 text-xs font-semibold text-white shadow-sm hover:bg-brand-hover transition duration-200">
+          <span class="type-button pr-5">Contact us</span>
           <svg class="absolute top-[4px] right-[4px] w-[14px] h-[14px] text-white fill-current" viewBox="0 0 14 14">
             <path
               d="M 2.414 0 L 13 0 A 1 1 0 0 1 14 1 L 14 11.586 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 2.414 0 Z" />
@@ -93,7 +93,7 @@
           </button>
 
           <div x-show="subOpen" x-transition
-            class="pt-3 pb-1 flex flex-col space-y-2 font-aktiv text-[16px] text-[#00000080]">
+            class="pt-3 pb-1 flex flex-col space-y-2 type-body text-[#00000080]">
             <a href="about.html" class="hover:text-black transition">About One Health</a>
             <a href="medtrust.html" class="hover:text-black transition">MedTrust Brand</a>
             <a href="about.html#leadership" class="hover:text-black transition">Leadership <span
@@ -114,7 +114,7 @@
           </button>
 
           <div x-show="subOpen" x-transition
-            class="pt-3 pb-1 flex flex-col space-y-2 font-aktiv text-[16px] text-[#00000080]">
+            class="pt-3 pb-1 flex flex-col space-y-2 type-body text-[#00000080]">
             <a href="ivd-life-sciences.html" class="hover:text-black transition">IVD and life sciences</a>
             <a href="medical-products.html" class="hover:text-black transition">Medical products <span
                 class="font-sans font-medium">&amp;</span> projects</a>
@@ -156,7 +156,7 @@
 
     <!-- Hero: Page title -->
     <section class="container-page pt-16 lg:pt-[124px]">
-      <h1 class="font-aktiv text-[40px] sm:text-[64px] lg:text-[80px] font-medium leading-[1.1] text-black">
+      <h1 class="type-title text-black">
         Connect with our team
       </h1>
     </section>
@@ -167,7 +167,7 @@
 
         <!-- Left column: intro line and the general enquiries address -->
         <div class="lg:max-w-[376px]">
-          <p class="font-din text-[16px] tracking-[0.32px] leading-normal text-black">
+          <p class="type-body text-black">
             Tell us what you need and your enquiry reaches the people who handle it.
           </p>
 
@@ -175,11 +175,11 @@
                steps from the mobile 18px subheading to 28px. -->
           <div class="mt-6 flex flex-col gap-2 lg:mt-10 lg:max-w-[240px]">
             <h2
-              class="font-aktiv text-[18px] tracking-[0.18px] lg:text-[28px] lg:tracking-[0.28px] font-medium leading-[1.2] text-black">
+              class="type-subheading text-black">
               General <span class="lg:block">enquiries</span>
             </h2>
             <a href="mailto:info@onehealth.ae"
-              class="font-din text-[16px] tracking-[0.32px] text-black hover:text-brand transition">
+              class="type-body text-black hover:text-brand transition">
               info@onehealth.ae
             </a>
           </div>
@@ -189,8 +189,25 @@
              surface once the field carries a value, so the resting state is
              just the placeholder over its rule. -->
         <div>
-          <form method="POST" action="#" class="flex flex-col gap-10"
-            x-data="{ fullname: '', phone: '', organisation: '', email: '', country: '', enquiry: '', message: '' }">
+          <!-- Validation surfaces per the ui-kit's error state: a field only
+               complains once it has been left (blurred) or the form has been
+               submitted, so nothing is red while someone is still typing their
+               first character. -->
+          <form method="POST" action="#" class="flex flex-col gap-10" x-on:submit="submitted = true" x-data="{
+              fullname: '', phone: '', organisation: '', email: '', country: '', enquiry: '', message: '',
+              touched: {},
+              submitted: false,
+              errorFor(field) {
+                if (!this.submitted && !this.touched[field]) return '';
+                if (field === 'fullname') return this.fullname.trim() ? '' : 'Enter your full name';
+                if (field === 'message') return this.message.trim() ? '' : 'Tell us how we can help';
+                if (field === 'email') {
+                  if (!this.email.trim()) return 'Enter your work email';
+                  return /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(this.email) ? '' : 'Enter a valid work email';
+                }
+                return '';
+              }
+            }">
 
             <div class="flex flex-col gap-8">
 
@@ -198,18 +215,22 @@
                 <!-- Full name -->
                 <div class="flex flex-col">
                   <input id="fullname" name="fullname" type="text" placeholder="Full name" x-model="fullname"
-                    class="peer order-2 w-full border-0 border-b border-black/20 bg-transparent pb-2 font-din text-[16px] tracking-[0.32px] text-black placeholder:text-black/40 focus:outline-none focus:border-brand transition" />
+                    x-on:blur="touched.fullname = true" :aria-invalid="errorFor('fullname') ? 'true' : 'false'"
+                    :aria-describedby="errorFor('fullname') ? 'fullname-error' : null"
+                    class="peer order-2 w-full border-0 border-b border-black/20 bg-transparent pb-2 type-body text-black placeholder:text-black/40 focus:outline-none focus:border-brand transition" />
                   <label for="fullname"
-                    class="order-1 font-din text-[10px] tracking-[0.2px] text-black/40 opacity-0 transition-opacity peer-focus:opacity-100 peer-[:not(:placeholder-shown)]:opacity-100">Full
+                    class="order-1 type-label text-black/40 opacity-0 transition-opacity peer-focus:opacity-100 peer-[:not(:placeholder-shown)]:opacity-100">Full
                     name</label>
+                  <p id="fullname-error" x-show="errorFor('fullname')" x-text="errorFor('fullname')" x-cloak
+                    class="order-3 mt-1 type-helper text-error"></p>
                 </div>
 
                 <!-- Phone -->
                 <div class="flex flex-col">
                   <input id="phone" name="phone" type="tel" placeholder="Phone" x-model="phone"
-                    class="peer order-2 w-full border-0 border-b border-black/20 bg-transparent pb-2 font-din text-[16px] tracking-[0.32px] text-black placeholder:text-black/40 focus:outline-none focus:border-brand transition" />
+                    class="peer order-2 w-full border-0 border-b border-black/20 bg-transparent pb-2 type-body text-black placeholder:text-black/40 focus:outline-none focus:border-brand transition" />
                   <label for="phone"
-                    class="order-1 font-din text-[10px] tracking-[0.2px] text-black/40 opacity-0 transition-opacity peer-focus:opacity-100 peer-[:not(:placeholder-shown)]:opacity-100">Phone</label>
+                    class="order-1 type-label text-black/40 opacity-0 transition-opacity peer-focus:opacity-100 peer-[:not(:placeholder-shown)]:opacity-100">Phone</label>
                 </div>
               </div>
 
@@ -218,18 +239,22 @@
                 <div class="flex flex-col">
                   <input id="organisation" name="organisation" type="text" placeholder="Organisation"
                     x-model="organisation"
-                    class="peer order-2 w-full border-0 border-b border-black/20 bg-transparent pb-2 font-din text-[16px] tracking-[0.32px] text-black placeholder:text-black/40 focus:outline-none focus:border-brand transition" />
+                    class="peer order-2 w-full border-0 border-b border-black/20 bg-transparent pb-2 type-body text-black placeholder:text-black/40 focus:outline-none focus:border-brand transition" />
                   <label for="organisation"
-                    class="order-1 font-din text-[10px] tracking-[0.2px] text-black/40 opacity-0 transition-opacity peer-focus:opacity-100 peer-[:not(:placeholder-shown)]:opacity-100">Organisation</label>
+                    class="order-1 type-label text-black/40 opacity-0 transition-opacity peer-focus:opacity-100 peer-[:not(:placeholder-shown)]:opacity-100">Organisation</label>
                 </div>
 
                 <!-- Work email -->
                 <div class="flex flex-col">
                   <input id="email" name="email" type="email" placeholder="Work email" x-model="email"
-                    class="peer order-2 w-full border-0 border-b border-black/20 bg-transparent pb-2 font-din text-[16px] tracking-[0.32px] text-black placeholder:text-black/40 focus:outline-none focus:border-brand transition" />
+                    x-on:blur="touched.email = true" :aria-invalid="errorFor('email') ? 'true' : 'false'"
+                    :aria-describedby="errorFor('email') ? 'email-error' : null"
+                    class="peer order-2 w-full border-0 border-b border-black/20 bg-transparent pb-2 type-body text-black placeholder:text-black/40 focus:outline-none focus:border-brand transition" />
                   <label for="email"
-                    class="order-1 font-din text-[10px] tracking-[0.2px] text-black/40 opacity-0 transition-opacity peer-focus:opacity-100 peer-[:not(:placeholder-shown)]:opacity-100">Work
+                    class="order-1 type-label text-black/40 opacity-0 transition-opacity peer-focus:opacity-100 peer-[:not(:placeholder-shown)]:opacity-100">Work
                     email</label>
+                  <p id="email-error" x-show="errorFor('email')" x-text="errorFor('email')" x-cloak
+                    class="order-3 mt-1 type-helper text-error"></p>
                 </div>
               </div>
 
@@ -238,7 +263,7 @@
                      option drives the label and the muted text through Alpine. -->
                 <div class="relative flex flex-col">
                   <select id="country" name="country" x-model="country"
-                    class="order-2 w-full appearance-none border-0 border-b border-black/20 bg-transparent pb-2 pr-5 font-din text-[16px] tracking-[0.32px] focus:outline-none focus:border-brand transition"
+                    class="order-2 w-full appearance-none border-0 border-b border-black/20 bg-transparent pb-2 pr-5 type-body focus:outline-none focus:border-brand transition"
                     :class="country ? 'text-black' : 'text-black/40'">
                     <option value="">Country</option>
                     <option value="uae">United Arab Emirates</option>
@@ -246,7 +271,7 @@
                     <option value="other">Other</option>
                   </select>
                   <label for="country"
-                    class="order-1 font-din text-[10px] tracking-[0.2px] text-black/40 transition-opacity"
+                    class="order-1 type-label text-black/40 transition-opacity"
                     :class="country ? 'opacity-100' : 'opacity-0'">Country</label>
                   <img src="/assets/img/contact/chevron-down.svg" alt=""
                     class="pointer-events-none absolute right-0 bottom-[10px] w-[10px] h-[10px] -scale-y-100" />
@@ -255,7 +280,7 @@
                 <!-- Enquiry type -->
                 <div class="relative flex flex-col">
                   <select id="enquiry-about" name="enquiry_about" x-model="enquiry"
-                    class="order-2 w-full appearance-none border-0 border-b border-black/20 bg-transparent pb-2 pr-5 font-din text-[16px] tracking-[0.32px] focus:outline-none focus:border-brand transition"
+                    class="order-2 w-full appearance-none border-0 border-b border-black/20 bg-transparent pb-2 pr-5 type-body focus:outline-none focus:border-brand transition"
                     :class="enquiry ? 'text-black' : 'text-black/40'">
                     <option value="">I am enquiring about...</option>
                     <option value="ivd">IVD &amp; life sciences</option>
@@ -267,7 +292,7 @@
                     <option value="other">Other</option>
                   </select>
                   <label for="enquiry-about"
-                    class="order-1 font-din text-[10px] tracking-[0.2px] text-black/40 transition-opacity"
+                    class="order-1 type-label text-black/40 transition-opacity"
                     :class="enquiry ? 'opacity-100' : 'opacity-0'">I am enquiring about...</label>
                   <img src="/assets/img/contact/chevron-down.svg" alt=""
                     class="pointer-events-none absolute right-0 bottom-[10px] w-[10px] h-[10px] -scale-y-100" />
@@ -277,10 +302,14 @@
               <!-- Message -->
               <div class="flex flex-col">
                 <input id="message" name="message" type="text" placeholder="How can we help" x-model="message"
-                  class="peer order-2 w-full border-0 border-b border-black/20 bg-transparent pb-2 font-din text-[16px] tracking-[0.32px] text-black placeholder:text-black/40 focus:outline-none focus:border-brand transition" />
+                  x-on:blur="touched.message = true" :aria-invalid="errorFor('message') ? 'true' : 'false'"
+                  :aria-describedby="errorFor('message') ? 'message-error' : null"
+                  class="peer order-2 w-full border-0 border-b border-black/20 bg-transparent pb-2 type-body text-black placeholder:text-black/40 focus:outline-none focus:border-brand transition" />
                 <label for="message"
-                  class="order-1 font-din text-[10px] tracking-[0.2px] text-black/40 opacity-0 transition-opacity peer-focus:opacity-100 peer-[:not(:placeholder-shown)]:opacity-100">How
+                  class="order-1 type-label text-black/40 opacity-0 transition-opacity peer-focus:opacity-100 peer-[:not(:placeholder-shown)]:opacity-100">How
                   can we help</label>
+                <p id="message-error" x-show="errorFor('message')" x-text="errorFor('message')" x-cloak
+                  class="order-3 mt-1 type-helper text-error"></p>
               </div>
 
             </div>
@@ -289,7 +318,7 @@
                  disabled blue until name, work email and message are filled. -->
             <button type="submit" :disabled="!(fullname && email && message)"
               class="relative overflow-hidden inline-flex items-center justify-between h-[42px] w-full max-w-[376px] rounded-[4px] pl-4 pr-6 text-[16px] font-semibold text-white shadow-sm transition duration-200"
-              :class="(fullname && email && message) ? 'bg-brand hover:bg-[#183373]' : 'bg-[#7A8BB4] cursor-not-allowed'">
+              :class="(fullname && email && message) ? 'bg-brand hover:bg-brand-hover' : 'bg-brand-disabled cursor-not-allowed'">
               <span class="font-din tracking-[0.32px]">Send enquiry</span>
               <svg class="absolute top-[4px] right-[4px] w-[14px] h-[14px] text-white fill-current" viewBox="0 0 14 14">
                 <path
@@ -306,7 +335,7 @@
     <!-- Our offices: map with the office cards laid over its top-left corner -->
     <section class="container-page mt-[200px] lg:mt-[280px] pb-[200px] lg:pb-[280px]">
       <div class="border-t border-black/20 pt-5">
-        <p class="font-din text-[16px] tracking-[0.32px] text-black">Our offices</p>
+        <p class="type-body text-black">Our offices</p>
 
         <div class="relative mt-8 lg:mt-10">
 
@@ -317,11 +346,11 @@
 
             <div class="flex items-center gap-3 rounded-[4px] border border-black/20 bg-white px-5 py-[14px]">
               <p
-                class="font-aktiv text-[18px] tracking-[0.18px] sm:text-[28px] sm:tracking-[0.28px] font-medium leading-[1.2] text-black w-[88px] sm:w-[136px] shrink-0">
+                class="type-subheading text-black w-[88px] sm:w-[136px] shrink-0">
                 Abu Dhabi
               </p>
               <div class="self-stretch w-px bg-black/20 shrink-0"></div>
-              <div class="font-din text-[16px] tracking-[0.32px] text-black">
+              <div class="type-body text-black">
                 <p>Al Dar headquarters</p>
                 <p>+971 4 447 3338</p>
               </div>
@@ -329,11 +358,11 @@
 
             <div class="flex items-center gap-3 rounded-[4px] border border-white/30 bg-brand px-5 py-[14px]">
               <p
-                class="font-aktiv text-[18px] tracking-[0.18px] sm:text-[28px] sm:tracking-[0.28px] font-medium leading-[1.2] text-white w-[88px] sm:w-[136px] shrink-0">
+                class="type-subheading text-white w-[88px] sm:w-[136px] shrink-0">
                 Dubai
               </p>
               <div class="self-stretch w-px bg-white/30 shrink-0"></div>
-              <div class="font-din text-[16px] tracking-[0.32px] text-white">
+              <div class="type-body text-white">
                 <p>Vision Tower, Business Bay</p>
                 <p>+971 4 447 3338</p>
               </div>
@@ -367,7 +396,7 @@
   <footer class="bg-[#F2F2F2] text-black pt-5 pb-5 md:pt-10 md:pb-10">
     <div class="container-page">
       <div class="border-t border-[#00000033] pt-5 grid grid-cols-2 gap-x-5 gap-y-12 md:grid-cols-12 md:gap-8 lg:gap-12 items-start
-                  font-din text-[16px] tracking-[0.32px]">
+                  type-body">
 
         <!-- Left: Logo and the PureHealth endorsement. Side by side split by a
              vertical rule on mobile; stacked with the rule turned horizontal
@@ -449,7 +478,7 @@
           </a>
         </div>
 
-        <p class="font-din text-[16px] tracking-[0.32px] text-black/50 md:col-start-5 md:col-span-8">
+        <p class="type-body text-black/50 md:col-start-5 md:col-span-8">
           &copy; 2026 OneHealth. All rights reserved
         </p>
       </div>

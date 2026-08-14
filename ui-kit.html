@@ -14,244 +14,334 @@
 
     <h1 class="text-3xl font-aktiv font-bold text-brand mb-8">One Health UI Kit</h1>
 
-    <!-- component: button | variants: primary, secondary, ghost, corner-fold -->
-    <section class="p-6 bg-white rounded-xl shadow-sm border border-slate-200">
-      <h2 class="mb-4 text-sm font-semibold text-slate-500 uppercase tracking-wider">Button Component <span class="font-sans font-medium">&</span> Variants</h2>
-      
-      <div class="flex flex-wrap items-center gap-4 mb-8">
-        <button class="rounded-lg bg-[#1c336e] px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand">
-          Primary button
-        </button>
-        <button class="rounded-lg border border-slate-300 px-5 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50">
-          Secondary button
-        </button>
-        <button class="rounded-lg px-5 py-2.5 text-sm font-semibold text-brand hover:bg-brand/10">
-          Ghost button
-        </button>
-      </div>
-      
-      <!-- Corner-Fold variant (as shown in hero design, with dark container for contrast) -->
-      <h3 class="mb-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Corner-Fold Variant (On Dark Background)</h3>
-      <div class="p-8 rounded-xl bg-slate-900 flex flex-wrap gap-6 justify-center items-center   "
-        style="clip-path: polygon(0 0, calc(100% - 30px) 0, 100% 30px, 100% 100%, 0 100%);"
-      >
-        <!-- Explore button -->
-        <a href="#" class="relative overflow-hidden inline-flex items-center justify-between w-full max-w-sm rounded-[4px] bg-white px-6 py-4 text-brand font-semibold shadow-sm hover:shadow-md transition duration-200">
-          <span class="font-din text-base tracking-wide text-brand">Explore our divisions</span>
-          <svg class="absolute top-[4px] right-[4px] w-[14px] h-[14px] text-brand fill-current" viewBox="0 0 14 14">
-            <path d="M 2.414 0 L 13 0 A 1 1 0 0 1 14 1 L 14 11.586 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 2.414 0 Z" />
-          </svg>
-        </a>
 
-        <!-- Contact Us button -->
-        <a href="/contact" class="relative overflow-hidden inline-flex items-center justify-between rounded-[4px] bg-brand px-5 py-2.5 text-xs font-semibold text-white shadow-sm hover:bg-brand/90 transition duration-200">
-          <span class="font-din tracking-wide pr-5">Contact us</span>
+    <!-- foundation: typography | classes: type-title … type-label
+         Figma: Typography_390 (706:12264) + Typography_1680 (706:12161).
+         Those two frames are the ends of the ramp; sm/md/lg/xl in between are
+         interpolated evenly — Figma does not specify them. Definitions live in
+         src/input.css, never inline: a size written by hand at a call site is
+         how the scale drifts. -->
+    <section class="p-6 bg-white rounded-xl shadow-sm border border-slate-200">
+      <h2 class="mb-4 text-sm font-semibold text-slate-500 uppercase tracking-wider">Typography Scale</h2>
+
+      <div class="overflow-x-auto">
+        <table class="w-full min-w-[720px] text-left border-collapse">
+          <thead>
+            <tr class="text-[12px] uppercase tracking-wider text-slate-400 border-b border-slate-200">
+              <th class="py-2 pr-4 font-medium">Class</th>
+              <th class="py-2 pr-4 font-medium">Typeface</th>
+              <th class="py-2 pr-4 font-medium">Mobile</th>
+              <th class="py-2 pr-4 font-medium">2xl</th>
+              <th class="py-2 pr-4 font-medium">Weight</th>
+              <th class="py-2 pr-4 font-medium">Line height</th>
+              <th class="py-2 font-medium">Tracking</th>
+            </tr>
+          </thead>
+          <tbody class="text-[14px] text-slate-600">
+            <tr class="border-b border-slate-100">
+              <td class="py-2 pr-4"><code>type-title</code></td>
+              <td class="py-2 pr-4">Aktiv Grotesk</td>
+              <td class="py-2 pr-4">40px</td>
+              <td class="py-2 pr-4">80px</td>
+              <td class="py-2 pr-4">Medium</td>
+              <td class="py-2 pr-4">110%</td>
+              <td class="py-2">0</td>
+            </tr>
+            <tr class="border-b border-slate-100">
+              <td class="py-2 pr-4"><code>type-heading</code></td>
+              <td class="py-2 pr-4">Aktiv Grotesk</td>
+              <td class="py-2 pr-4">24px</td>
+              <td class="py-2 pr-4">56px</td>
+              <td class="py-2 pr-4">Medium</td>
+              <td class="py-2 pr-4">120%</td>
+              <td class="py-2">0</td>
+            </tr>
+            <tr class="border-b border-slate-100">
+              <td class="py-2 pr-4"><code>type-subheading</code></td>
+              <td class="py-2 pr-4">Aktiv Grotesk</td>
+              <td class="py-2 pr-4">18px</td>
+              <td class="py-2 pr-4">28px</td>
+              <td class="py-2 pr-4">Medium</td>
+              <td class="py-2 pr-4">120%</td>
+              <td class="py-2">1% (0.01em)</td>
+            </tr>
+            <tr class="border-b border-slate-100">
+              <td class="py-2 pr-4"><code>type-button</code></td>
+              <td class="py-2 pr-4">DIN 2014</td>
+              <td class="py-2 pr-4">16px</td>
+              <td class="py-2 pr-4">16px</td>
+              <td class="py-2 pr-4">DemiBold</td>
+              <td class="py-2 pr-4">Auto</td>
+              <td class="py-2">2% (0.02em)</td>
+            </tr>
+            <tr class="border-b border-slate-100">
+              <td class="py-2 pr-4"><code>type-body</code></td>
+              <td class="py-2 pr-4">DIN 2014</td>
+              <td class="py-2 pr-4">16px</td>
+              <td class="py-2 pr-4">16px</td>
+              <td class="py-2 pr-4">Regular</td>
+              <td class="py-2 pr-4">Auto</td>
+              <td class="py-2">2% (0.02em)</td>
+            </tr>
+            <tr class="border-b border-slate-100">
+              <td class="py-2 pr-4"><code>type-helper</code></td>
+              <td class="py-2 pr-4">DIN 2014</td>
+              <td class="py-2 pr-4">12px</td>
+              <td class="py-2 pr-4">12px</td>
+              <td class="py-2 pr-4">Regular</td>
+              <td class="py-2 pr-4">Auto</td>
+              <td class="py-2">2% (0.02em)</td>
+            </tr>
+            <tr>
+              <td class="py-2 pr-4"><code>type-label</code></td>
+              <td class="py-2 pr-4">DIN 2014</td>
+              <td class="py-2 pr-4">10px</td>
+              <td class="py-2 pr-4">10px</td>
+              <td class="py-2 pr-4">Regular</td>
+              <td class="py-2 pr-4">Auto</td>
+              <td class="py-2">2% (0.02em)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Live specimens: resize the window to watch the top three ramp. -->
+      <div class="mt-8 space-y-6 border-t border-slate-200 pt-6">
+        <div>
+          <span class="text-[10px] uppercase tracking-wider text-slate-400">type-title</span>
+          <p class="type-title text-black">The operational backbone</p>
+        </div>
+        <div>
+          <span class="text-[10px] uppercase tracking-wider text-slate-400">type-heading</span>
+          <p class="type-heading text-black">Medical consumables, made to standard</p>
+        </div>
+        <div>
+          <span class="text-[10px] uppercase tracking-wider text-slate-400">type-subheading</span>
+          <p class="type-subheading text-black">Recognised and certified</p>
+        </div>
+        <div>
+          <span class="text-[10px] uppercase tracking-wider text-slate-400">type-body</span>
+          <p class="type-body text-black max-w-lg">One Health supplies the equipment, medicines and infrastructure UAE
+            healthcare is built on.</p>
+        </div>
+        <div>
+          <span class="text-[10px] uppercase tracking-wider text-slate-400">type-button</span>
+          <p class="type-button text-black">Explore our divisions</p>
+        </div>
+        <div>
+          <span class="text-[10px] uppercase tracking-wider text-slate-400">type-helper</span>
+          <p class="type-helper text-error">Enter a valid work email</p>
+        </div>
+        <div>
+          <span class="text-[10px] uppercase tracking-wider text-slate-400">type-label</span>
+          <p class="type-label text-black/40">Work email</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- component: blue-button | variants: default, hovered, disabled
+         Figma: Blue button (497:3102). The house CTA — brand fill, DIN DemiBold
+         16/0.32px label, and the 14px corner fold notched out of the top-right.
+
+         Hover is its own colour token (Brand/Blue hovered #183373), NOT the
+         brand at 90% opacity: an alpha fade renders lighter and changes with
+         whatever sits behind the button, so it never matches the design on a
+         tinted ground. Use `hover:bg-brand-hover`.
+
+         Geometry from the node: h-42, rounded-4, pl-4 pr-6, corner 14x14 at
+         top-1 right-1. Width is whatever the containing block gives it — the
+         design's 376px is the contact form's column, not a property of the
+         button. -->
+    <section class="p-6 bg-white rounded-xl shadow-sm border border-slate-200">
+      <h2 class="mb-4 text-sm font-semibold text-slate-500 uppercase tracking-wider">Blue Button <span
+          class="font-sans font-medium">&</span> States</h2>
+
+      <div class="flex flex-col gap-4 max-w-[376px]">
+
+        <!-- Default (hover it to see the Hovered state) -->
+        <a href="#"
+          class="relative overflow-hidden flex items-center justify-between h-[42px] rounded-[4px] bg-brand pl-4 pr-6 text-white shadow-sm hover:bg-brand-hover transition duration-200">
+          <span class="font-din text-[16px] font-semibold tracking-[0.32px]">Explore our divisions</span>
           <svg class="absolute top-[4px] right-[4px] w-[14px] h-[14px] text-white fill-current" viewBox="0 0 14 14">
-            <path d="M 2.414 0 L 13 0 A 1 1 0 0 1 14 1 L 14 11.586 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 2.414 0 Z" />
+            <path
+              d="M 2.414 0 L 13 0 A 1 1 0 0 1 14 1 L 14 11.586 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 2.414 0 Z" />
           </svg>
         </a>
+
+        <!-- Hovered, pinned so the colour is visible without a pointer -->
+        <span
+          class="relative overflow-hidden flex items-center justify-between h-[42px] rounded-[4px] bg-brand-hover pl-4 pr-6 text-white shadow-sm">
+          <span class="font-din text-[16px] font-semibold tracking-[0.32px]">Explore our divisions</span>
+          <svg class="absolute top-[4px] right-[4px] w-[14px] h-[14px] text-white fill-current" viewBox="0 0 14 14">
+            <path
+              d="M 2.414 0 L 13 0 A 1 1 0 0 1 14 1 L 14 11.586 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 2.414 0 Z" />
+          </svg>
+        </span>
+
+        <!-- Disabled: no hover, cursor blocked, and the real thing should carry
+             the `disabled` attribute so it is skipped by keyboard and AT. -->
+        <button type="button" disabled
+          class="relative overflow-hidden flex items-center justify-between h-[42px] w-full rounded-[4px] bg-brand-disabled pl-4 pr-6 text-white shadow-sm cursor-not-allowed">
+          <span class="font-din text-[16px] font-semibold tracking-[0.32px]">Explore our divisions</span>
+          <svg class="absolute top-[4px] right-[4px] w-[14px] h-[14px] text-white fill-current" viewBox="0 0 14 14">
+            <path
+              d="M 2.414 0 L 13 0 A 1 1 0 0 1 14 1 L 14 11.586 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 2.414 0 Z" />
+          </svg>
+        </button>
+      </div>
+
+      <div class="mt-6 flex flex-wrap gap-6 text-[12px] text-slate-500">
+        <span><span class="inline-block w-3 h-3 align-middle rounded-sm bg-brand"></span> brand
+          <code>#233D7C</code></span>
+        <span><span class="inline-block w-3 h-3 align-middle rounded-sm bg-brand-hover"></span> brand-hover
+          <code>#183373</code></span>
+        <span><span class="inline-block w-3 h-3 align-middle rounded-sm bg-brand-disabled"></span> brand-disabled
+          <code>#7A8BB4</code></span>
       </div>
     </section>
-    <!-- component: cta-banner | variant: brand-inquiry -->
+
+    <!-- component: white-button | variants: default, hovered
+         Figma: White button (480:642). The light counterpart to the blue CTA —
+         used on dark or photographic grounds where a brand fill would sink in.
+         White fill, 1px black/20 border, brand-blue label and corner fold.
+
+         Hover is `white-hover` (#E5E9F5), a real tint rather than an opacity
+         step, for the same reason the blue button uses `brand-hover`.
+
+         One difference from the blue button worth preserving: the corner fold
+         sits at 3px from the edges here, not 4px — the border takes up the
+         extra pixel. -->
     <section class="p-6 bg-white rounded-xl shadow-sm border border-slate-200">
-      <h2 class="mb-4 text-sm font-semibold text-slate-500 uppercase tracking-wider">CTA Banner Component (Brand Banner)</h2>
+      <h2 class="mb-4 text-sm font-semibold text-slate-500 uppercase tracking-wider">White Button <span
+          class="font-sans font-medium">&</span> States</h2>
 
-      <!-- Card Container with top-right cut corner signature -->
-      <div class="relative w-full bg-brand rounded-[4px] p-6 lg:p-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center overflow-hidden" 
-           style="clip-path: polygon(0 0, calc(100% - 30px) 0, 100% 30px, 100% 100%, 0 100%);">
-        
-        <!-- Left Column: Microscope Image Container with top-right cut corner -->
-        <div class="lg:col-span-4 w-full aspect-square relative overflow-hidden rounded-[4px]"
-             style="clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 0 100%);">
-          <img src="/assets/img/home/microsope.svg" alt="Supporting healthcare" class="w-full h-full object-cover" />
-        </div>
+      <!-- Shown on a dark ground, which is where this variant is used. -->
+      <div class="p-8 rounded-xl bg-slate-900 flex flex-col gap-4 max-w-[440px]">
 
-        <!-- Right Column: Heading & Inquiry Button (with vertical line border-l) -->
-        <div class="lg:col-span-8 flex flex-col justify-between h-full min-h-[280px] lg:border-l lg:border-white/10 lg:pl-10 lg:py-2 space-y-8">
-          
-          <!-- Heading -->
-          <h2 class="font-aktiv text-3xl sm:text-4xl lg:text-[56px] font-medium leading-[1.2] text-white tracking-tight max-w-2xl">
-            Supporting healthcare, beyond the point of care
-          </h2>
+        <!-- Default (hover it to see the Hovered state) -->
+        <a href="#"
+          class="relative overflow-hidden flex items-center justify-between h-[42px] rounded-[4px] border border-black/20 bg-white pl-4 pr-6 text-brand hover:bg-white-hover transition duration-200">
+          <span class="type-button text-brand">Explore our divisions</span>
+          <svg class="absolute top-[3px] right-[3px] w-[14px] h-[14px] text-brand fill-current" viewBox="0 0 14 14">
+            <path
+              d="M 2.414 0 L 13 0 A 1 1 0 0 1 14 1 L 14 11.586 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 2.414 0 Z" />
+          </svg>
+        </a>
 
-          <!-- Send an Inquiry Button (UI-Kit Corner-Fold) -->
-          <a href="/contact" class="relative overflow-hidden flex items-center justify-between w-full max-w-sm h-[48px] bg-white px-5 py-2.5 text-brand font-semibold hover:bg-slate-50 transition duration-200 rounded-[4px] shadow-sm">
-            <span class="font-din text-xs tracking-wide text-brand">Send an inquiry</span>
-            <svg class="absolute top-[4px] right-[4px] w-[14px] h-[14px] text-brand fill-current" viewBox="0 0 14 14">
-              <path d="M 2.414 0 L 13 0 A 1 1 0 0 1 14 1 L 14 11.586 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 2.414 0 Z" />
-            </svg>
-          </a>
+        <!-- Hovered, pinned so the tint is visible without a pointer -->
+        <span
+          class="relative overflow-hidden flex items-center justify-between h-[42px] rounded-[4px] border border-black/20 bg-white-hover pl-4 pr-6 text-brand">
+          <span class="type-button text-brand">Explore our divisions</span>
+          <svg class="absolute top-[3px] right-[3px] w-[14px] h-[14px] text-brand fill-current" viewBox="0 0 14 14">
+            <path
+              d="M 2.414 0 L 13 0 A 1 1 0 0 1 14 1 L 14 11.586 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 2.414 0 Z" />
+          </svg>
+        </span>
+      </div>
 
-        </div>
-
+      <div class="mt-6 flex flex-wrap gap-6 text-[12px] text-slate-500">
+        <span><span class="inline-block w-3 h-3 align-middle rounded-sm bg-white border border-slate-300"></span> white
+          <code>#FFFFFF</code></span>
+        <span><span class="inline-block w-3 h-3 align-middle rounded-sm bg-white-hover border border-slate-300"></span>
+          white-hover <code>#E5E9F5</code></span>
       </div>
     </section>
-    <!-- component: footer | variant: main -->
+
+    <!-- component: input | variants: default, focused, filled, error, select
+         Figma: Input (496:2995). Underlined field whose label lives above the
+         input and only surfaces once the field is focused or carries a value,
+         so the resting state is just the placeholder over its rule.
+
+         Tokens: label 10px / 0.2px tracking, value 16px / 0.32px, helper text
+         12px / 0.24px in `text-error`. 8px between the value and the rule
+         (`pb-2`), 4px between the rule and helper text (`mt-1`).
+
+         The label MUST follow the input in source order — `peer-*` compiles to
+         the CSS `~` sibling combinator, which only looks forwards. `order-1` /
+         `order-2` then flips them visually, so the markup stays peer-friendly
+         while the label renders on top. -->
     <section class="p-6 bg-white rounded-xl shadow-sm border border-slate-200">
-      <h2 class="mb-4 text-sm font-semibold text-slate-500 uppercase tracking-wider">Footer Component</h2>
+      <h2 class="mb-4 text-sm font-semibold text-slate-500 uppercase tracking-wider">Input Component <span
+          class="font-sans font-medium">&</span> States</h2>
 
-      <footer class="bg-[#F2F2F2] text-black py-16 lg:py-20 border-t border-black/10 rounded-lg overflow-hidden">
-        <div class="container-page flex flex-col space-y-16">
-          
-          <!-- Top Row: Logo, Navigation Columns, LinkedIn -->
-          <div class="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12 items-start">
-            
-            <!-- Left: Logo -->
-            <div class="md:col-span-3">
-              <a href="/">
-                <img src="/assets/img/home/bluelogo.svg" alt="One Health" class="h-8 object-contain" />
-              </a>
-            </div>
+      <h3 class="mb-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Live (type to see the label rise)
+      </h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-8 max-w-[520px] mb-10">
 
-            <!-- Center: 3 Navigation Columns -->
-            <div class="md:col-span-8 grid grid-cols-1 sm:grid-cols-3 gap-8">
-              
-              <!-- Column 1: Company -->
-              <div class="flex flex-col space-y-3">
-                <h4 class="font-aktiv text-[14px] font-semibold text-black">Company</h4>
-                <ul class="flex flex-col space-y-2 font-din text-[14px] text-[#00000066]">
-                  <li><a href="/" class="hover:text-black transition">Home</a></li>
-                  <li><a href="/about" class="hover:text-black transition">About</a></li>
-                  <li><a href="medtrust.html" class="hover:text-black transition">MedTrust</a></li>
-                  <li><a href="news.html" class="hover:text-black transition">Insights <span class="font-sans font-medium">&</span> media</a></li>
-                  <li><a href="/careers" class="hover:text-black transition">Careers</a></li>
-                  <li><a href="/contact" class="hover:text-black transition">Contact</a></li>
-                </ul>
-              </div>
-
-              <!-- Column 2: Our divisions -->
-              <div class="flex flex-col space-y-3">
-                <h4 class="font-aktiv text-[14px] font-semibold text-black">Our divisions</h4>
-                <ul class="flex flex-col space-y-2 font-din text-[14px] text-[#00000066]">
-                  <li><a href="/divisions/ivd" class="hover:text-black transition">IVD <span class="font-sans font-medium">&</span> life sciences</a></li>
-                  <li><a href="/divisions/medical" class="hover:text-black transition">Medical products <span class="font-sans font-medium">&</span> projects</a></li>
-                  <li><a href="/divisions/technical" class="hover:text-black transition">Facilities <span class="font-sans font-medium">&</span> technical services</a></li>
-                  <li><a href="/divisions/supply-chain" class="hover:text-black transition">Supply chain management</a></li>
-                  <li><a href="/divisions/business-dev" class="hover:text-black transition">Business development</a></li>
-                  <li><a href="/divisions/channel" class="hover:text-black transition">Channel management</a></li>
-                </ul>
-              </div>
-
-              <!-- Column 3: Legal -->
-              <div class="flex flex-col space-y-3">
-                <h4 class="font-aktiv text-[14px] font-semibold text-black">Legal</h4>
-                <ul class="flex flex-col space-y-2 font-din text-[14px] text-[#00000066]">
-                  <li><a href="/privacy" class="hover:text-black transition">Privacy Policy</a></li>
-                  <li><a href="/terms" class="hover:text-black transition">Terms of Service</a></li>
-                  <li><a href="/cookies.html" class="hover:text-black transition">Cookie preferences</a></li>
-                </ul>
-              </div>
-
-            </div>
-
-            <!-- Right: LinkedIn Icon -->
-            <div class="md:col-span-1 flex justify-start md:justify-end">
-              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="w-6 h-6 bg-black text-white flex items-center justify-center rounded-[2px] hover:bg-brand transition" aria-label="LinkedIn">
-                <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
-                  <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.25V10.9H6.46M7.86 6.7a1.63 1.63 0 1 0 0 3.26 1.63 1.63 0 0 0 0-3.26Z"/>
-                </svg>
-              </a>
-            </div>
-
-          </div>
-
-          <!-- Bottom Row: Copyright Notice -->
-          <div class="pt-8 font-din text-[14px] text-[#00000066] text-center">
-            &copy; 2026 OneHealth. All rights reserved
-          </div>
-
+        <!-- Text field -->
+        <div class="flex flex-col">
+          <input id="uikit-name" name="uikit-name" type="text" placeholder="Full name"
+            class="peer order-2 w-full border-0 border-b border-black/20 bg-transparent pb-2 font-din text-[16px] tracking-[0.32px] text-black placeholder:text-black/40 focus:outline-none focus:border-brand transition" />
+          <label for="uikit-name"
+            class="order-1 font-din text-[10px] tracking-[0.2px] text-black/40 opacity-0 transition-opacity peer-focus:opacity-100 peer-[:not(:placeholder-shown)]:opacity-100">Full
+            name</label>
         </div>
-      </footer>
-    </section>
-    <!-- component: navigation-modal | variant: dropdown -->
-    <section class="p-6 bg-slate-900 rounded-xl shadow-sm border border-slate-800">
-      <h2 class="mb-4 text-sm font-semibold text-slate-400 uppercase tracking-wider">Navigation Menu Modal (Cut-Corner Signature)</h2>
 
-      <div class="relative w-full max-w-[448px] bg-white text-black p-8 sm:p-10 shadow-2xl rounded-[4px] mx-auto"
-           style="clip-path: polygon(0 0, 100% 0, 100% 100%, 28px 100%, 0 calc(100% - 28px));">
-
-        <ul class="flex flex-col w-full divide-y divide-[#0000001a]">
-          
-          <li class="pb-4">
-            <a href="/" class="block font-aktiv text-[28px] font-medium leading-[1.1] text-black hover:text-brand transition">Home</a>
-          </li>
-
-          <li x-data="{ subOpen: false }" class="py-4 flex flex-col">
-            <button x-on:click="subOpen = !subOpen" class="w-full flex items-center justify-between text-left font-aktiv text-[28px] font-medium leading-[1.1] text-black hover:text-brand transition">
-              <span>Who we are</span>
-              <svg class="w-3.5 h-3.5 text-brand fill-current" viewBox="0 0 14 14">
-                <path d="M 2.414 0 L 13 0 A 1 1 0 0 1 14 1 L 14 11.586 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 2.414 0 Z" />
-              </svg>
-            </button>
-          </li>
-
-          <li x-data="{ subOpen: true }" class="py-4 flex flex-col">
-            <button x-on:click="subOpen = !subOpen" class="w-full flex items-center justify-between text-left font-aktiv text-[28px] font-medium leading-[1.1] text-black hover:text-brand transition">
-              <span>Divisions</span>
-              <svg class="w-3.5 h-3.5 text-brand fill-current" viewBox="0 0 14 14">
-                <path d="M 2.414 0 L 13 0 A 1 1 0 0 1 14 1 L 14 11.586 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 2.414 0 Z" />
-              </svg>
-            </button>
-            <div x-show="subOpen" class="pt-3 pb-1 flex flex-col space-y-2 font-aktiv text-[14px] text-[#00000080]">
-              <a href="/divisions/ivd" class="hover:text-black transition">IVD and life sciences</a>
-              <a href="/divisions/medical" class="hover:text-black transition">Medical products <span class="font-sans font-medium">&</span> projects</a>
-              <a href="/divisions/business-dev" class="hover:text-black transition">Business development</a>
-              <a href="/divisions/technical" class="hover:text-black transition">Facilities <span class="font-sans font-medium">&</span> technical services</a>
-              <a href="/divisions/supply-chain" class="hover:text-black transition">Supply chain management</a>
-            </div>
-          </li>
-
-          <li class="py-4">
-            <a href="news.html" class="block font-aktiv text-[28px] font-medium leading-[1.1] text-black hover:text-brand transition">Insights <span class="font-sans font-medium">&</span> media</a>
-          </li>
-
-          <li class="py-4">
-            <a href="/careers" class="block font-aktiv text-[28px] font-medium leading-[1.1] text-black hover:text-brand transition">Careers</a>
-          </li>
-
-          <li class="pt-4">
-            <a href="/contact" class="block font-aktiv text-[28px] font-medium leading-[1.1] text-black hover:text-brand transition">Contact</a>
-          </li>
-
-        </ul>
-      </div>
-    </section>
-    <!-- /component -->
-
-    <!-- component: manufacturers-brands-section -->
-    <section class="p-6 bg-slate-900 rounded-xl shadow-sm border border-slate-800">
-      <h2 class="mb-4 text-sm font-semibold text-slate-400 uppercase tracking-wider">Manufacturers <span class="font-sans font-medium">&</span> Brands Grid (56px Aktiv Grotesk + Dual Categories)</h2>
-
-      <div class="bg-[#F2F2F2] text-black p-8 rounded-lg">
-        <div class="border-t border-[#00000033] pt-6 grid grid-cols-1 lg:grid-cols-12 gap-8">
-          <div class="lg:col-span-4">
-            <h3 class="font-din text-[14px] font-normal tracking-wider text-black">
-              Globally recognised brands
-            </h3>
-          </div>
-          <div class="lg:col-span-8 flex flex-col space-y-8">
-            <h4 class="font-aktiv text-2xl lg:text-[40px] font-medium leading-[1.1] text-black">
-              One Health represents the manufacturers behind the world<span class="font-sans font-medium">'</span>s leading laboratories, many of them exclusively in the UAE.
-            </h4>
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
-              <div class="bg-[#EBEBEB] rounded-[4px] aspect-[3/2] flex items-center justify-center p-4">
-                <img src="/assets/img/logos/log1.svg" alt="Siemens" class="max-w-full max-h-full object-contain" />
-              </div>
-              <div class="bg-[#EBEBEB] rounded-[4px] aspect-[3/2] flex items-center justify-center p-4">
-                <img src="/assets/img/logos/log2.svg" alt="Abbott" class="max-w-full max-h-full object-contain" />
-              </div>
-              <div class="bg-[#EBEBEB] rounded-[4px] aspect-[3/2] flex items-center justify-center p-4">
-                <img src="/assets/img/logos/log03.svg" alt="Thermo Fisher" class="max-w-full max-h-full object-contain" />
-              </div>
-              <div class="bg-[#EBEBEB] rounded-[4px] aspect-[3/2] flex items-center justify-center p-4">
-                <img src="/assets/img/logos/log04.svg" alt="Immucor" class="max-w-full max-h-full object-contain" />
-              </div>
-            </div>
-          </div>
+        <!-- Select variant: the 10px corner glyph replaces the native arrow.
+             `:placeholder-shown` never matches a <select>, so the label and the
+             muted value colour are driven by Alpine instead of `peer-*`. -->
+        <div class="relative flex flex-col" x-data="{ value: '' }">
+          <select id="uikit-country" name="uikit-country" x-model="value"
+            class="order-2 w-full appearance-none border-0 border-b border-black/20 bg-transparent pb-2 pr-5 font-din text-[16px] tracking-[0.32px] focus:outline-none focus:border-brand transition"
+            :class="value ? 'text-black' : 'text-black/40'">
+            <option value="">Country</option>
+            <option value="uae">United Arab Emirates</option>
+            <option value="ksa">Saudi Arabia</option>
+          </select>
+          <label for="uikit-country"
+            class="order-1 font-din text-[10px] tracking-[0.2px] text-black/40 transition-opacity"
+            :class="value ? 'opacity-100' : 'opacity-0'">Country</label>
+          <img src="/assets/img/contact/chevron-down.svg" alt=""
+            class="pointer-events-none absolute right-0 bottom-[10px] w-[10px] h-[10px] -scale-y-100" />
         </div>
       </div>
+
+      <h3 class="mb-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">All four states</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-[1040px]">
+
+        <!-- Default: label hidden, placeholder over the rule -->
+        <div class="flex flex-col">
+          <span class="order-1 font-din text-[10px] tracking-[0.2px] text-black/40 opacity-0">Label</span>
+          <div class="order-2 w-full border-b border-black/20 pb-2 font-din text-[16px] tracking-[0.32px] text-black/40">
+            Label</div>
+          <span class="order-3 mt-2 text-[10px] uppercase tracking-wider text-slate-400">Default</span>
+        </div>
+
+        <!-- Focused: rule takes the brand colour, caret sits before the value -->
+        <div class="flex flex-col">
+          <span class="order-1 font-din text-[10px] tracking-[0.2px] text-black/40 opacity-0">Label</span>
+          <div class="order-2 w-full border-b border-brand pb-2 font-din text-[16px] tracking-[0.32px] text-black/40">
+            <span class="border-l border-black align-middle"></span>Input
+          </div>
+          <span class="order-3 mt-2 text-[10px] uppercase tracking-wider text-slate-400">Focused</span>
+        </div>
+
+        <!-- Filled: label revealed above a black value -->
+        <div class="flex flex-col">
+          <span class="order-1 font-din text-[10px] tracking-[0.2px] text-black/40">Label</span>
+          <div class="order-2 w-full border-b border-black/20 pb-2 font-din text-[16px] tracking-[0.32px] text-black">
+            Input</div>
+          <span class="order-3 mt-2 text-[10px] uppercase tracking-wider text-slate-400">Filled</span>
+        </div>
+
+        <!-- Error: same field, plus helper text in the error token -->
+        <div class="flex flex-col">
+          <span class="order-1 font-din text-[10px] tracking-[0.2px] text-black/40">Label</span>
+          <div class="order-2 w-full border-b border-black/20 pb-2 font-din text-[16px] tracking-[0.32px] text-black">
+            Input</div>
+          <p class="order-3 mt-1 font-din text-[12px] tracking-[0.24px] text-error">Helper text</p>
+          <span class="order-4 mt-2 text-[10px] uppercase tracking-wider text-slate-400">Error</span>
+        </div>
+      </div>
+
+      <!-- Wiring an error in a real form: keep the rule as-is per the design,
+           but mark the field for assistive tech, which the visual alone doesn't
+           do — the helper text is the only error signal on screen. -->
+      <pre class="mt-8 overflow-x-auto rounded-lg bg-slate-900 p-4 text-[12px] leading-relaxed text-slate-200"><code>&lt;input id="email" aria-invalid="true" aria-describedby="email-error" … /&gt;
+&lt;p id="email-error" class="mt-1 font-din text-[12px] tracking-[0.24px] text-error"&gt;
+  Enter a valid work email
+&lt;/p&gt;</code></pre>
     </section>
-    <!-- /component -->
 
   </main>
 

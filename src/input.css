@@ -145,6 +145,15 @@
   --color-white: #FFFFFF;
 
   --color-brand: #233D7C;
+  /* Figma Brand/Blue hovered. A real second colour, not the brand at 90%
+     opacity — an alpha fade sits lighter and shifts with whatever is behind
+     it, so `bg-brand/90` never matches the design on a non-white ground. */
+  --color-brand-hover: #183373;
+  /* Figma calls this "Brand/Blue error" but it is the Disabled fill. */
+  --color-brand-disabled: #7A8BB4;
+  /* Figma Light/White hovered — the white button's hover fill. */
+  --color-white-hover: #E5E9F5;
+  --color-error: #B26120;
   --color-ai: linear-gradient(90deg, #B7CCFF 0%, #5ECEFF 100%);
 
   --font-din: "DIN 2014", ui-sans-serif, system-ui, sans-serif;
@@ -165,7 +174,8 @@
 
 /* ---- Components: ONLY bare classes repeated everywhere with no markup ----
    Anything with structure should be a copy-pasted block from ui-kit.html,
-   not a CSS class. Keep this section under ~5 rules. */
+   not a CSS class. Keep this section to the layout helpers plus the type
+   scale below — nothing with structure. */
 @layer components {
   .container-page {
     @apply  px-4 sm:px-6 lg:px-10;
@@ -173,6 +183,58 @@
   .section {
     @apply py-section;
   }
+}
+
+/* ---- Type scale ----
+   Figma: Typography_390 (706:12264) and Typography_1680 (706:12161). Those two
+   frames give the ends of the ramp — 390px wide and 1680px wide — so the base
+   size here is the mobile value and 2xl (1536px) is the desktop one. The steps
+   between are interpolated evenly; Figma does not specify them.
+
+   Letter spacing is expressed in `em`, not px, because Figma states it as a
+   PERCENTAGE of the size (1% / 2%). In em it tracks the responsive size
+   automatically — 0.02em is 0.32px at 16px and 0.28em... 0.28px at 14px —
+   whereas a px value would drift at every breakpoint.
+
+   Line height "Auto" in Figma is the font's own metric, i.e. leading-normal. */
+@layer components {
+  .type-title {
+    @apply font-aktiv font-medium tracking-normal leading-[1.1]
+           text-[40px] sm:text-[48px] md:text-[56px] lg:text-[64px] xl:text-[72px] 2xl:text-[80px];
+  }
+
+  .type-heading {
+    @apply font-aktiv font-medium tracking-normal leading-[1.2]
+           text-[24px] sm:text-[30px] md:text-[36px] lg:text-[44px] xl:text-[50px] 2xl:text-[56px];
+  }
+
+  .type-subheading {
+    @apply font-aktiv font-medium tracking-[0.01em] leading-[1.2]
+           text-[18px] sm:text-[20px] md:text-[22px] lg:text-[24px] xl:text-[26px] 2xl:text-[28px];
+  }
+
+  /* Fixed across every breakpoint — both Figma frames agree on these four. */
+  .type-button {
+    @apply font-din font-semibold text-[16px] tracking-[0.02em] leading-normal;
+  }
+
+  .type-body {
+    @apply font-din font-normal text-[16px] tracking-[0.02em] leading-normal;
+  }
+
+  .type-helper {
+    @apply font-din font-normal text-[12px] tracking-[0.02em] leading-normal;
+  }
+
+  .type-label {
+    @apply font-din font-normal text-[10px] tracking-[0.02em] leading-normal;
+  }
+}
+
+/* Alpine strips x-cloak once it initialises; without this rule the attribute
+   does nothing and elements it guards flash before Alpine boots. */
+[x-cloak] {
+  display: none !important;
 }
 
 /* Custom Utilities */
