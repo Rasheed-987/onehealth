@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "tailwindcss -i ./src/input.css -o ./assets/css/app.css --watch",
     "build": "tailwindcss -i ./src/input.css -o ./assets/css/app.css --minify",
+    "vercel-build": "npm run build && rm -rf public && mkdir -p public && cp -r assets *.html public/",
     "frames": "bash tools/vidframes.sh"
   },
   "keywords": [],

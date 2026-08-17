@@ -1,5 +1,6 @@
 node_modules/
 assets/css/app.css
+public/
 .vidframes/
 tools
 vidframes.sh

@@ -67,16 +67,21 @@
     </div>
   </div>
 
-  <!-- Menu panel -->
+  <!-- Menu panel. Two elements, not one, because the card carries two clip
+       paths that cannot stack on a single element: the outer one animates the
+       corner-growth reveal (.menu-reveal-*, see src/input.css), the inner one
+       is the static bottom-left notch. The outer also owns all the positioning
+       so the reveal clips the card in its final place. -->
   <div x-data x-cloak x-show="$store.nav.menu" x-on:keydown.escape.window="$store.nav.close()"
-    x-transition:enter="transition ease-out duration-300"
-    x-transition:enter-start="opacity-0 lg:scale-95 lg:-translate-y-2"
-    x-transition:enter-end="opacity-100 lg:scale-100 lg:translate-y-0"
-    x-transition:leave="transition ease-in duration-200"
-    x-transition:leave-start="opacity-100 lg:scale-100 lg:translate-y-0"
-    x-transition:leave-end="opacity-0 lg:scale-95 lg:-translate-y-2"
-    class="panel-notch fixed inset-0 z-[100] flex flex-col bg-white text-black overflow-y-auto
-           lg:inset-auto lg:right-10 lg:top-[86px] lg:w-[512px] lg:max-h-[calc(100vh-126px)] lg:rounded-[4px]">
+    x-transition:enter="menu-reveal-in"
+    x-transition:enter-start="opacity-0 menu-reveal-from"
+    x-transition:enter-end="opacity-100 menu-reveal-to"
+    x-transition:leave="menu-reveal-out"
+    x-transition:leave-start="opacity-100 menu-reveal-to"
+    x-transition:leave-end="opacity-0 menu-reveal-from"
+    class="fixed inset-0 z-[100] lg:inset-auto lg:right-10 lg:top-[86px] lg:w-[512px]">
+    <div class="panel-notch flex flex-col h-full bg-white text-black overflow-y-auto
+             lg:h-auto lg:max-h-[calc(100vh-126px)] lg:rounded-[4px]">
 
     <!-- Sheet header (phones/tablets only). The desktop card has no header of
          its own — the copy drawn over the backdrop above serves that role. -->
@@ -179,6 +184,7 @@
 
       </ul>
     </nav>
+    </div>
   </div>
 
   <!-- Search panel. A full-screen white view at EVERY breakpoint — both Figma
@@ -248,19 +254,21 @@
               class="type-body text-black/50 hover:text-black transition flex-shrink-0">Clear</button>
           </div>
 
-          <ul class="flex flex-col divide-y divide-black/20 border-t border-black/20">
+          <ul class="flex flex-col divide-y divide-black/20 border-y border-black/20">
             <!-- Keyed on url + text: one page contributes several snippets, so
                  the url alone is not unique and Alpine would reuse rows. -->
             <template x-for="(result, i) in $store.nav.results" :key="result.url + result.text">
               <li>
                 <!-- Column track comes straight from the frame: at 1680 the
                      number sits on the gutter, the title at 176 and the section
-                     label at 856. The section label drops out below lg, and a
-                     display:none grid item leaves no empty column behind. -->
+                     label at 856. The title's own box is 512 wide inside that
+                     680px track, which is what fixes where it wraps. The section
+                     label drops out below lg, and a display:none grid item leaves
+                     no empty column behind. -->
                 <a :href="result.url"
                   class="grid items-start grid-cols-[62px_1fr_14px] lg:grid-cols-[8.5%_42.5%_1fr_14px] py-5 lg:pt-10 lg:pb-5">
                   <span class="type-body text-black/50" x-text="String(i + 1).padStart(2, '0')"></span>
-                  <span class="type-subheading text-black line-clamp-3 lg:line-clamp-2"
+                  <span class="type-subheading text-black line-clamp-3 lg:line-clamp-2 lg:max-w-[512px]"
                     x-html="$store.nav.highlight(result.text)"></span>
                   <span class="hidden lg:block type-body text-black/50" x-text="result.section"></span>
                   <svg class="w-3.5 h-3.5 text-brand fill-current" viewBox="0 0 14 14" aria-hidden="true">
@@ -304,7 +312,7 @@
 
           <!-- Contact Us Button (Corner-Fold Variant) -->
           <a href="contact.html"
-            class="relative overflow-hidden hidden sm:inline-flex items-center justify-between h-[44px] rounded-[4px] bg-brand px-5 flex-1 text-xs font-semibold text-white shadow-sm hover:bg-brand-hover transition duration-200">
+            class="relative overflow-hidden hidden sm:inline-flex items-center justify-between h-[44px] rounded-[4px] bg-brand px-5 flex-1 text-white shadow-sm hover:bg-brand-hover transition duration-200">
             <span class="type-button pr-5">Contact us</span>
             <svg class="absolute top-[4px] right-[4px] w-[14px] h-[14px] text-white fill-current" viewBox="0 0 14 14">
               <path
@@ -352,9 +360,9 @@
           <div>
             <!-- Explore our divisions Button (UI-Kit Corner-Fold) -->
             <a href="#"
-              class="relative overflow-hidden inline-flex items-center justify-between w-full rounded-[4px] bg-white px-6 py-4 text-brand font-semibold  transition duration-200">
+              class="relative overflow-hidden inline-flex items-center justify-between w-full rounded-[4px] border border-black/20 bg-white px-6 py-4 text-brand hover:bg-white-hover transition duration-200">
               <span class="type-button text-brand">Explore our divisions</span>
-              <svg class="absolute top-[4px] right-[4px] w-[14px] h-[14px] text-brand fill-current" viewBox="0 0 14 14">
+              <svg class="absolute top-[3px] right-[3px] w-[14px] h-[14px] text-brand fill-current" viewBox="0 0 14 14">
                 <path
                   d="M 2.414 0 L 13 0 A 1 1 0 0 1 14 1 L 14 11.586 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 2.414 0 Z" />
               </svg>
@@ -1255,7 +1263,7 @@
               <span class="type-button text-white mr-8">Explore MedTrust</span>
               <svg class="absolute top-[4px] right-[4px] w-[14px] h-[14px] text-white fill-current" viewBox="0 0 14 14">
                 <path
-                  d="M 2.414 0 L 13 0 A 1 1 0 0 1 14 1 L 14 11.586 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 2.414 0 Z" />
+                  d="M 2.414 0 L 13 0 A 1 1 0 0 1 14 1 L 14 11.586 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 2.414 0 Z" />
               </svg>
             </a>
           </div>
@@ -1665,7 +1673,7 @@
        page, so a transparent section would let it show through its padding. -->
   <section class="bg-white pt-12 pb-20 lg:pb-24 container-page">
     <div
-      class="relative w-full bg-[#233D7C] rounded-[4px] p-4 lg:p-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center overflow-hidden">
+      class="relative w-full bg-brand rounded-[4px] p-4 lg:p-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center overflow-hidden">
 
       <!-- Left Column: Image (lg:col-span-3) -->
       <div class="lg:col-span-3 w-full aspect-[299/299] relative overflow-hidden rounded-[4px]"
@@ -1685,11 +1693,11 @@
         </h2>
 
         <a href="/contact"
-          class="relative overflow-hidden flex items-center justify-between w-full h-[48px] bg-white px-5 py-2.5 font-semibold rounded-[4px] shadow-sm hover:bg-white/90 transition duration-200">
-          <span class="type-button text-[#233D7C]">Send an inquiry</span>
-          <svg class="absolute top-[4px] right-[4px] w-[14px] h-[14px] text-[#233D7C] fill-current" viewBox="0 0 14 14">
+          class="relative overflow-hidden flex items-center justify-between w-full h-[48px] rounded-[4px] border border-black/20 bg-white px-5 py-2.5 text-brand shadow-sm hover:bg-white-hover transition duration-200">
+          <span class="type-button text-brand">Send an inquiry</span>
+          <svg class="absolute top-[3px] right-[3px] w-[14px] h-[14px] text-brand fill-current" viewBox="0 0 14 14">
             <path
-              d="M 2.414 0 L 13 0 A 1 1 0 0 1 14 1 L 14 11.586 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 2.414 0 Z" />
+              d="M 2.414 0 L 13 0 A 1 1 0 0 1 14 1 L 14 11.586 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 2.414 0 Z" />
           </svg>
         </a>
       </div>

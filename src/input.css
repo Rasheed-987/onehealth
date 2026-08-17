@@ -375,6 +375,91 @@
   }
 }
 
+
+.wipe-layer {
+  clip-path: inset(0 0 100% 0);
+  transition: clip-path 700ms cubic-bezier(0.4, 0, 0.15, 1);
+  /* The edge repaints a full-bleed photo every frame; without its own layer
+     this re-rasterises and tears on the way down. */
+  will-change: clip-path;
+}
+
+.wipe-layer.is-wiped {
+  clip-path: inset(0 0 0 0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wipe-layer {
+    transition: none;
+  }
+}
+
+/* The desktop menu card grows out of its own top-right corner — the corner it
+   drops from, under the hamburger. Measured off the reference recording rather
+   than guessed: the nav items sit at full size with their left edges cut off
+   mid-word the whole way in, so the type never moves or scales. Only the box
+   changes. That rules out `scale`, which would drag the text with it.
+
+   Width and height run off one scalar — the two edges tracked within 0.012 of
+   each other across every frame — so a single `inset()` covers both. The
+   start value collapses the box into its top-right corner: 100% off the
+   bottom, 100% off the left.
+
+   Two curves, because the recording has two. The box is easeOutCubic over
+   550ms (measured 0.46 / 0.55 / 0.90 at 17% / 25% / 50% against the curve's
+   0.43 / 0.58 / 0.875). Opacity is a separate, shorter, linear ramp — the box
+   is already 46% open while the panel is only about 25% opaque, which is what
+   makes it read as materialising instead of snapping. Fading in step with the
+   box loses that.
+
+   clip-path is listed FIRST deliberately: Alpine takes the first duration in
+   the computed shorthand to time class cleanup, so the longer one has to lead
+   or it strips the classes mid-animation.
+
+   Below lg the panel is a full-screen sheet, not a card, so there is no corner
+   to grow from — the reveal classes are lg-only and the sheet keeps the plain
+   opacity fade it already had. */
+/* Below lg: the sheet's original plain fade, unchanged at 300/200. */
+.menu-reveal-in {
+  transition: opacity 300ms ease-out;
+}
+
+.menu-reveal-out {
+  transition: opacity 200ms ease-in;
+}
+
+@media (min-width: 1024px) {
+  .menu-reveal-in {
+    transition: clip-path 550ms cubic-bezier(0.33, 1, 0.68, 1), opacity 400ms linear;
+  }
+
+  .menu-reveal-out {
+    transition: clip-path 300ms cubic-bezier(0.32, 0, 0.67, 0), opacity 250ms linear;
+  }
+
+  .menu-reveal-from {
+    clip-path: inset(0 0 100% 100%);
+  }
+
+  .menu-reveal-to {
+    clip-path: inset(0 0 0 0);
+  }
+
+  /* Only while the box is actually moving. Left on permanently this would keep
+     a 512px card promoted for the whole session. */
+  .menu-reveal-in,
+  .menu-reveal-out {
+    will-change: clip-path;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .menu-reveal-in,
+  .menu-reveal-out {
+    transition: none;
+  }
+}
+
 /* The "AI Lab calculator" wordmark reads against two different grounds: white
    page at mobile, dark hero from lg up. A gradient can't be swapped from an
    inline style, so the two live here. */
@@ -433,6 +518,13 @@
   }
 }
 
+/* Two viewports: one of scroll for the timeline scrub, one taken up by the
+   stage itself. No pinning past that — the desktop half of this rule, in the
+   `lg` block below, is what adds the hold-and-cover. */
+.timeline-pinned {
+  height: 200vh;
+}
+
 /* The hero stays pinned while the rest of the page scrolls up over it.
    Sticky makes the hero a *positioned* element, which would otherwise paint on
    top of the static sections that follow it — so every later top-level sibling
@@ -460,18 +552,32 @@
   }
 
 
-.purpose {
-    position: sticky;
-    top: 0;
+  /* The timeline is the one pinned scene that has to finish playing before it
+     starts behaving like the ones above: a viewport of scrub, then a viewport
+     of hold while the next section rises over it. So it is three viewports
+     tall and its *stage* stays sticky for the first two, rather than the
+     section itself being sticky — a sticky section would pin the moment its
+     top hit 0 and freeze the scrub at zero.
+
+     The overlap is what makes the cover read as a cover. A sticky stage
+     unsticks exactly when its section's bottom reaches the viewport bottom,
+     which is the same moment the next section would enter — so left alone the
+     timeline would scroll away rather than be covered. Pulling the next
+     section up a viewport lands its entry inside the hold instead, and the
+     negative margin cancels the extra height, so the page is no longer than
+     the two-viewport version. */
+  .timeline-pinned {
+    position: relative;
+    height: 300vh;
     z-index: 10;
   }
-  .purpose ~ * {
+  .timeline-pinned ~ * {
     position: relative;
     z-index: 20;
   }
-
-
-
+  .timeline-cover {
+    margin-top: -100vh;
+  }
 
 
 
