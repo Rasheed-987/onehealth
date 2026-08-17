@@ -11,6 +11,7 @@
        are deferred, so they run in document order and the alpine:init listener
        is attached before Alpine boots. -->
   <script defer src="/assets/js/nav.js"></script>
+  <script defer src="/assets/js/consent.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3/dist/cdn.min.js"></script>
 </head>
 
@@ -43,13 +44,13 @@
 
       <div class="flex items-center justify-end gap-2 w-auto sm:w-full sm:max-w-[331px] sm:justify-between">
         <button x-on:click="$store.nav.toggleSearch()"
-          class="flex items-center bg-white justify-center w-[44px] h-[44px] flex-shrink-0 rounded-[4px] border border-[#00000033] transition"
+          class="flex items-center bg-white justify-center w-[44px] h-[44px] flex-shrink-0 rounded-[4px] border border-black/20 transition"
           aria-label="Search">
           <img src="/assets/img/about/search-icon.svg" alt="" class="w-5 h-5" />
         </button>
 
         <a href="contact.html"
-          class="relative overflow-hidden hidden sm:inline-flex items-center justify-between h-[44px] rounded-[4px] bg-brand px-5 flex-1 text-xs font-semibold text-white shadow-sm hover:bg-brand-hover transition duration-200">
+          class="relative overflow-hidden hidden sm:inline-flex items-center justify-between h-[44px] rounded-[4px] bg-brand px-5 flex-1 text-white shadow-sm hover:bg-brand-hover transition duration-200">
           <span class="type-button pr-5">Contact us</span>
           <svg class="absolute top-[4px] right-[4px] w-[14px] h-[14px] text-white fill-current" viewBox="0 0 14 14">
             <path
@@ -58,10 +59,16 @@
         </a>
 
         <button x-on:click="$store.nav.toggleMenu()"
-          class="flex items-center justify-center w-[44px] h-[44px] flex-shrink-0 rounded-[4px] bg-white hover:bg-white-hover transition shadow-sm"
+          class="flex items-center justify-center w-[44px] h-[44px] flex-shrink-0 rounded-[4px] border border-white/30 bg-brand hover:bg-brand-hover text-white lg:border-black/20 lg:bg-white lg:hover:bg-white-hover lg:text-brand transition shadow-sm relative z-50"
           :aria-label="$store.nav.menu ? 'Close menu' : 'Open menu'">
-          <img x-show="!$store.nav.menu" src="/assets/img/menuicon.svg" alt="" class="w-5 h-5" />
-          <img x-cloak x-show="$store.nav.menu" src="/assets/img/close-icon.svg" alt="" class="w-3.5 h-3.5" />
+          <svg x-show="!$store.nav.menu" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M3 12H21M3 6H21M3 18H15" />
+          </svg>
+          <svg x-cloak x-show="$store.nav.menu" class="w-3.5 h-3.5" viewBox="0 0 14 14" fill="none" stroke="currentColor"
+            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M13 1L1 13M1 1L13 13" />
+          </svg>
         </button>
       </div>
     </div>
@@ -91,7 +98,7 @@
       </a>
       <div class="flex items-center gap-1.5">
         <button x-on:click="$store.nav.toggleSearch()"
-          class="flex items-center justify-center w-[42px] h-[42px] flex-shrink-0 rounded-[4px] border border-[#00000033] bg-white transition"
+          class="flex items-center justify-center w-[42px] h-[42px] flex-shrink-0 rounded-[4px] border border-black/20 bg-white transition"
           aria-label="Search">
           <img src="/assets/img/about/search-icon.svg" alt="" class="w-6 h-6" />
         </button>
@@ -206,7 +213,7 @@
 
       <div class="flex items-center gap-1.5">
         <button x-on:click="$store.nav.close()"
-          class="flex items-center justify-center w-[42px] h-[42px] flex-shrink-0 rounded-[4px] border border-[#00000033] bg-white hover:bg-white-hover transition"
+          class="flex items-center justify-center w-[42px] h-[42px] flex-shrink-0 rounded-[4px] border border-black/20 bg-white hover:bg-white-hover transition"
           aria-label="Close search">
           <img src="/assets/img/close-icon.svg" alt="" class="w-3.5 h-3.5" />
         </button>
@@ -220,10 +227,10 @@
         </a>
 
         <button x-on:click="$store.nav.toggleMenu()"
-          class="flex items-center justify-center w-[42px] h-[42px] flex-shrink-0 rounded-[4px] border border-white/30 bg-brand hover:bg-brand-hover lg:border-[#00000033] lg:bg-white lg:hover:bg-white-hover transition"
+          class="flex items-center justify-center w-[42px] h-[42px] flex-shrink-0 rounded-[4px] border border-white/30 bg-brand hover:bg-brand-hover lg:border-black/20 lg:bg-white lg:hover:bg-white-hover transition"
           aria-label="Open menu">
           <img src="/assets/img/menuicon-white.svg" alt="" class="w-5 h-[14px] lg:hidden" />
-          <img src="/assets/img/menuicon.svg" alt="" class="hidden lg:block w-5 h-[14px]" />
+          <img src="/assets/img/menuicon.svg" alt="Menu" class="hidden lg:block w-5 h-5" />
         </button>
       </div>
     </div>
@@ -235,7 +242,7 @@
       <label class="relative block lg:max-w-[512px]">
         <span class="sr-only">Search One Health</span>
         <input type="search" x-model="$store.nav.query" placeholder="Search"
-          class="w-full h-[42px] rounded-[4px] border border-[#00000033] bg-white pl-11 pr-3 type-body text-black placeholder:text-black/50 focus:border-brand focus:outline-none transition" />
+          class="w-full h-[42px] rounded-[4px] border border-black/20 bg-white pl-11 pr-3 type-body text-black placeholder:text-black/50 focus:border-brand focus:outline-none transition" />
         <img src="/assets/img/about/search-icon.svg" alt=""
           class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5" />
       </label>
@@ -243,9 +250,7 @@
       <template x-if="$store.nav.query.trim()">
         <div class="flex flex-col gap-5">
 
-          <!-- The result count is Mobile/Subheading at 390 and Desktop/Heading
-               at 1680 — 18 → 56, which no single type-* class spans. The steps
-               below restate type-heading's own ramp with an 18px base. -->
+       
           <div class="flex items-center justify-between gap-4">
             <p
               class="type-heading text-[18px] sm:text-[30px] md:text-[36px] lg:text-[44px] xl:text-[50px] 2xl:text-[56px] text-black"
@@ -259,12 +264,7 @@
                  the url alone is not unique and Alpine would reuse rows. -->
             <template x-for="(result, i) in $store.nav.results" :key="result.url + result.text">
               <li>
-                <!-- Column track comes straight from the frame: at 1680 the
-                     number sits on the gutter, the title at 176 and the section
-                     label at 856. The title's own box is 512 wide inside that
-                     680px track, which is what fixes where it wraps. The section
-                     label drops out below lg, and a display:none grid item leaves
-                     no empty column behind. -->
+               
                 <a :href="result.url"
                   class="grid items-start grid-cols-[62px_1fr_14px] lg:grid-cols-[8.5%_42.5%_1fr_14px] py-5 lg:pt-10 lg:pb-5">
                   <span class="type-body text-black/50" x-text="String(i + 1).padStart(2, '0')"></span>
@@ -300,14 +300,12 @@
           <img src="/assets/img/whitelogo.svg" alt="One Health" class="h-8 sm:h-10 w-auto" />
         </a>
 
-        <!-- Header Actions. On phones this is just the two icon buttons, so the
-             row shrinks to fit them; from sm up it widens to align with the
-             331px widget below. -->
+     
         <div class="flex items-center justify-end gap-2 w-auto sm:w-full sm:max-w-[331px] sm:justify-between">
           <button x-on:click="$store.nav.toggleSearch()"
-            class="flex items-center bg-white justify-center w-[44px] h-[44px] flex-shrink-0 rounded-[4px] border border-[#00000033] transition"
+            class="flex items-center bg-white justify-center w-[44px] h-[44px] flex-shrink-0 rounded-[4px] border border-black/20 transition"
             aria-label="Search">
-            <img src="/assets/img/about/search-icon.svg" alt="" class="w-5 h-5 " />
+            <img src="/assets/img/about/search-icon.svg" alt="" class="w-5 h-5" />
           </button>
 
           <!-- Contact Us Button (Corner-Fold Variant) -->
@@ -323,10 +321,16 @@
           <!-- Menu Toggle. Swaps to the close cross while the menu panel is
                open, matching the Figma menu frame. -->
           <button x-on:click="$store.nav.toggleMenu()"
-            class="flex items-center justify-center w-[44px] h-[44px] flex-shrink-0 rounded-[4px] bg-white hover:bg-white-hover transition shadow-sm relative z-50"
+            class="flex items-center justify-center w-[44px] h-[44px] flex-shrink-0 rounded-[4px] border border-white/30 bg-brand hover:bg-brand-hover text-white lg:border-black/20 lg:bg-white lg:hover:bg-white-hover lg:text-brand transition shadow-sm relative z-50"
             :aria-label="$store.nav.menu ? 'Close menu' : 'Open menu'">
-            <img x-show="!$store.nav.menu" src="/assets/img/menuicon.svg" alt="Menu" class="w-5 h-5" />
-            <img x-cloak x-show="$store.nav.menu" src="/assets/img/close-icon.svg" alt="" class="w-3.5 h-3.5" />
+            <svg x-show="!$store.nav.menu" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M3 12H21M3 6H21M3 18H15" />
+            </svg>
+            <svg x-cloak x-show="$store.nav.menu" class="w-3.5 h-3.5" viewBox="0 0 14 14" fill="none" stroke="currentColor"
+              stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M13 1L1 13M1 1L13 13" />
+            </svg>
           </button>
         </div>
 
@@ -377,48 +381,26 @@
   </section>
   <!-- /component -->
 
-  <!-- component: floating-lab-calculator -->
-  <!-- Deliberately a sibling of the hero, not nested inside it: the hero is
-       `position: sticky` (see .hero-pinned in input.css), and sticky always
-       opens its own stacking context, so a `position: fixed` descendant can
-       never paint above whatever sits outside that context — it would be
-       trapped under every later section once scrolled past the hero, fixed
-       positioning notwithstanding. Living here as a plain sibling avoids the
-       trap entirely. Fixed to the viewport (Figma: Scroll position "Fixed"),
-       so it stays put as the page scrolls, rather than moving with the hero.
-       Reads as the full card while scrollY is still within the hero's height;
-       once scrolled further its header/description/glass fade out and the
-       whole card physically squeezes down — width and height both — into the
-       persistent "AI Lab calculator" pill, right-edge anchored, its
-       "Get started" button morphing in place into the pill's label. -->
-  <!-- Below lg the widget is an ordinary block sitting in the flow under the
-       hero (Figma mobile: 350px wide, 20px in from the left, hugging its own
-       height) — no pinning and no card→pill morph, which is why the width and
-       height animations below are all lg-scoped. A phone has too little
-       viewport to give up to a floating panel, and the collapse only exists to
-       get it out of the way of a tall scrolling page. -->
+
   <div x-data="labWidget()"
     class="js-lab-widget relative mx-5 mt-6 mb-40 w-[350px] max-w-[calc(100%-2.5rem)] z-50 pointer-events-none
            lg:fixed lg:bottom-10 lg:right-10 lg:mx-0 lg:mt-0 lg:mb-0 lg:max-w-[calc(100vw-2rem)] lg:transition-[width] lg:duration-500 lg:ease-out"
-    :class="collapsed ? 'lg:w-[210px]' : 'lg:w-[331px]'">
+    :class="pill ? 'lg:w-[206px]' : 'lg:w-[331px]'">
     <div
       class="relative w-full overflow-hidden rounded-[4px] p-[12px] flex flex-col justify-between gap-8 border border-black/20
              lg:gap-0 lg:border-0 lg:transition-[height] lg:duration-500 lg:ease-out"
-      :class="collapsed ? 'lg:h-[68px]' : 'lg:h-[182px]'">
+      :class="pill ? 'lg:h-[66px]' : 'lg:h-[182px]'">
 
-      <!-- Card glass background, fading out on collapse -->
-      <div class="absolute inset-0 rounded-[4px] transition-opacity duration-500 ease-out"
-        style="background-color: rgba(242, 242, 242, 0.2); backdrop-filter: blur(37.9px); -webkit-backdrop-filter: blur(37.9px);"
-        :class="collapsed ? 'opacity-0' : 'opacity-100'"></div>
+      <!-- Card glass background. Stays for the whole morph: the collapsed
+           state is not a bare pill but the same glass panel shrunk to a 12px
+           frame around it (Figma 568:3277), which is what gives the pill its
+           soft edge over whatever section happens to be scrolling past. -->
+      <div class="absolute inset-0 rounded-[4px]"
+        style="background-color: rgba(242, 242, 242, 0.2); backdrop-filter: blur(37.9px); -webkit-backdrop-filter: blur(37.9px);"></div>
 
-      <!-- Widget Header. min-h-0 overrides the flexbox default of
-           min-height:auto, which otherwise refuses to let a flex item shrink
-           past its own content's natural height — without it, this element
-           (and the description below) would stop the parent's height
-           collapse partway, stuck oversized regardless of the parent's
-           target height. -->
+
       <div class="relative flex min-h-0 items-center gap-1.5 transition-opacity duration-500 ease-out"
-        :class="collapsed ? 'opacity-0' : 'opacity-100'">
+        :class="pill ? 'opacity-0' : 'opacity-100'">
         <!-- Two sparkles: the light one below reads on the dark hero, the flat
              navy asset on the white mobile card. -->
         <img src="/assets/img/home/sparklesmbl.svg" alt="" class="w-3.5 h-3.5 lg:hidden" />
@@ -438,44 +420,30 @@
 
       <!-- Widget Description. Same min-h-0 fix as the header above. -->
       <p class="relative min-h-0 type-body text-black lg:text-white transition-opacity duration-500 ease-out"
-        :class="collapsed ? 'opacity-0' : 'opacity-100'">
+        :class="pill ? 'opacity-0' : 'opacity-100'">
         Calculator estimates the equipment, infrastructure, and consumables, with a 5-year cost forecast
       </p>
 
-      <!-- Button → pill. flex-shrink-0 so this row keeps its true size and
-           only the header/description above give up space as the parent
-           collapses — otherwise flexbox would compress the button along with
-           everything else, distorting it instead of leaving it intact.
-
-           Width comes ONLY from the outer card's own width animation above —
-           this element is just w-full, not a second independent max-width
-           animation converging on the same target; two separately-animated
-           elements shrinking to the same size in "sync" still run as two
-           unrelated transitions, and any sub-frame timing difference between
-           them reads as a rubbery, uneven squeeze rather than one clean edge.
-
-           The collapsed fill+blur is its own absolutely-positioned layer that
-           fades in via opacity (mirroring the card's own glass layer above),
-           instead of toggling `backdrop-blur`/`bg-color` directly on the
-           button — backdrop-filter transitions from "unset" are not reliably
-           interpolated across browsers and tend to pop rather than ease in;
-           an opacity fade is smooth everywhere. -->
+    
       <div class="relative flex flex-shrink-0 justify-end">
         <a href="#"
-          class="relative overflow-hidden grid w-full rounded-[4px] border whitespace-nowrap pointer-events-auto transition-colors duration-500 ease-out"
-          :class="collapsed ? 'border-[#233D7C]/20' : 'border-black/20 lg:border-[#FFFFFF4D]'">
+          class="relative overflow-hidden grid w-full items-center rounded-[4px] border py-2.5 whitespace-nowrap pointer-events-auto transition-colors duration-500 ease-out
+                 lg:h-[42px] lg:py-0"
+          :class="pill ? 'border-[#233D7C]/30' : 'border-black/20 lg:border-[#FFFFFF4D]'">
 
-          <!-- Collapsed pill fill + blur, fading in -->
-          <div class="absolute inset-0 rounded-[4px] transition-opacity duration-500 ease-out"
-            style="background-color: rgba(242, 242, 242, 0.2); backdrop-filter: blur(11.73px); -webkit-backdrop-filter: blur(11.73px);"
-            :class="collapsed ? 'opacity-100' : 'opacity-0'"></div>
+          <!-- Collapsed pill fill, fading in. Opaque white per the Figma node,
+               so there is deliberately no backdrop-blur on this layer — a
+               blur behind a solid fill renders nothing. The glass belongs to
+               the 12px frame around the pill, not the pill. -->
+          <div class="absolute inset-0 rounded-[4px] bg-white transition-opacity duration-500 ease-out"
+            :class="pill ? 'opacity-100' : 'opacity-0'"></div>
 
           <span
-            class="relative col-start-1 row-start-1 type-button text-[#233D7C] lg:text-white px-4 py-2.5 transition-opacity duration-500 ease-out"
-            :class="collapsed ? 'opacity-0' : 'opacity-100'">Get started</span>
+            class="relative col-start-1 row-start-1 type-button text-[#233D7C] lg:text-white px-4 transition-opacity duration-500 ease-out"
+            :class="pill ? 'opacity-0' : 'opacity-100'">Get started</span>
           <span
-            class="relative col-start-1 row-start-1 flex items-center gap-2 px-4 py-2.5 type-button text-[#233D7C] transition-opacity duration-500 ease-out"
-            :class="collapsed ? 'opacity-100' : 'opacity-0'">
+            class="relative col-start-1 row-start-1 flex items-center gap-1.5 px-4 lg:pl-3 lg:pr-7 type-button text-[#233D7C] transition-opacity duration-500 ease-out"
+            :class="pill ? 'opacity-100' : 'opacity-0'">
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"
               class="w-3.5 h-3.5 flex-shrink-0">
               <path
@@ -489,7 +457,7 @@
             AI Lab calculator
           </span>
           <svg class="absolute top-[4px] right-[4px] w-[14px] h-[14px] fill-current transition-colors duration-500 ease-out"
-            :class="collapsed ? 'text-[#233D7C]' : 'text-[#233D7C] lg:text-white'" viewBox="0 0 14 14">
+            :class="pill ? 'text-[#233D7C]' : 'text-[#233D7C] lg:text-white'" viewBox="0 0 14 14">
             <path
               d="M 2.414 0 L 13 0 A 1 1 0 0 1 14 1 L 14 11.586 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 2.414 0 Z" />
           </svg>
@@ -506,6 +474,14 @@
     function labWidget() {
       return {
         collapsed: false,
+        desktop: false,
+
+        
+        get pill() {
+          return this.collapsed ||
+            (this.desktop && (this.$store.nav.menu || this.$store.nav.search));
+        },
+
         init() {
           // Below lg the widget sits in the page flow, so there is nothing to
           // get out of the way of — the morph stays off at every scroll
@@ -514,7 +490,8 @@
           const desktop = window.matchMedia('(min-width: 1024px)');
 
           const update = () => {
-            this.collapsed = desktop.matches && window.scrollY > window.innerHeight * 0.35;
+            this.desktop = desktop.matches;
+            this.collapsed = desktop.matches && window.scrollY > window.innerHeight * 0.20;
           };
 
           window.addEventListener('scroll', update, { passive: true });
@@ -529,7 +506,8 @@
 
   <!-- component: continuity-section -->
   <section class="bg-[#F2F2F2] credibilities-pinned container-page text-black py-4 lg:py-6 lg:h-screen lg:flex lg:flex-col lg:justify-center lg:overflow-hidden">
-    <div class=" border-t border-[#00000033] pt-6 sm:pt-8 lg:pt-4 grid grid-cols-1 lg:grid-cols-12 gap-3 lg:gap-6">
+    <div
+      class="credibilities-scene border-t border-black/20 pt-6 sm:pt-8 lg:pt-4 grid grid-cols-1 lg:grid-cols-12 gap-3 lg:gap-6">
 
       <!-- Left Column: Section Subtitle -->
       <div class="lg:col-span-3">
@@ -620,6 +598,73 @@
       </div>
     </div>
   </section>
+
+  <!-- Runway for the section's second phase. Empty and transparent, exactly as
+       tall as the overflow the stage has to travel, so the pinned section keeps
+       the fold to itself while the stats slide in and the next section only
+       starts covering afterwards. Height is set by the script below; it is 0
+       on phones, where nothing is pinned. -->
+  <div class="credibilities-scroll" aria-hidden="true"></div>
+
+  <script>
+    // One viewport, two phases. On most desktop screens the continuity block
+    // plus the stats is taller than the pinned stage, so rather than clipping
+    // it (centred content loses its heading off the top) the stage's own
+    // content travels: phase one sits top-flush, then the runway above drives
+    // it up until the stats sit flush at the bottom. A straight lerp against
+    // scroll, no easing — it should read as scrolling, not as an animation.
+    (function () {
+      const section = document.querySelector('.credibilities-pinned');
+      const scene = document.querySelector('.credibilities-scene');
+      const runway = document.querySelector('.credibilities-scroll');
+      if (!section || !scene || !runway) return;
+
+      // Pinning is lg-only, and the reduced-motion rule in input.css unpins it
+      // again; the measurement has to agree with both, or the runway would add
+      // dead scroll below a section that is laid out flat.
+      const desktop = window.matchMedia('(min-width: 1024px)');
+      const still = window.matchMedia('(prefers-reduced-motion: reduce)');
+      let shift = 0;
+
+      const measure = () => {
+        if (!desktop.matches || still.matches) {
+          shift = 0;
+          runway.style.height = '';
+          scene.style.transform = '';
+          return;
+        }
+
+        const cs = getComputedStyle(section);
+        const room = section.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom);
+        shift = Math.max(0, Math.round(scene.offsetHeight - room));
+        runway.style.height = shift + 'px';
+        scene.style.transform = '';
+        apply();
+      };
+
+      const apply = () => {
+        if (!shift) return;
+        // The runway's top edge sits one viewport below the section's, so it
+        // reaches the fold at the exact moment the section pins. That makes it
+        // the section's own scroll progress, read off an element that is not
+        // itself sticky — a sticky box reports a clamped rect and cannot
+        // measure its own travel.
+        const travelled = window.innerHeight - runway.getBoundingClientRect().top;
+        const p = Math.min(Math.max(travelled / shift, 0), 1);
+        // Centred content overflows equally top and bottom, so it starts half a
+        // shift down (top flush) and ends half a shift up (bottom flush).
+        scene.style.transform = `translate3d(0, ${(0.5 - p) * shift}px, 0)`;
+      };
+
+      window.addEventListener('scroll', apply, { passive: true });
+      window.addEventListener('resize', measure);
+      desktop.addEventListener('change', measure);
+      still.addEventListener('change', measure);
+      if ('ResizeObserver' in window) new ResizeObserver(measure).observe(scene);
+      measure();
+    })();
+  </script>
+
   <script>
     // Counts each stat up from 0 once the block scrolls into view; runs once per page view.
     function statsCounter() {
@@ -676,7 +721,7 @@
 
  <!-- component: credibilities-section -->
   <section class="bg-white   container-page text-black py-20 lg:py-24">
-    <div class=" border-t border-[#00000033] pt-6 sm:pt-8 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
+    <div class=" border-t border-black/20 pt-6 sm:pt-8 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
 
       <!-- Left Column: Section Subtitle -->
       <div class="lg:col-span-4">
@@ -902,14 +947,14 @@
             });
             cards.forEach(card => observer.observe(card));
           }
-        }" class=" border-t border-[#00000033] pt-6 sm:pt-8 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
+        }" class=" border-t border-black/20 pt-6 sm:pt-8 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
 
 
 
       <!-- Heading -->
       <div class="grid lg:col-span-12 gap-8 lg:gap-12">
         <h3
-          class="divisions-heading type-title text-black  max-w-4xl mx-auto ">
+          class="divisions-heading text-center type-title text-black  max-w-4xl mx-auto ">
           What OneHealth delivers across the business
         </h3>
       </div>
@@ -1207,7 +1252,7 @@
           <img x-ref="logo" src="/assets/img/home/medtrust.svg" alt="MedTrust" class="h-8 object-contain"
             :style="{
               transform: 'translateX(' + (headerIn ? 0 : logoOffset) + 'px)',
-              transition: ready ? 'transform 1800ms cubic-bezier(0.16, 1, 0.3, 1)' : 'none'
+              transition: ready ? 'transform 4000ms cubic-bezier(0.16, 1, 0.3, 1)' : 'none'
             }" />
         </div>
 
@@ -1217,7 +1262,7 @@
             style="background-image: linear-gradient(90deg, #35AFE5 0%, #233D7C 100%); -webkit-background-clip: text;"
             :style="{
               opacity: headerIn ? 1 : 0,
-              transition: ready ? 'opacity 1200ms ease-out 400ms' : 'none'
+              transition: ready ? 'opacity 2500ms ease-out 800ms' : 'none'
             }">A
             One Health<span class="font-sans font-medium">'</span>s
             brand</span>
@@ -1228,7 +1273,7 @@
       <div class="border-t border-black/10 my-1 w-full origin-center" :style="{
              transform: 'scaleX(' + (headerIn ? 1 : 0) + ')',
              transformOrigin: 'center',
-             transition: ready ? 'transform 1800ms cubic-bezier(0.16, 1, 0.3, 1)' : 'none'
+             transition: ready ? 'transform 4000ms cubic-bezier(0.16, 1, 0.3, 1)' : 'none'
            }"></div>
 
       <!-- Main Content Grid: second stage, revealed once this block itself
@@ -1314,13 +1359,13 @@
           this.logoOffset = (row.offsetWidth / 2) - (logo.offsetWidth / 2);
         },
 
-        revealOnce(el, cb) {
+        revealOnce(el, cb, threshold = 0.4) {
           if (!el) return;
           const io = new IntersectionObserver((entries) => {
             entries.forEach(e => {
               if (e.isIntersecting) { cb(); io.disconnect(); }
             });
-          }, { rootMargin: '0px 0px -12% 0px', threshold: 0.25 });
+          }, { threshold });
           io.observe(el);
         },
 
@@ -1341,7 +1386,7 @@
 
   <!-- component: projects-section -->
   <section class="bg-white text-black pt-36 pb-24 container-page">
-    <div class="border-t border-[#00000033] pt-6 sm:pt-8 flex flex-col w-full">
+    <div class="border-t border-black/20 pt-6 sm:pt-8 flex flex-col w-full">
 
       <!-- Subtitle + portfolio link. Same column template and gap as the card
            grid below, so the button lands exactly on the last card's column —
@@ -1362,21 +1407,19 @@
         </a>
       </div>
 
-      <!-- 4-Column Grid for Cards (two up on tablet) -->
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 items-start">
+      <!-- 4-Column Grid for Cards (two up on tablet, four up on desktop) -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 items-stretch">
 
         <!-- Card 1: SEHA Saadiyat Clinic -->
-        <div class="flex flex-col space-y-4">
+        <div class="flex flex-col h-full space-y-4">
           <!-- Top Tag & Border -->
           <div class="flex flex-col space-y-2">
             <span class="type-body text-[#00000080]">Saadiyat Island</span>
             <div class="border-t border-black/10 w-full"></div>
           </div>
 
-          <!-- Header (Title over Description). The min-height is what keeps
-               every card's image starting on the same line regardless of how
-               many lines the title and copy run to. -->
-          <div class="flex flex-col gap-4 md:min-h-[210px]">
+          <!-- Header (Title over Description). flex-1 ensures image pushes down evenly -->
+          <div class="flex flex-col gap-4 flex-1">
             <h3 class="type-subheading text-black">
               Delivered a premium outpatient clinic turnkey
             </h3>
@@ -1387,7 +1430,7 @@
           </div>
 
           <!-- Image -->
-          <div class="scale-in-view relative w-full aspect-[4/3] rounded-[4px] overflow-hidden mt-4"
+          <div class="scale-in-view relative w-full aspect-[4/3] rounded-[4px] overflow-hidden mt-auto"
             style="clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 0 100%);">
             <img src="/assets/img/home/work1.png" alt="Delivered a premium outpatient clinic turnkey"
               class="w-full h-full object-cover" />
@@ -1395,17 +1438,15 @@
         </div>
 
         <!-- Card 2: Pura Longevity Clinic -->
-        <div class="flex flex-col space-y-4">
+        <div class="flex flex-col h-full space-y-4">
           <!-- Top Tag & Border -->
           <div class="flex flex-col space-y-2">
             <span class="type-body text-[#00000080]">Abu Dhabi</span>
             <div class="border-t border-black/10 w-full"></div>
           </div>
 
-          <!-- Header (Title over Description). The min-height is what keeps
-               every card's image starting on the same line regardless of how
-               many lines the title and copy run to. -->
-          <div class="flex flex-col gap-4 md:min-h-[210px]">
+          <!-- Header (Title over Description). flex-1 ensures image pushes down evenly -->
+          <div class="flex flex-col gap-4 flex-1">
             <h3 class="type-subheading text-black">
               Installed and commissioned a hyperbaric therapy chamber
             </h3>
@@ -1416,7 +1457,7 @@
           </div>
 
           <!-- Image -->
-          <div class="scale-in-view relative w-full aspect-[4/3] rounded-[4px] overflow-hidden mt-4"
+          <div class="scale-in-view relative w-full aspect-[4/3] rounded-[4px] overflow-hidden mt-auto"
             style="clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 0 100%);">
             <img src="/assets/img/home/work2.png" alt="Installed and commissioned a hyperbaric therapy chamber"
               class="w-full h-full object-cover" />
@@ -1424,17 +1465,15 @@
         </div>
 
         <!-- Card 3: Mobile clinics and screening buses -->
-        <div class="flex flex-col space-y-4">
+        <div class="flex flex-col h-full space-y-4">
           <!-- Top Tag & Border -->
           <div class="flex flex-col space-y-2">
             <span class="type-body text-[#00000080]">Mobile</span>
             <div class="border-t border-black/10 w-full"></div>
           </div>
 
-          <!-- Header (Title over Description). The min-height is what keeps
-               every card's image starting on the same line regardless of how
-               many lines the title and copy run to. -->
-          <div class="flex flex-col gap-4 md:min-h-[210px]">
+          <!-- Header (Title over Description). flex-1 ensures image pushes down evenly -->
+          <div class="flex flex-col gap-4 flex-1">
             <h3 class="type-subheading text-black">
               Built mobile clinics and screening buses
             </h3>
@@ -1444,7 +1483,7 @@
           </div>
 
           <!-- Image -->
-          <div class="scale-in-view relative w-full aspect-[4/3] rounded-[4px] overflow-hidden mt-4"
+          <div class="scale-in-view relative w-full aspect-[4/3] rounded-[4px] overflow-hidden mt-auto "
             style="clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 0 100%);">
             <img src="/assets/img/home/thirditem.png" alt="Built mobile clinics and screening buses"
               class="w-full h-full object-cover" />
@@ -1452,17 +1491,15 @@
         </div>
 
         <!-- Card 4: SAKINA for Children -->
-        <div class="flex flex-col space-y-4">
+        <div class="flex flex-col h-full space-y-4">
           <!-- Top Tag & Border -->
           <div class="flex flex-col space-y-2">
             <span class="type-body text-[#00000080]">Abu Dhabi</span>
             <div class="border-t border-black/10 w-full"></div>
           </div>
 
-          <!-- Header (Title over Description). The min-height is what keeps
-               every card's image starting on the same line regardless of how
-               many lines the title and copy run to. -->
-          <div class="flex flex-col gap-4 md:min-h-[210px]">
+          <!-- Header (Title over Description). flex-1 ensures image pushes down evenly -->
+          <div class="flex flex-col gap-4 flex-1">
             <h3 class="type-subheading text-black">
               Fitted out and equipped a children<span class="font-sans font-medium">'</span>s mental health clinic
             </h3>
@@ -1473,7 +1510,7 @@
           </div>
 
           <!-- Image -->
-          <div class="scale-in-view relative w-full aspect-[4/3] rounded-[4px] overflow-hidden mt-4"
+          <div class="scale-in-view relative w-full aspect-[4/3] rounded-[4px] overflow-hidden mt-auto "
             style="clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 0 100%);">
             <img src="/assets/img/home/work3.png" alt="Fitted out and equipped a children's mental health clinic"
               class="w-full h-full object-cover" />
@@ -1557,7 +1594,7 @@
 
   <!-- component: articles-section -->
   <section class="bg-white text-black py-20 lg:py-24 container-page">
-    <div class="border-t border-[#00000033] pt-6 sm:pt-8 flex flex-col w-full">
+    <div class="border-t border-black/20 pt-6 sm:pt-8 flex flex-col w-full">
 
       <!-- Subtitle + news link. Same column template and gap as the card grid
            below, so the button sits exactly on the last card's column. -->
@@ -1676,9 +1713,9 @@
       class="relative w-full bg-brand rounded-[4px] p-4 lg:p-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center overflow-hidden">
 
       <!-- Left Column: Image (lg:col-span-3) -->
-      <div class="lg:col-span-3 w-full aspect-[299/299] relative overflow-hidden rounded-[4px]"
+      <div class="scale-in-view lg:col-span-3 w-full aspect-[299/299] relative overflow-hidden rounded-[4px]"
         style="clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 0 100%);">
-        <img src="/assets/img/home/ctaimage.png" alt="Supporting healthcare" class="w-full h-full object-cover" />
+        <img src="/assets/img/home/ctaimage.png" alt="Supporting healthcare" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105" />
       </div>
 
       <!-- Middle Column: Spacer -->
@@ -1709,7 +1746,7 @@
  
   <footer class="bg-[#F2F2F2] text-black pt-5 pb-5 md:pt-10 md:pb-10">
     <div class="container-page">
-      <div class="border-t border-[#00000033] pt-5 grid grid-cols-2 gap-x-5 gap-y-12 md:grid-cols-12 md:gap-8 lg:gap-12 items-start
+      <div class="border-t border-black/20 pt-5 grid grid-cols-2 gap-x-5 gap-y-12 md:grid-cols-12 md:gap-8 lg:gap-12 items-start
                   type-body">
 
         <!-- Left: Logo and the PureHealth endorsement. Side by side split by a
@@ -1720,7 +1757,7 @@
             <img src="/assets/img/home/bluelogo.svg" alt="One Health" class="h-[42px] w-auto object-contain" />
           </a>
 
-          <div class="h-[42px] shrink-0 border-l border-[#00000033]
+          <div class="h-[42px] shrink-0 border-l border-black/20
                       md:h-0 md:w-[143px] md:border-l-0 md:border-t md:mt-4"></div>
 
           <div class="flex flex-wrap items-baseline gap-x-2 opacity-40 max-w-[130px] md:max-w-none md:mt-2">
@@ -1837,6 +1874,154 @@
       els.forEach(function (el) { io.observe(el); });
     })();
   </script>
+
+
+  <!-- component: cookie-consent
+       Full-width strip pinned to the bottom of the viewport. Top level and
+       `fixed`, for the same reason the nav overlay is: the pinned
+       `position: sticky` scenes inside <main> each open a stacking context, and
+       a fixed element nested in one can never paint above the sections that
+       follow it. z-120 clears the overlay's backdrop (90), its two panels (100)
+       and the lab pill (110), so the bar stays reachable whatever else is open.
+
+       State is the `consent` Alpine store in /assets/js/consent.js. The bar
+       renders closed and the store's init() opens it only when there is no
+       stored choice, so a returning visitor never sees it flash.
+
+       The preferences drawer is NOT in the Figma frame — the design covers the
+       bar and its three controls only. It is assembled from ui-kit parts (white
+       button, 42px height, 4px radius, brand ground) with the standard
+       necessary / analytics / marketing split.
+
+       Keep this block byte-identical across pages, like the nav overlay. -->
+  <div x-data x-cloak x-show="$store.consent.visible" role="dialog" aria-modal="false" aria-label="Cookie consent"
+    x-transition:enter="transition ease-out duration-300 motion-reduce:transition-none"
+    x-transition:enter-start="opacity-0 translate-y-full" x-transition:enter-end="opacity-100 translate-y-0"
+    x-transition:leave="transition ease-in duration-200 motion-reduce:transition-none"
+    x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 translate-y-full"
+    class="fixed inset-x-0 bottom-0 z-[120] bg-brand text-white">
+    <div class="container-page py-5 lg:py-4">
+
+      <!-- The designed row: copy left, the three controls right. They stack on
+           phones, where three controls in a row would each be too narrow to
+           read. -->
+      <div class="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between lg:gap-10">
+        <p class="type-body text-white lg:max-w-[760px]">
+          We use cookies to see how the site is used and to make it better.
+        </p>
+
+        <div class="flex flex-wrap items-center gap-3 lg:flex-shrink-0">
+
+          <!-- Accept (UI-Kit White Button). Corner fold at 3px, not 4px — the
+               border takes the extra pixel, per the ui-kit note. -->
+          <button type="button" x-on:click="$store.consent.acceptAll()"
+            class="relative overflow-hidden flex items-center h-[42px] rounded-[4px] border border-black/20 bg-white pl-4 pr-6 text-brand hover:bg-white-hover transition duration-200">
+            <span class="type-button text-brand">Accept</span>
+            <svg class="absolute top-[3px] right-[3px] w-[14px] h-[14px] text-brand fill-current" viewBox="0 0 14 14">
+              <path
+                d="M 2.414 0 L 13 0 A 1 1 0 0 1 14 1 L 14 11.586 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 2.414 0 Z" />
+            </svg>
+          </button>
+
+          <!-- Manage preferences. The outline variant of the same button: white
+               border and label on the brand ground it already sits on. -->
+          <button type="button" x-on:click="$store.consent.togglePanel()"
+            :aria-expanded="$store.consent.panel ? 'true' : 'false'" aria-controls="cookie-preferences"
+            class="relative overflow-hidden flex items-center h-[42px] rounded-[4px] border border-white/30 bg-brand pl-4 pr-6 text-white hover:bg-brand-hover transition duration-200">
+            <span class="type-button text-white">Manage preferences</span>
+            <svg class="absolute top-[3px] right-[3px] w-[14px] h-[14px] text-white fill-current" viewBox="0 0 14 14">
+              <path
+                d="M 2.414 0 L 13 0 A 1 1 0 0 1 14 1 L 14 11.586 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 2.414 0 Z" />
+            </svg>
+          </button>
+
+          <!-- Decline carries no frame in the design — it is a plain label, and
+               refusing must stay exactly as easy as accepting. -->
+          <button type="button" x-on:click="$store.consent.declineAll()"
+            class="type-button text-white px-2 hover:text-white/70 transition">
+            Decline
+          </button>
+
+        </div>
+      </div>
+
+      <!-- Preferences drawer. Necessary is checked and disabled: it is not a
+           choice, so it is shown as fact rather than as an option that lies. -->
+      <div id="cookie-preferences" x-show="$store.consent.panel" x-cloak
+        x-transition:enter="transition ease-out duration-300 motion-reduce:transition-none"
+        x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+        x-transition:leave="transition ease-in duration-200 motion-reduce:transition-none"
+        x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
+        class="mt-5 border-t border-white/30 pt-5">
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-10">
+
+          <label class="flex items-start gap-3 cursor-not-allowed">
+            <input type="checkbox" checked disabled class="peer sr-only" />
+            <span
+              class="mt-[2px] flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-[4px] border border-white/30 bg-white/60">
+              <svg class="w-3 h-3 text-brand" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M1 6.5 L4.5 10 L11 2.5" />
+              </svg>
+            </span>
+            <span class="flex flex-col gap-1">
+              <span class="type-button text-white">Necessary</span>
+              <span class="type-body text-white/60">Needed for the site to work. Always on.</span>
+            </span>
+          </label>
+
+          <label class="flex items-start gap-3 cursor-pointer">
+            <input type="checkbox" x-model="$store.consent.analytics" class="peer sr-only" />
+            <span
+              class="mt-[2px] flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-[4px] border border-white/30 transition peer-focus-visible:ring-2 peer-focus-visible:ring-white/60"
+              :class="$store.consent.analytics ? 'bg-white' : 'bg-white/10'">
+              <svg x-show="$store.consent.analytics" class="w-3 h-3 text-brand" viewBox="0 0 12 12" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                aria-hidden="true">
+                <path d="M1 6.5 L4.5 10 L11 2.5" />
+              </svg>
+            </span>
+            <span class="flex flex-col gap-1">
+              <span class="type-button text-white">Analytics</span>
+              <span class="type-body text-white/60">How the site is used, so we can improve it.</span>
+            </span>
+          </label>
+
+          <label class="flex items-start gap-3 cursor-pointer">
+            <input type="checkbox" x-model="$store.consent.marketing" class="peer sr-only" />
+            <span
+              class="mt-[2px] flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-[4px] border border-white/30 transition peer-focus-visible:ring-2 peer-focus-visible:ring-white/60"
+              :class="$store.consent.marketing ? 'bg-white' : 'bg-white/10'">
+              <svg x-show="$store.consent.marketing" class="w-3 h-3 text-brand" viewBox="0 0 12 12" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                aria-hidden="true">
+                <path d="M1 6.5 L4.5 10 L11 2.5" />
+              </svg>
+            </span>
+            <span class="flex flex-col gap-1">
+              <span class="type-button text-white">Marketing</span>
+              <span class="type-body text-white/60">Whether what you see from us stays relevant.</span>
+            </span>
+          </label>
+
+        </div>
+
+        <!-- Save choices (UI-Kit White Button) -->
+        <button type="button" x-on:click="$store.consent.save()"
+          class="relative overflow-hidden mt-5 flex items-center h-[42px] rounded-[4px] border border-black/20 bg-white pl-4 pr-6 text-brand hover:bg-white-hover transition duration-200">
+          <span class="type-button text-brand">Save choices</span>
+          <svg class="absolute top-[3px] right-[3px] w-[14px] h-[14px] text-brand fill-current" viewBox="0 0 14 14">
+            <path
+              d="M 2.414 0 L 13 0 A 1 1 0 0 1 14 1 L 14 11.586 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 2.414 0 Z" />
+          </svg>
+        </button>
+
+      </div>
+
+    </div>
+  </div>
+  <!-- /component -->
 
 </body>
 

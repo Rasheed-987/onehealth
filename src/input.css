@@ -1,29 +1,8 @@
 @import "tailwindcss";
 
-/* Which files Tailwind scans for class names. Path is relative to THIS file.
-   Keep the glob narrow — a broad one scans node_modules and slows the build. */
 @source "../*.html";
-/* The nav/search store builds a couple of class strings (the search-hit
-   highlight) in JS, so that file has to be scanned too or those classes never
-   reach the stylesheet. Kept to the one directory — a broader glob would pull
-   in node_modules. */
 @source "../assets/js/*.js";
 
-/* ---- Local brand fonts ----
-   TRIAL/DEMO files under /assets/fonts — fine for building + previewing,
-   but not licensed for production. Buy the full license (or swap in the
-   licensed files under the same names) before handover.
-   The DIN 2014 TRIAL files substitute one watermark icon for 28 codepoints —
-   verified by hashing every glyph outline: `! " # $ % & ' ( ) * + - / 4 < = >
-   @ [ \ ] ^ _ ` { | } ~` all draw the identical shape. The unicode-range on
-   those faces omits exactly those, so the browser skips DIN for them and falls
-   back to the next font in the stack. Note it includes the DIGIT 4, so "140K+"
-   renders its 4 in the fallback face until the licensed files land — mismatched
-   but legible, which beats a watermark glyph.
-
-   Aktiv Grotesk's trial files are clean (all glyphs distinct), so those faces
-   carry no unicode-range at all. Re-check with a glyph-hash scan if the font
-   files are ever swapped. */
 @font-face {
   font-family: "Aktiv Grotesk";
   src: url("/assets/fonts/aktiv-grotesk/AktivGrotesk-Thin.ttf") format("truetype");
@@ -144,19 +123,13 @@
   unicode-range: U+0000-0020, U+002C, U+002E, U+0030-0033, U+0035-003B, U+003F, U+0041-005A, U+0061-007A, U+007F-10FFFF;
 }
 
-/* ---- Design tokens — pull every value from Figma ---- */
 @theme {
   --color-black: #000000;
   --color-white: #FFFFFF;
 
   --color-brand: #233D7C;
-  /* Figma Brand/Blue hovered. A real second colour, not the brand at 90%
-     opacity — an alpha fade sits lighter and shifts with whatever is behind
-     it, so `bg-brand/90` never matches the design on a non-white ground. */
   --color-brand-hover: #183373;
-  /* Figma calls this "Brand/Blue error" but it is the Disabled fill. */
   --color-brand-disabled: #7A8BB4;
-  /* Figma Light/White hovered — the white button's hover fill. */
   --color-white-hover: #E5E9F5;
   --color-error: #B26120;
   --color-ai: linear-gradient(90deg, #B7CCFF 0%, #5ECEFF 100%);
@@ -167,7 +140,6 @@
   --spacing-section: 6rem;
 }
 
-/* ---- Base: element defaults ---- */
 @layer base {
   body {
     @apply font-din  antialiased;
@@ -177,10 +149,6 @@
   }
 }
 
-/* ---- Components: ONLY bare classes repeated everywhere with no markup ----
-   Anything with structure should be a copy-pasted block from ui-kit.html,
-   not a CSS class. Keep this section to the layout helpers plus the type
-   scale below — nothing with structure. */
 @layer components {
   .container-page {
     @apply  px-4 sm:px-6 lg:px-10;
@@ -190,18 +158,6 @@
   }
 }
 
-/* ---- Type scale ----
-   Figma: Typography_390 (706:12264) and Typography_1680 (706:12161). Those two
-   frames give the ends of the ramp — 390px wide and 1680px wide — so the base
-   size here is the mobile value and 2xl (1536px) is the desktop one. The steps
-   between are interpolated evenly; Figma does not specify them.
-
-   Letter spacing is expressed in `em`, not px, because Figma states it as a
-   PERCENTAGE of the size (1% / 2%). In em it tracks the responsive size
-   automatically — 0.02em is 0.32px at 16px and 0.28em... 0.28px at 14px —
-   whereas a px value would drift at every breakpoint.
-
-   Line height "Auto" in Figma is the font's own metric, i.e. leading-normal. */
 @layer components {
   .type-title {
     @apply font-aktiv font-medium tracking-normal leading-[1.1]
@@ -218,7 +174,6 @@
            text-[18px] sm:text-[20px] md:text-[22px] lg:text-[24px] xl:text-[26px] 2xl:text-[28px];
   }
 
-  /* Fixed across every breakpoint — both Figma frames agree on these four. */
   .type-button {
     @apply font-din font-semibold text-[16px] tracking-[0.02em] leading-normal;
   }
@@ -236,24 +191,37 @@
   }
 }
 
-/* The nav and search panels are full-screen white sheets on phones and a
-   floating 512px card from lg up. Only the card carries the brand corner fold,
-   so the clip-path has to be breakpoint-gated — which an inline style cannot
-   do. 32px matches the Subtract shape in Figma (the notch spans 0→32px on both
-   edges); the frame variant elsewhere on the site is 24px. */
 @media (min-width: 1024px) {
   .panel-notch {
     clip-path: polygon(0 0, 100% 0, 100% 100%, 32px 100%, 0 calc(100% - 32px));
   }
 }
 
-/* Alpine strips x-cloak once it initialises; without this rule the attribute
-   does nothing and elements it guards flash before Alpine boots. */
 [x-cloak] {
   display: none !important;
 }
 
-/* Custom Utilities */
+/* The cookie bar is a full-width strip pinned to the bottom of the viewport —
+   exactly where the floating lab pill lives. Rather than leave the pill half
+   covered while a choice is pending, it stands down until the bar is dismissed.
+   `consent.js` adds `consent-open` to <body> and removes it on Accept, Decline
+   or Save. Unlayered, so it outranks the pill's own utilities.
+
+   Two selectors because there are two pills. `.js-lab-pill` is the resting pill
+   on the inner pages, fixed at every width. `.js-lab-widget` is the home page's
+   full calculator, which is only `fixed` from lg up — below that it sits in the
+   hero's flow, where the bar cannot reach it and hiding it would delete hero
+   content. Hence the lg gate on the second rule. */
+body.consent-open .js-lab-pill {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  body.consent-open .js-lab-widget {
+    display: none;
+  }
+}
+
 @utility text-ai {
   background: linear-gradient(90deg, #B7CCFF 0%, #5ECEFF 100%);
   -webkit-background-clip: text;
@@ -297,15 +265,9 @@
 
 @utility fadeInDown {
   animation: fadeInDown 1s ease-out forwards;
-  /* Hinge on the left edge rather than the element's centre, so the block
-     swings in from its starting point instead of seesawing about the middle. */
   transform-origin: left center;
 }
 
-/* Starts a full element-height up so an `overflow-hidden` parent hides it
-   completely — the block then slides out from under the parent's top edge
-   rather than drifting down over it. Needs that clipping wrapper to read
-   correctly; without one the content simply starts off its own height above. */
 @keyframes fadeInDown {
   from {
     opacity: 0;
@@ -332,9 +294,6 @@
   }
 }
 
-/* The reveal scripts flip their `…In` flags on immediately for reduced-motion
-   users, which would otherwise hand them the full animation. Unlayered plain
-   CSS, so this outranks the layered utilities above regardless of order. */
 @media (prefers-reduced-motion: reduce) {
   .fadeInLeft,
   .fadeInDown,
@@ -343,22 +302,9 @@
   }
 }
 
-/* Framed photos enter undersized and ease out to full size. The frame itself
-   scales — its notched corner grows with it — anchored at the top-left, taken
-   from the reference recording, so the left edge stays put while the box opens
-   out to the right. It fires once on entry rather than tracking the scrollbar,
-   which is why the settle continues after the scroll stops. `.is-revealed` is
-   added by the observer at the foot of the page.
-
-   Duration and curve are paired to the travel: a cubic-out over ~900ms covers
-   the 12% jump briskly without the lurch a harder front-loaded ease (quart,
-   expo) gives at this distance. Lengthen it if you push the starting scale
-   further from 1; shorten it if you pull it back toward 0.95. */
 .scale-in-view {
   transform: scale(0.88);
   transform-origin: left top;
-  /* Keeps the box on its own compositor layer — a scaling photo this large
-     otherwise re-rasterises mid-transition and stutters. */
   will-change: transform;
 }
 
@@ -375,12 +321,9 @@
   }
 }
 
-
 .wipe-layer {
   clip-path: inset(0 0 100% 0);
   transition: clip-path 700ms cubic-bezier(0.4, 0, 0.15, 1);
-  /* The edge repaints a full-bleed photo every frame; without its own layer
-     this re-rasterises and tears on the way down. */
   will-change: clip-path;
 }
 
@@ -394,32 +337,6 @@
   }
 }
 
-/* The desktop menu card grows out of its own top-right corner — the corner it
-   drops from, under the hamburger. Measured off the reference recording rather
-   than guessed: the nav items sit at full size with their left edges cut off
-   mid-word the whole way in, so the type never moves or scales. Only the box
-   changes. That rules out `scale`, which would drag the text with it.
-
-   Width and height run off one scalar — the two edges tracked within 0.012 of
-   each other across every frame — so a single `inset()` covers both. The
-   start value collapses the box into its top-right corner: 100% off the
-   bottom, 100% off the left.
-
-   Two curves, because the recording has two. The box is easeOutCubic over
-   550ms (measured 0.46 / 0.55 / 0.90 at 17% / 25% / 50% against the curve's
-   0.43 / 0.58 / 0.875). Opacity is a separate, shorter, linear ramp — the box
-   is already 46% open while the panel is only about 25% opaque, which is what
-   makes it read as materialising instead of snapping. Fading in step with the
-   box loses that.
-
-   clip-path is listed FIRST deliberately: Alpine takes the first duration in
-   the computed shorthand to time class cleanup, so the longer one has to lead
-   or it strips the classes mid-animation.
-
-   Below lg the panel is a full-screen sheet, not a card, so there is no corner
-   to grow from — the reveal classes are lg-only and the sheet keeps the plain
-   opacity fade it already had. */
-/* Below lg: the sheet's original plain fade, unchanged at 300/200. */
 .menu-reveal-in {
   transition: opacity 300ms ease-out;
 }
@@ -445,8 +362,6 @@
     clip-path: inset(0 0 0 0);
   }
 
-  /* Only while the box is actually moving. Left on permanently this would keep
-     a 512px card promoted for the whole session. */
   .menu-reveal-in,
   .menu-reveal-out {
     will-change: clip-path;
@@ -460,9 +375,6 @@
   }
 }
 
-/* The "AI Lab calculator" wordmark reads against two different grounds: white
-   page at mobile, dark hero from lg up. A gradient can't be swapped from an
-   inline style, so the two live here. */
 .ai-wordmark {
   background-image: linear-gradient(90deg, #233D7C 0%, #208BDB 100%);
 }
@@ -473,16 +385,6 @@
   }
 }
 
-/* Ambient motion for full-bleed background photography — a very slow pan and
-   zoom that never settles, so a still image doesn't read as frozen behind
-   content that moves. The transform stays above scale(1) for the whole cycle
-   and the drift is smaller than the resulting overhang, so no edge can creep
-   into frame; the parent should still clip. */
-/* Edge safety when tuning these: translate is applied in the scaled coordinate
-   space, so the real shift is translate x scale, and the room available is
-   (scale - 1) / 2 per side. Keep translate% * scale under that and no edge can
-   pull into frame. The 4% / 2.5% drift here is well inside the 6% the 1.12
-   floor provides. */
 @keyframes drift-slow {
   0% {
     transform: scale(1.12) translate3d(-4%, -2.5%, 0);
@@ -495,9 +397,6 @@
   }
 }
 
-/* 12s, down from the 45s this started at: spreading a small transform over a
-   very long cycle moves the image a couple of pixels a second, which reads as
-   not moving at all. */
 .drift-slow {
   animation: drift-slow 12s ease-in-out infinite;
   will-change: transform;
@@ -518,19 +417,10 @@
   }
 }
 
-/* Two viewports: one of scroll for the timeline scrub, one taken up by the
-   stage itself. No pinning past that — the desktop half of this rule, in the
-   `lg` block below, is what adds the hold-and-cover. */
 .timeline-pinned {
   height: 200vh;
 }
 
-/* The hero stays pinned while the rest of the page scrolls up over it.
-   Sticky makes the hero a *positioned* element, which would otherwise paint on
-   top of the static sections that follow it — so every later top-level sibling
-   is explicitly lifted above it. Desktop only: the reference is a desktop
-   recording, and pinning a taller-than-viewport hero on small screens would
-   clip its lower content. */
 @media (min-width: 1024px) {
   .hero-pinned {
     position: sticky;
@@ -551,21 +441,10 @@
     z-index: 20;
   }
 
+  .credibilities-scroll {
+    pointer-events: none;
+  }
 
-  /* The timeline is the one pinned scene that has to finish playing before it
-     starts behaving like the ones above: a viewport of scrub, then a viewport
-     of hold while the next section rises over it. So it is three viewports
-     tall and its *stage* stays sticky for the first two, rather than the
-     section itself being sticky — a sticky section would pin the moment its
-     top hit 0 and freeze the scrub at zero.
-
-     The overlap is what makes the cover read as a cover. A sticky stage
-     unsticks exactly when its section's bottom reaches the viewport bottom,
-     which is the same moment the next section would enter — so left alone the
-     timeline would scroll away rather than be covered. Pulling the next
-     section up a viewport lands its entry inside the hold instead, and the
-     negative margin cancels the extra height, so the page is no longer than
-     the two-viewport version. */
   .timeline-pinned {
     position: relative;
     height: 300vh;
@@ -579,24 +458,24 @@
     margin-top: -100vh;
   }
 
-
-
-
-  /* The floating lab-calculator widget is itself one of those lifted
-     siblings, so the rule above would flatten its `fixed` utility class to
-     `relative` — same selector specificity, and this file is unlayered plain
-     CSS, so it always outranks Tailwind's layered utilities regardless of
-     specificity or class order. Restated here, after the generic rule, so
-     source order settles the tie back in the widget's favour. */
   .js-lab-widget {
     position: fixed;
-    z-index: 50;
+    z-index: 110;
   }
 }
 
-/* Divisions heading dissolves as the cards scroll up past it. Scroll-driven,
-   so it tracks the scrollbar exactly rather than firing on a threshold.
-   Where unsupported the heading simply stays opaque. */
+@media (min-width: 1024px) and (prefers-reduced-motion: reduce) {
+  .credibilities-pinned {
+    position: static;
+    display: block;
+    height: auto;
+    overflow: visible;
+  }
+  .credibilities-scroll {
+    display: none;
+  }
+}
+
 @keyframes divisions-heading-fade {
   to {
     opacity: 0;
@@ -612,4 +491,3 @@
     }
   }
 }
-

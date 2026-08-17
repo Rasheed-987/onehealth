@@ -11,6 +11,7 @@
        are deferred, so they run in document order and the alpine:init listener
        is attached before Alpine boots. -->
   <script defer src="/assets/js/nav.js"></script>
+  <script defer src="/assets/js/consent.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3/dist/cdn.min.js"></script>
 </head>
 
@@ -28,11 +29,10 @@
        appears behind them — with a crisp copy of the page header drawn on top
        of it, exactly as the Figma frame is built. The copy is what keeps the
        logo and the close button legible over the blur. -->
-  <div x-data x-cloak x-show="$store.nav.menu"
-    x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0"
-    x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-200"
-    x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
-    class="hidden lg:block fixed inset-0 z-[90]">
+  <div x-data x-cloak x-show="$store.nav.menu" x-transition:enter="transition ease-out duration-300"
+    x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+    x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100"
+    x-transition:leave-end="opacity-0" class="hidden lg:block fixed inset-0 z-[90]">
 
     <div x-on:click="$store.nav.close()" class="absolute inset-0 bg-brand/42 backdrop-blur-[19px]"></div>
 
@@ -43,13 +43,13 @@
 
       <div class="flex items-center justify-end gap-2 w-auto sm:w-full sm:max-w-[331px] sm:justify-between">
         <button x-on:click="$store.nav.toggleSearch()"
-          class="flex items-center bg-white justify-center w-[44px] h-[44px] flex-shrink-0 rounded-[4px] border border-[#00000033] transition"
+          class="flex items-center bg-white justify-center w-[44px] h-[44px] flex-shrink-0 rounded-[4px] border border-black/20 transition"
           aria-label="Search">
           <img src="/assets/img/about/search-icon.svg" alt="" class="w-5 h-5" />
         </button>
 
         <a href="contact.html"
-          class="relative overflow-hidden hidden sm:inline-flex items-center justify-between h-[44px] rounded-[4px] bg-brand px-5 flex-1 text-xs font-semibold text-white shadow-sm hover:bg-brand-hover transition duration-200">
+          class="relative overflow-hidden hidden sm:inline-flex items-center justify-between h-[44px] rounded-[4px] bg-brand px-5 flex-1 text-white shadow-sm hover:bg-brand-hover transition duration-200">
           <span class="type-button pr-5">Contact us</span>
           <svg class="absolute top-[4px] right-[4px] w-[14px] h-[14px] text-white fill-current" viewBox="0 0 14 14">
             <path
@@ -58,10 +58,16 @@
         </a>
 
         <button x-on:click="$store.nav.toggleMenu()"
-          class="flex items-center justify-center w-[44px] h-[44px] flex-shrink-0 rounded-[4px] bg-white hover:bg-white-hover transition shadow-sm"
+          class="flex items-center justify-center w-[44px] h-[44px] flex-shrink-0 rounded-[4px] border border-white/30 bg-brand hover:bg-brand-hover text-white lg:border-black/20 lg:bg-white lg:hover:bg-white-hover lg:text-brand transition shadow-sm relative z-50"
           :aria-label="$store.nav.menu ? 'Close menu' : 'Open menu'">
-          <img x-show="!$store.nav.menu" src="/assets/img/menuicon.svg" alt="" class="w-5 h-5" />
-          <img x-cloak x-show="$store.nav.menu" src="/assets/img/close-icon.svg" alt="" class="w-3.5 h-3.5" />
+          <svg x-show="!$store.nav.menu" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M3 12H21M3 6H21M3 18H15" />
+          </svg>
+          <svg x-cloak x-show="$store.nav.menu" class="w-3.5 h-3.5" viewBox="0 0 14 14" fill="none" stroke="currentColor"
+            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M13 1L1 13M1 1L13 13" />
+          </svg>
         </button>
       </div>
     </div>
@@ -73,117 +79,114 @@
        is the static bottom-left notch. The outer also owns all the positioning
        so the reveal clips the card in its final place. -->
   <div x-data x-cloak x-show="$store.nav.menu" x-on:keydown.escape.window="$store.nav.close()"
-    x-transition:enter="menu-reveal-in"
-    x-transition:enter-start="opacity-0 menu-reveal-from"
-    x-transition:enter-end="opacity-100 menu-reveal-to"
-    x-transition:leave="menu-reveal-out"
-    x-transition:leave-start="opacity-100 menu-reveal-to"
-    x-transition:leave-end="opacity-0 menu-reveal-from"
+    x-transition:enter="menu-reveal-in" x-transition:enter-start="opacity-0 menu-reveal-from"
+    x-transition:enter-end="opacity-100 menu-reveal-to" x-transition:leave="menu-reveal-out"
+    x-transition:leave-start="opacity-100 menu-reveal-to" x-transition:leave-end="opacity-0 menu-reveal-from"
     class="fixed inset-0 z-[100] lg:inset-auto lg:right-10 lg:top-[86px] lg:w-[512px]">
     <div class="panel-notch flex flex-col h-full bg-white text-black overflow-y-auto
              lg:h-auto lg:max-h-[calc(100vh-126px)] lg:rounded-[4px]">
 
-    <!-- Sheet header (phones/tablets only). The desktop card has no header of
+      <!-- Sheet header (phones/tablets only). The desktop card has no header of
          its own — the copy drawn over the backdrop above serves that role. -->
-    <div class="lg:hidden flex items-center justify-between p-5 flex-shrink-0">
-      <a href="index.html" class="block flex-shrink-0">
-        <img src="/assets/img/bluelogo.svg" alt="One Health" class="h-[42px] w-[79px]" />
-      </a>
-      <div class="flex items-center gap-1.5">
-        <button x-on:click="$store.nav.toggleSearch()"
-          class="flex items-center justify-center w-[42px] h-[42px] flex-shrink-0 rounded-[4px] border border-[#00000033] bg-white transition"
-          aria-label="Search">
-          <img src="/assets/img/about/search-icon.svg" alt="" class="w-6 h-6" />
-        </button>
-        <button x-on:click="$store.nav.close()"
-          class="flex items-center justify-center w-[42px] h-[42px] flex-shrink-0 rounded-[4px] border border-white/30 bg-brand hover:bg-brand-hover transition"
-          aria-label="Close menu">
-          <img src="/assets/img/close-icon-white.svg" alt="" class="w-3.5 h-3.5" />
-        </button>
+      <div class="lg:hidden flex items-center justify-between p-5 flex-shrink-0">
+        <a href="index.html" class="block flex-shrink-0">
+          <img src="/assets/img/bluelogo.svg" alt="One Health" class="h-[42px] w-[79px]" />
+        </a>
+        <div class="flex items-center gap-1.5">
+          <button x-on:click="$store.nav.toggleSearch()"
+            class="flex items-center justify-center w-[42px] h-[42px] flex-shrink-0 rounded-[4px] border border-black/20 bg-white transition"
+            aria-label="Search">
+            <img src="/assets/img/about/search-icon.svg" alt="" class="w-6 h-6" />
+          </button>
+          <button x-on:click="$store.nav.close()"
+            class="flex items-center justify-center w-[42px] h-[42px] flex-shrink-0 rounded-[4px] border border-white/30 bg-brand hover:bg-brand-hover transition"
+            aria-label="Close menu">
+            <img src="/assets/img/close-icon-white.svg" alt="" class="w-3.5 h-3.5" />
+          </button>
+        </div>
       </div>
-    </div>
 
-    <!-- Nav items. 24px on phones and 28px at 2xl, per the Mobile/Heading and
+      <!-- Nav items. 24px on phones and 28px at 2xl, per the Mobile/Heading and
          Desktop/Subheading styles in Figma — the only two sizes the frames
          state, so the size overrides sit on top of type-subheading here. -->
-    <nav class="px-5 pt-8 pb-10 lg:p-8">
-      <ul class="flex flex-col w-full divide-y divide-black/20">
+      <nav class="px-5 pt-8 pb-10 lg:p-8">
+        <ul class="flex flex-col w-full divide-y divide-black/20">
 
-        <li class="pb-5 lg:pb-4">
-          <a href="index.html"
-            class="block type-subheading text-[24px] 2xl:text-[28px] leading-[1.2] lg:leading-[1.1] text-black hover:text-brand transition">
-            Home
-          </a>
-        </li>
+          <li class="pb-5 lg:pb-4">
+            <a href="index.html"
+              class="block type-subheading text-[24px] 2xl:text-[28px] leading-[1.2] lg:leading-[1.1] text-black hover:text-brand transition">
+              Home
+            </a>
+          </li>
 
-        <li x-data="{ subOpen: false }" class="py-5 lg:py-4 flex flex-col">
-          <button x-on:click="subOpen = !subOpen" :class="subOpen ? 'items-start' : 'items-end'"
-            class="w-full flex justify-between text-left type-subheading text-[24px] 2xl:text-[28px] leading-[1.2] lg:leading-[1.1] text-black hover:text-brand transition focus:outline-none">
-            <span>Who we are</span>
-            <!-- The corner fold, flipped so its square corner sits bottom-right;
+          <li x-data="{ subOpen: false }" class="py-5 lg:py-4 flex flex-col">
+            <button x-on:click="subOpen = !subOpen" :class="subOpen ? 'items-start' : 'items-end'"
+              class="w-full flex justify-between text-left type-subheading text-[24px] 2xl:text-[28px] leading-[1.2] lg:leading-[1.1] text-black hover:text-brand transition focus:outline-none">
+              <span>Who we are</span>
+              <!-- The corner fold, flipped so its square corner sits bottom-right;
                  opening the section swings it a quarter turn. -->
-            <svg class="w-3.5 h-3.5 flex-shrink-0 text-brand fill-current transition-transform duration-200"
-              :class="subOpen ? '-scale-y-100 -rotate-90' : '-scale-y-100'" viewBox="0 0 14 14" aria-hidden="true">
-              <path
-                d="M 2.414 0 L 13 0 A 1 1 0 0 1 14 1 L 14 11.586 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 2.414 0 Z" />
-            </svg>
-          </button>
+              <svg class="w-3.5 h-3.5 flex-shrink-0 text-brand fill-current transition-transform duration-200"
+                :class="subOpen ? '-scale-y-100 -rotate-90' : '-scale-y-100'" viewBox="0 0 14 14" aria-hidden="true">
+                <path
+                  d="M 2.414 0 L 13 0 A 1 1 0 0 1 14 1 L 14 11.586 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 2.414 0 Z" />
+              </svg>
+            </button>
 
-          <div x-show="subOpen" x-transition class="pt-5 lg:pt-4 flex flex-col gap-2 type-body text-black/50">
-            <a href="about.html" class="hover:text-black transition">About One Health</a>
-            <a href="medtrust.html" class="hover:text-black transition">MedTrust Brand</a>
-            <a href="about.html#leadership" class="hover:text-black transition">Leadership <span
-                class="font-sans font-medium">&amp;</span> Team</a>
-          </div>
-        </li>
+            <div x-show="subOpen" x-transition class="pt-5 lg:pt-4 flex flex-col gap-2 type-body text-black/50">
+              <a href="about.html" class="hover:text-black transition">About One Health</a>
+              <a href="medtrust.html" class="hover:text-black transition">MedTrust Brand</a>
+              <a href="about.html#leadership" class="hover:text-black transition">Leadership <span
+                  class="font-sans font-medium">&amp;</span> Team</a>
+            </div>
+          </li>
 
-        <li x-data="{ subOpen: false }" class="py-5 lg:py-4 flex flex-col">
-          <button x-on:click="subOpen = !subOpen" :class="subOpen ? 'items-start' : 'items-end'"
-            class="w-full flex justify-between text-left type-subheading text-[24px] 2xl:text-[28px] leading-[1.2] lg:leading-[1.1] text-black hover:text-brand transition focus:outline-none">
-            <span>Our divisions</span>
-            <svg class="w-3.5 h-3.5 flex-shrink-0 text-brand fill-current transition-transform duration-200"
-              :class="subOpen ? '-scale-y-100 -rotate-90' : '-scale-y-100'" viewBox="0 0 14 14" aria-hidden="true">
-              <path
-                d="M 2.414 0 L 13 0 A 1 1 0 0 1 14 1 L 14 11.586 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 2.414 0 Z" />
-            </svg>
-          </button>
+          <li x-data="{ subOpen: false }" class="py-5 lg:py-4 flex flex-col">
+            <button x-on:click="subOpen = !subOpen" :class="subOpen ? 'items-start' : 'items-end'"
+              class="w-full flex justify-between text-left type-subheading text-[24px] 2xl:text-[28px] leading-[1.2] lg:leading-[1.1] text-black hover:text-brand transition focus:outline-none">
+              <span>Our divisions</span>
+              <svg class="w-3.5 h-3.5 flex-shrink-0 text-brand fill-current transition-transform duration-200"
+                :class="subOpen ? '-scale-y-100 -rotate-90' : '-scale-y-100'" viewBox="0 0 14 14" aria-hidden="true">
+                <path
+                  d="M 2.414 0 L 13 0 A 1 1 0 0 1 14 1 L 14 11.586 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 2.414 0 Z" />
+              </svg>
+            </button>
 
-          <div x-show="subOpen" x-transition class="pt-5 lg:pt-4 flex flex-col gap-2 type-body text-black/50">
-            <a href="ivd-life-sciences.html" class="hover:text-black transition">IVD and life sciences</a>
-            <a href="medical-products.html" class="hover:text-black transition">Medical products <span
-                class="font-sans font-medium">&amp;</span> projects</a>
-            <!-- Figma lists a Pharmaceutical division; there is no page for it
+            <div x-show="subOpen" x-transition class="pt-5 lg:pt-4 flex flex-col gap-2 type-body text-black/50">
+              <a href="ivd-life-sciences.html" class="hover:text-black transition">IVD and life sciences</a>
+              <a href="medical-products.html" class="hover:text-black transition">Medical products <span
+                  class="font-sans font-medium">&amp;</span> projects</a>
+              <!-- Figma lists a Pharmaceutical division; there is no page for it
                  yet, so this is a placeholder rather than a dead link. -->
-            <a href="#" class="hover:text-black transition">Pharmaceutical</a>
-            <a href="facilities-and-technical-services.html" class="hover:text-black transition">Services</a>
-            <a href="business-development.html" class="hover:text-black transition">Business development</a>
-            <a href="supplychain.html" class="hover:text-black transition">Supply chain management</a>
-          </div>
-        </li>
+              <a href="#" class="hover:text-black transition">Pharmaceutical</a>
+              <a href="facilities-and-technical-services.html" class="hover:text-black transition">Services</a>
+              <a href="business-development.html" class="hover:text-black transition">Business development</a>
+              <a href="supplychain.html" class="hover:text-black transition">Supply chain management</a>
+            </div>
+          </li>
 
-        <li class="py-5 lg:py-4">
-          <a href="news.html"
-            class="block type-subheading text-[24px] 2xl:text-[28px] leading-[1.2] lg:leading-[1.1] text-black hover:text-brand transition">
-            Insights <span class="font-sans font-medium">&amp;</span> media
-          </a>
-        </li>
+          <li class="py-5 lg:py-4">
+            <a href="news.html"
+              class="block type-subheading text-[24px] 2xl:text-[28px] leading-[1.2] lg:leading-[1.1] text-black hover:text-brand transition">
+              Insights <span class="font-sans font-medium">&amp;</span> media
+            </a>
+          </li>
 
-        <li class="py-5 lg:py-4">
-          <a href="careers.html"
-            class="block type-subheading text-[24px] 2xl:text-[28px] leading-[1.2] lg:leading-[1.1] text-black hover:text-brand transition">
-            Careers
-          </a>
-        </li>
+          <li class="py-5 lg:py-4">
+            <a href="careers.html"
+              class="block type-subheading text-[24px] 2xl:text-[28px] leading-[1.2] lg:leading-[1.1] text-black hover:text-brand transition">
+              Careers
+            </a>
+          </li>
 
-        <li class="pt-5 lg:pt-4">
-          <a href="contact.html"
-            class="block type-subheading text-[24px] 2xl:text-[28px] leading-[1.2] lg:leading-[1.1] text-black hover:text-brand transition">
-            Contact
-          </a>
-        </li>
+          <li class="pt-5 lg:pt-4">
+            <a href="contact.html"
+              class="block type-subheading text-[24px] 2xl:text-[28px] leading-[1.2] lg:leading-[1.1] text-black hover:text-brand transition">
+              Contact
+            </a>
+          </li>
 
-      </ul>
-    </nav>
+        </ul>
+      </nav>
     </div>
   </div>
 
@@ -206,7 +209,7 @@
 
       <div class="flex items-center gap-1.5">
         <button x-on:click="$store.nav.close()"
-          class="flex items-center justify-center w-[42px] h-[42px] flex-shrink-0 rounded-[4px] border border-[#00000033] bg-white hover:bg-white-hover transition"
+          class="flex items-center justify-center w-[42px] h-[42px] flex-shrink-0 rounded-[4px] border border-black/20 bg-white hover:bg-white-hover transition"
           aria-label="Close search">
           <img src="/assets/img/close-icon.svg" alt="" class="w-3.5 h-3.5" />
         </button>
@@ -215,15 +218,16 @@
           class="relative overflow-hidden hidden lg:inline-flex items-center h-[42px] w-[280px] rounded-[4px] bg-brand pl-4 pr-6 text-white hover:bg-brand-hover transition duration-200">
           <span class="type-button">Contact us</span>
           <svg class="absolute top-[4px] right-[4px] w-[14px] h-[14px] text-white fill-current" viewBox="0 0 14 14">
-            <path d="M 2.414 0 L 13 0 A 1 1 0 0 1 14 1 L 14 11.586 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 2.414 0 Z" />
+            <path
+              d="M 2.414 0 L 13 0 A 1 1 0 0 1 14 1 L 14 11.586 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 2.414 0 Z" />
           </svg>
         </a>
 
         <button x-on:click="$store.nav.toggleMenu()"
-          class="flex items-center justify-center w-[42px] h-[42px] flex-shrink-0 rounded-[4px] border border-white/30 bg-brand hover:bg-brand-hover lg:border-[#00000033] lg:bg-white lg:hover:bg-white-hover transition"
+          class="flex items-center justify-center w-[42px] h-[42px] flex-shrink-0 rounded-[4px] border border-white/30 bg-brand hover:bg-brand-hover lg:border-black/20 lg:bg-white lg:hover:bg-white-hover transition"
           aria-label="Open menu">
           <img src="/assets/img/menuicon-white.svg" alt="" class="w-5 h-[14px] lg:hidden" />
-          <img src="/assets/img/menuicon.svg" alt="" class="hidden lg:block w-5 h-[14px]" />
+          <img src="/assets/img/menuicon.svg" alt="Menu" class="hidden lg:block w-5 h-5" />
         </button>
       </div>
     </div>
@@ -235,7 +239,7 @@
       <label class="relative block lg:max-w-[512px]">
         <span class="sr-only">Search One Health</span>
         <input type="search" x-model="$store.nav.query" placeholder="Search"
-          class="w-full h-[42px] rounded-[4px] border border-[#00000033] bg-white pl-11 pr-3 type-body text-black placeholder:text-black/50 focus:border-brand focus:outline-none transition" />
+          class="w-full h-[42px] rounded-[4px] border border-black/20 bg-white pl-11 pr-3 type-body text-black placeholder:text-black/50 focus:border-brand focus:outline-none transition" />
         <img src="/assets/img/about/search-icon.svg" alt=""
           class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5" />
       </label>
@@ -247,8 +251,7 @@
                at 1680 — 18 → 56, which no single type-* class spans. The steps
                below restate type-heading's own ramp with an 18px base. -->
           <div class="flex items-center justify-between gap-4">
-            <p
-              class="type-heading text-[18px] sm:text-[30px] md:text-[36px] lg:text-[44px] xl:text-[50px] 2xl:text-[56px] text-black"
+            <p class="type-heading text-[18px] sm:text-[30px] md:text-[36px] lg:text-[44px] xl:text-[50px] 2xl:text-[56px] text-black"
               x-text="$store.nav.resultsLabel"></p>
             <button x-on:click="$store.nav.clear()"
               class="type-body text-black/50 hover:text-black transition flex-shrink-0">Clear</button>
@@ -272,7 +275,8 @@
                     x-html="$store.nav.highlight(result.text)"></span>
                   <span class="hidden lg:block type-body text-black/50" x-text="result.section"></span>
                   <svg class="w-3.5 h-3.5 text-brand fill-current" viewBox="0 0 14 14" aria-hidden="true">
-                    <path d="M 2.414 0 L 13 0 A 1 1 0 0 1 14 1 L 14 11.586 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 2.414 0 Z" />
+                    <path
+                      d="M 2.414 0 L 13 0 A 1 1 0 0 1 14 1 L 14 11.586 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 2.414 0 Z" />
                   </svg>
                 </a>
               </li>
@@ -286,6 +290,50 @@
       </template>
     </div>
   </div>
+
+  <!-- component: lab-calculator-pill -->
+  <!-- The resting state of the home page's AI Lab calculator widget — the card
+       shrunk to a 12px glass frame around a white pill (Figma 568:3277) —
+       pinned to the viewport on every inner page. There is no expanded card
+       and no scroll morph out here: the full panel belongs to the home hero,
+       so this is plain markup with no Alpine state.
+
+       Top level and `fixed` for the same reason the nav overlay above it is:
+       the pinned `position: sticky` scenes inside <main> each open a stacking
+       context, and a fixed element nested in one can never paint above the
+       sections that follow it. Sitting ahead of all of them also keeps this
+       clear of the `~ *` z-index rules those scenes carry in input.css.
+
+       z-110 clears the nav overlay's own layers — the blurred backdrop at 90
+       and the menu/search panels at 100 — so the pill stays up and clickable
+       while either is open instead of being buried by them.
+
+       206px is exactly the home page's collapsed width, so the two are the
+       same pill: 12px frame + 12px + a 14px sparkle + 6px gap + the 118.5px
+       DIN label + 28px of clearance for the corner fold + 12px frame. Keep
+       this block byte-identical across pages, like the overlay. -->
+  <div class="js-lab-pill fixed bottom-5 right-5 lg:bottom-10 lg:right-10 z-[110] w-[206px] max-w-[calc(100vw-2.5rem)] rounded-[4px] p-[12px] pointer-events-none"
+    style="background-color: rgba(242, 242, 242, 0.2); backdrop-filter: blur(18.95px); -webkit-backdrop-filter: blur(18.95px);">
+    <a href="#"
+      class="relative overflow-hidden flex h-[42px] w-full items-center gap-1.5 rounded-[4px] border border-[#233D7C]/30 bg-white pl-3 pr-7 whitespace-nowrap pointer-events-auto">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"
+        class="w-3.5 h-3.5 flex-shrink-0">
+        <path
+          d="M6.62654 1.30059C6.52181 1.38756 6.4508 1.50842 6.4258 1.64223L5.81267 4.88427C5.76912 5.11476 5.65709 5.32678 5.49121 5.49264C5.32532 5.65851 5.11328 5.77052 4.88276 5.81406L1.64033 6.42712C1.50651 6.45212 1.38564 6.52312 1.29866 6.62784C1.21168 6.73256 1.16406 6.86439 1.16406 7.00052C1.16406 7.13664 1.21168 7.26848 1.29866 7.37319C1.38564 7.47791 1.50651 7.54892 1.64033 7.57391L4.88276 8.18697C5.11328 8.23051 5.32532 8.34252 5.49121 8.50839C5.65709 8.67426 5.76912 8.88627 5.81267 9.11677L6.4258 12.3588C6.4508 12.4926 6.52181 12.6135 6.62654 12.7004C6.73127 12.7874 6.86312 12.835 6.99926 12.835C7.1354 12.835 7.26726 12.7874 7.37199 12.7004C7.47672 12.6135 7.54773 12.4926 7.57273 12.3588L8.18586 9.11677C8.22941 8.88627 8.34143 8.67426 8.50732 8.50839C8.6732 8.34252 8.88525 8.23051 9.11577 8.18697L12.3582 7.57391C12.492 7.54892 12.6129 7.47791 12.6999 7.37319C12.7868 7.26848 12.8345 7.13664 12.8345 7.00052C12.8345 6.86439 12.7868 6.73256 12.6999 6.62784C12.6129 6.52312 12.492 6.45212 12.3582 6.42712L9.11577 5.81406C8.88525 5.77052 8.6732 5.65851 8.50732 5.49264C8.34143 5.32678 8.22941 5.11476 8.18586 4.88427L7.57273 1.64223C7.54773 1.50842 7.47672 1.38756 7.37199 1.30059C7.26726 1.21362 7.1354 1.16602 6.99926 1.16602C6.86312 1.16602 6.73127 1.21362 6.62654 1.30059Z"
+          fill="#233D7C" />
+        <path
+          d="M2.33225 12.8334C2.97663 12.8334 3.49901 12.311 3.49901 11.6667C3.49901 11.0224 2.97663 10.5001 2.33225 10.5001C1.68786 10.5001 1.16549 11.0224 1.16549 11.6667C1.16549 12.311 1.68786 12.8334 2.33225 12.8334Z"
+          fill="#233D7C" />
+        <path d="M11.6668 1.16797V3.50121M12.8335 2.33459H10.5" stroke="#233D7C" stroke-linecap="round" />
+      </svg>
+      <span class="type-button text-[#233D7C]">AI Lab calculator</span>
+      <svg class="absolute top-[4px] right-[4px] w-[14px] h-[14px] fill-current text-[#233D7C]" viewBox="0 0 14 14">
+        <path
+          d="M 2.414 0 L 13 0 A 1 1 0 0 1 14 1 L 14 11.586 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 2.414 0 Z" />
+      </svg>
+    </a>
+  </div>
+  <!-- /component -->
 
 
   <!-- Hero Section with Background Image (matching supplychain pattern) -->
@@ -303,23 +351,33 @@
         </a>
 
         <!-- Header Actions -->
-        <div class="flex items-center justify-end sm:justify-between gap-3 w-auto sm:w-full sm:max-w-[331px]">
-          <!-- Request Service Button (Corner-Fold Variant) -->
+        <div class="flex items-center justify-end gap-2 w-auto sm:w-full sm:max-w-[331px] sm:justify-between">
+          <button x-on:click="$store.nav.toggleSearch()"
+            class="flex items-center bg-white justify-center w-[44px] h-[44px] flex-shrink-0 rounded-[4px] border border-black/20 transition"
+            aria-label="Search">
+            <img src="/assets/img/about/search-icon.svg" alt="" class="w-5 h-5" />
+          </button>
+
           <a href="contact.html"
-            class="hidden sm:inline-flex relative overflow-hidden items-center justify-between h-[44px] rounded-[4px] bg-brand px-5 flex-1 text-xs font-semibold text-white shadow-sm hover:bg-brand/90 transition duration-200">
-            <span class="font-din tracking-wide pr-5">Request service</span>
+            class="relative overflow-hidden hidden sm:inline-flex items-center justify-between h-[44px] rounded-[4px] bg-brand px-5 flex-1 text-white shadow-sm hover:bg-brand-hover transition duration-200">
+            <span class="type-button pr-5">Contact us</span>
             <svg class="absolute top-[4px] right-[4px] w-[14px] h-[14px] text-white fill-current" viewBox="0 0 14 14">
               <path
-                d="M 2.414 0 L 13 0 A 1 1 0 0 1 14 1 L 14 11.586 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 2.414 0 Z" />
+                d="M 2.414 0 L 13 0 A 1 1 0 0 1 14 1 L 14 11.586 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 2.414 0 Z" />
             </svg>
           </a>
 
-          <!-- Mobile / Navigation Menu Toggle -->
           <button x-on:click="$store.nav.toggleMenu()"
-            class="flex items-center justify-center w-[44px] h-[44px] flex-shrink-0 rounded-[4px] bg-white hover:bg-slate-100 transition shadow-sm relative z-50"
-            aria-label="Toggle menu">
-            <img x-show="!$store.nav.menu" src="/assets/img/menuicon.svg" alt="Menu" class="w-5 h-5" />
-            <img x-cloak x-show="$store.nav.menu" src="/assets/img/close-icon.svg" alt="" class="w-3.5 h-3.5" />
+            class="flex items-center justify-center w-[44px] h-[44px] flex-shrink-0 rounded-[4px] border border-white/30 bg-brand hover:bg-brand-hover text-white lg:border-black/20 lg:bg-white lg:hover:bg-white-hover lg:text-brand transition shadow-sm relative z-50"
+            :aria-label="$store.nav.menu ? 'Close menu' : 'Open menu'">
+            <svg x-show="!$store.nav.menu" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M3 12H21M3 6H21M3 18H15" />
+            </svg>
+            <svg x-cloak x-show="$store.nav.menu" class="w-3.5 h-3.5" viewBox="0 0 14 14" fill="none" stroke="currentColor"
+              stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M13 1L1 13M1 1L13 13" />
+            </svg>
           </button>
         </div>
 
@@ -330,7 +388,8 @@
     <div class="relative z-10 flex-1 flex items-center justify-center">
       <div class="flex flex-col items-center justify-center gap-4 sm:gap-6 text-center px-4">
         <span class="font-din text-[14px] font-semibold tracking-wider bg-clip-text text-transparent"
-          style="background-image: linear-gradient(90deg, #35AFE5 0%, #233D7C 100%);">A One Health<span class="font-sans font-medium">'</span>s brand</span>
+          style="background-image: linear-gradient(90deg, #35AFE5 0%, #233D7C 100%);">A One Health<span
+            class="font-sans font-medium">'</span>s brand</span>
         <div class="flex items-center gap-6 sm:gap-10">
           <img src="/assets/img/home/medtrust.svg" alt="MedTrust" class="h-7 sm:h-9 object-contain" />
           <div class="w-px h-8 sm:h-10 bg-black/10"></div>
@@ -346,10 +405,12 @@
           Medical consumables,<br>made to standard
         </h1>
         <p class="font-aktiv text-[14px] leading-relaxed text-black">
-          MedTrust is our own UAE brand of medical consumables and infection control products, supplied to hospitals, governments, pharmacies, distributors and homecare providers across the UAE and the GCC.
+          MedTrust is our own UAE brand of medical consumables and infection control products, supplied to hospitals,
+          governments, pharmacies, distributors and homecare providers across the UAE and the GCC.
         </p>
         <p class="font-aktiv text-[14px] leading-relaxed text-black">
-          Every product is sourced from a qualified manufacturer, released through a UAE quality team, and documented to the standard a tender asks for.
+          Every product is sourced from a qualified manufacturer, released through a UAE quality team, and documented to
+          the standard a tender asks for.
         </p>
       </div>
     </div>
@@ -357,257 +418,288 @@
   </section>
   <!-- /component -->
 
-    <!-- component: range-section -->
-    <section class="bg-white text-black pb-24 lg:pb-32 container-page">
-      <div class="border-t border-[#00000033] pt-6 sm:pt-8 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
+  <!-- component: range-section -->
+  <section class="bg-white text-black pb-24 lg:pb-32 container-page">
+    <div class="border-t border-black/20 pt-6 sm:pt-8 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
 
-        <div class="lg:col-span-2">
-          <h2 class="font-din text-[14px] font-normal tracking-wider text-black">
-            The range
-          </h2>
+      <div class="lg:col-span-2">
+        <h2 class="font-din text-[14px] font-normal tracking-wider text-black">
+          The range
+        </h2>
+      </div>
+
+      <div class="lg:col-span-10">
+        <h3
+          class="font-aktiv text-3xl sm:text-4xl lg:text-[56px] font-medium leading-[1.1] text-black tracking-tight max-w-3xl">
+          Five families cover the consumables a healthcare facility gets through.
+        </h3>
+      </div>
+
+      <!-- Staggered 5-up family grid (full 12-col span) -->
+      <div
+        class="lg:col-span-12 mt-16 lg:mt-24 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-6 lg:items-start">
+
+        <div class="flex flex-col gap-4 lg:mt-0">
+          <div class="w-full aspect-[294/323] rounded-[4px] overflow-hidden">
+            <img src="/assets/img/medtrust/ppe.png" alt="Personal protective equipment"
+              class="w-full h-full object-cover" />
+          </div>
+          <div class="flex flex-col gap-2">
+            <h4 class="font-aktiv text-[28px] font-medium leading-[1.1] text-black">Personal protective equipment</h4>
+            <p class="font-din text-[14px] text-black/40 leading-snug">Nitrile gloves, Type IIR masks, isolation gowns,
+              PE aprons, caps and shoe covers.</p>
+          </div>
         </div>
 
-        <div class="lg:col-span-10">
-          <h3 class="font-aktiv text-3xl sm:text-4xl lg:text-[56px] font-medium leading-[1.1] text-black tracking-tight max-w-3xl">
-            Five families cover the consumables a healthcare facility gets through.
-          </h3>
+        <div class="flex flex-col gap-4 lg:mt-20">
+          <div class="w-full aspect-[294/323] rounded-[4px] overflow-hidden">
+            <img src="/assets/img/medtrust/infection-control.png" alt="Infection control"
+              class="w-full h-full object-cover" />
+          </div>
+          <div class="flex flex-col gap-2">
+            <h4 class="font-aktiv text-[28px] font-medium leading-[1.1] text-black">Infection control</h4>
+            <p class="font-din text-[14px] text-black/40 leading-snug">Sterile non woven swabs, antiseptic wipes,
+              surface protection and sterilisation accessories.</p>
+          </div>
         </div>
 
-        <!-- Staggered 5-up family grid (full 12-col span) -->
-        <div class="lg:col-span-12 mt-16 lg:mt-24 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-6 lg:items-start">
-
-          <div class="flex flex-col gap-4 lg:mt-0">
-            <div class="w-full aspect-[294/323] rounded-[4px] overflow-hidden">
-              <img src="/assets/img/medtrust/ppe.png" alt="Personal protective equipment" class="w-full h-full object-cover" />
-            </div>
-            <div class="flex flex-col gap-2">
-              <h4 class="font-aktiv text-[28px] font-medium leading-[1.1] text-black">Personal protective equipment</h4>
-              <p class="font-din text-[14px] text-black/40 leading-snug">Nitrile gloves, Type IIR masks, isolation gowns, PE aprons, caps and shoe covers.</p>
-            </div>
+        <div class="flex flex-col gap-4 lg:mt-40">
+          <div class="w-full aspect-[294/323] rounded-[4px] overflow-hidden">
+            <img src="/assets/img/medtrust/patient-care.png" alt="Patient care" class="w-full h-full object-cover" />
           </div>
-
-          <div class="flex flex-col gap-4 lg:mt-20">
-            <div class="w-full aspect-[294/323] rounded-[4px] overflow-hidden">
-              <img src="/assets/img/medtrust/infection-control.png" alt="Infection control" class="w-full h-full object-cover" />
-            </div>
-            <div class="flex flex-col gap-2">
-              <h4 class="font-aktiv text-[28px] font-medium leading-[1.1] text-black">Infection control</h4>
-              <p class="font-din text-[14px] text-black/40 leading-snug">Sterile non woven swabs, antiseptic wipes, surface protection and sterilisation accessories.</p>
-            </div>
+          <div class="flex flex-col gap-2">
+            <h4 class="font-aktiv text-[28px] font-medium leading-[1.1] text-black">Patient care</h4>
+            <p class="font-din text-[14px] text-black/40 leading-snug">Wash basins, kidney dishes, examination table
+              rolls, petroleum jelly and baby wipes.</p>
           </div>
+        </div>
 
-          <div class="flex flex-col gap-4 lg:mt-40">
-            <div class="w-full aspect-[294/323] rounded-[4px] overflow-hidden">
-              <img src="/assets/img/medtrust/patient-care.png" alt="Patient care" class="w-full h-full object-cover" />
-            </div>
-            <div class="flex flex-col gap-2">
-              <h4 class="font-aktiv text-[28px] font-medium leading-[1.1] text-black">Patient care</h4>
-              <p class="font-din text-[14px] text-black/40 leading-snug">Wash basins, kidney dishes, examination table rolls, petroleum jelly and baby wipes.</p>
-            </div>
+        <div class="flex flex-col gap-4 lg:mt-60">
+          <div class="w-full aspect-[294/323] rounded-[4px] overflow-hidden">
+            <img src="/assets/img/medtrust/wound-care.png" alt="Wound care" class="w-full h-full object-cover" />
           </div>
-
-          <div class="flex flex-col gap-4 lg:mt-60">
-            <div class="w-full aspect-[294/323] rounded-[4px] overflow-hidden">
-              <img src="/assets/img/medtrust/wound-care.png" alt="Wound care" class="w-full h-full object-cover" />
-            </div>
-            <div class="flex flex-col gap-2">
-              <h4 class="font-aktiv text-[28px] font-medium leading-[1.1] text-black">Wound care</h4>
-              <p class="font-din text-[14px] text-black/40 leading-snug">Sterile gauze and dressings, foam and hydrocolloid dressings, PE tape and plasters.</p>
-            </div>
+          <div class="flex flex-col gap-2">
+            <h4 class="font-aktiv text-[28px] font-medium leading-[1.1] text-black">Wound care</h4>
+            <p class="font-din text-[14px] text-black/40 leading-snug">Sterile gauze and dressings, foam and
+              hydrocolloid dressings, PE tape and plasters.</p>
           </div>
+        </div>
 
-          <div class="flex flex-col gap-4 lg:mt-80">
-            <div class="w-full aspect-[294/323] rounded-[4px] overflow-hidden">
-              <img src="/assets/img/medtrust/homecare.png" alt="Homecare" class="w-full h-full object-cover" />
-            </div>
-            <div class="flex flex-col gap-2">
-              <h4 class="font-aktiv text-[28px] font-medium leading-[1.1] text-black">Homecare</h4>
-              <p class="font-din text-[14px] text-black/40 leading-snug">Hygiene wipes, first aid consumables, incontinence support and patient comfort products.</p>
-            </div>
+        <div class="flex flex-col gap-4 lg:mt-80">
+          <div class="w-full aspect-[294/323] rounded-[4px] overflow-hidden">
+            <img src="/assets/img/medtrust/homecare.png" alt="Homecare" class="w-full h-full object-cover" />
           </div>
-
+          <div class="flex flex-col gap-2">
+            <h4 class="font-aktiv text-[28px] font-medium leading-[1.1] text-black">Homecare</h4>
+            <p class="font-din text-[14px] text-black/40 leading-snug">Hygiene wipes, first aid consumables,
+              incontinence support and patient comfort products.</p>
+          </div>
         </div>
 
       </div>
-    </section>
-    <!-- /component -->
 
-    <!-- component: quality-section -->
-    <section class="bg-[#F2F2F2] text-black py-20 lg:py-24 container-page">
-      <div class="border-t border-[#00000033] pt-6 sm:pt-8 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
+    </div>
+  </section>
+  <!-- /component -->
 
-        <div class="lg:col-span-3">
-          <h2 class="font-din text-[14px] font-normal tracking-wider text-black">
-            Tender grade quality
-          </h2>
+  <!-- component: quality-section -->
+  <section class="bg-[#F2F2F2] text-black py-20 lg:py-24 container-page">
+    <div class="border-t border-black/20 pt-6 sm:pt-8 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
+
+      <div class="lg:col-span-3">
+        <h2 class="font-din text-[14px] font-normal tracking-wider text-black">
+          Tender grade quality
+        </h2>
+      </div>
+
+      <div class="lg:col-span-9">
+        <h3
+          class="font-aktiv text-3xl sm:text-4xl lg:text-[56px] font-medium leading-[1.1] text-black max-w-4xl tracking-tight">
+          Every product comes from an approved manufacturer, is checked before it ships, and is released by a UAE
+          quality team before it reaches the market.
+        </h3>
+      </div>
+
+      <!-- Lab photo (full 12-col span) -->
+      <div class="lg:col-span-12 mt-16 w-full aspect-[1600/600] rounded-[4px] overflow-hidden">
+        <img src="/assets/img/medtrust/manufacturing-lab.png" alt="MedTrust quality release"
+          class="w-full h-full object-cover" />
+      </div>
+
+      <!-- Numbered process list -->
+      <div class="lg:col-span-9 lg:col-start-4 mt-12 divide-y divide-black/10 border-t border-black/10">
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-3 lg:gap-8 py-8 items-start">
+          <span class="lg:col-span-1 font-din text-[14px] text-black">01</span>
+          <h4 class="lg:col-span-4 font-aktiv text-[28px] font-medium leading-[1.1] text-black">Approved manufacturer
+          </h4>
+          <p class="lg:col-span-6 lg:col-start-7 font-din text-[14px] leading-relaxed text-black">Every product comes
+            from a qualified, audited manufacturer. Imported lines carry CE marking and a complete technical file.</p>
         </div>
 
-        <div class="lg:col-span-9">
-          <h3 class="font-aktiv text-3xl sm:text-4xl lg:text-[56px] font-medium leading-[1.1] text-black max-w-4xl tracking-tight">
-            Every product comes from an approved manufacturer, is checked before it ships, and is released by a UAE quality team before it reaches the market.
-          </h3>
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-3 lg:gap-8 py-8 items-start">
+          <span class="lg:col-span-1 font-din text-[14px] text-black">02</span>
+          <h4 class="lg:col-span-4 font-aktiv text-[28px] font-medium leading-[1.1] text-black">Pre-shipment check</h4>
+          <p class="lg:col-span-6 lg:col-start-7 font-din text-[14px] leading-relaxed text-black">Consignments are
+            checked before they ship, with batch records and documentation verified against the order and the
+            specification.</p>
         </div>
 
-        <!-- Lab photo (full 12-col span) -->
-        <div class="lg:col-span-12 mt-16 w-full aspect-[1600/600] rounded-[4px] overflow-hidden">
-          <img src="/assets/img/medtrust/manufacturing-lab.png" alt="MedTrust quality release" class="w-full h-full object-cover" />
-        </div>
-
-        <!-- Numbered process list -->
-        <div class="lg:col-span-9 lg:col-start-4 mt-12 divide-y divide-black/10 border-t border-black/10">
-
-          <div class="grid grid-cols-1 lg:grid-cols-12 gap-3 lg:gap-8 py-8 items-start">
-            <span class="lg:col-span-1 font-din text-[14px] text-black">01</span>
-            <h4 class="lg:col-span-4 font-aktiv text-[28px] font-medium leading-[1.1] text-black">Approved manufacturer</h4>
-            <p class="lg:col-span-6 lg:col-start-7 font-din text-[14px] leading-relaxed text-black">Every product comes from a qualified, audited manufacturer. Imported lines carry CE marking and a complete technical file.</p>
-          </div>
-
-          <div class="grid grid-cols-1 lg:grid-cols-12 gap-3 lg:gap-8 py-8 items-start">
-            <span class="lg:col-span-1 font-din text-[14px] text-black">02</span>
-            <h4 class="lg:col-span-4 font-aktiv text-[28px] font-medium leading-[1.1] text-black">Pre-shipment check</h4>
-            <p class="lg:col-span-6 lg:col-start-7 font-din text-[14px] leading-relaxed text-black">Consignments are checked before they ship, with batch records and documentation verified against the order and the specification.</p>
-          </div>
-
-          <div class="grid grid-cols-1 lg:grid-cols-12 gap-3 lg:gap-8 py-8 items-start">
-            <span class="lg:col-span-1 font-din text-[14px] text-black">03</span>
-            <h4 class="lg:col-span-4 font-aktiv text-[28px] font-medium leading-[1.1] text-black">UAE quality release</h4>
-            <p class="lg:col-span-6 lg:col-start-7 font-din text-[14px] leading-relaxed text-black">A UAE quality team reviews and releases every product before it reaches the market, documented to the standard a tender asks for.</p>
-          </div>
-
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-3 lg:gap-8 py-8 items-start">
+          <span class="lg:col-span-1 font-din text-[14px] text-black">03</span>
+          <h4 class="lg:col-span-4 font-aktiv text-[28px] font-medium leading-[1.1] text-black">UAE quality release</h4>
+          <p class="lg:col-span-6 lg:col-start-7 font-din text-[14px] leading-relaxed text-black">A UAE quality team
+            reviews and releases every product before it reaches the market, documented to the standard a tender asks
+            for.</p>
         </div>
 
       </div>
-    </section>
-    <!-- /component -->
 
-    <!-- component: made-here-section -->
-    <section class="bg-white py-20 lg:py-24 container-page">
-      <div class="relative w-full bg-[#233D7C] rounded-[4px] p-6 lg:p-8 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center overflow-hidden">
+    </div>
+  </section>
+  <!-- /component -->
 
-        <!-- Left: Warehouse photo -->
-        <div class="lg:col-span-4 w-full h-[300px] lg:h-[560px] relative overflow-hidden rounded-[4px]"
+  <!-- component: made-here-section -->
+  <section class="bg-white py-20 lg:py-24 container-page">
+    <div
+      class="relative w-full bg-[#233D7C] rounded-[4px] p-6 lg:p-8 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center overflow-hidden">
+
+      <!-- Left: Warehouse photo -->
+      <div class="lg:col-span-4 w-full h-[300px] lg:h-[560px] relative overflow-hidden rounded-[4px]"
+        style="clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 0 100%);">
+        <img src="/assets/img/medtrust/warehouse.png" alt="MedTrust warehouse" class="w-full h-full object-cover" />
+      </div>
+
+      <div class="hidden lg:block lg:col-span-1"></div>
+
+      <!-- Right: Copy -->
+      <div
+        class="lg:col-span-7 flex flex-col justify-center h-full min-h-[300px] lg:border-l lg:border-white/10 lg:pl-10 lg:py-10 gap-8">
+
+        <div class="flex flex-col gap-4">
+          <span class="font-din text-[14px] font-semibold text-white tracking-wider">Making more of it here</span>
+          <h3
+            class="font-aktiv text-3xl sm:text-4xl lg:text-[48px] font-medium leading-[1.2] text-white tracking-tight">
+            Today the range is sourced from trusted manufacturers and quality checked before it reaches you.
+          </h3>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <p class="font-din text-[14px] leading-relaxed text-white/80">
+            MedTrust is built on a defined path to make more of it in the UAE, moving beyond sourcing into local
+            assembly and, in time, full manufacturing.
+          </p>
+          <p class="font-din text-[14px] leading-relaxed text-white/80">
+            It is a deliberate move in step with Make it in the Emirates and In Country Value, so more of what the
+            country depends on is made closer to home.
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+  <!-- /component -->
+
+  <!-- component: steady-supply-section -->
+  <section class="relative bg-[#233D7C] py-24 lg:py-32">
+    <div class="container-page flex flex-col items-center">
+
+      <!-- Scroll animation wrapper -->
+      <div x-data="{ scrollProgress: 0 }"
+        @scroll.window="scrollProgress = Math.max(0, Math.min(1, ($el.getBoundingClientRect().top * -1) / (window.innerHeight)))"
+        class="relative w-full h-[200vh] flex flex-col justify-start">
+
+        <!-- Sticky container -->
+        <div class="sticky top-0 h-screen w-full flex items-center justify-center">
+
+          <div class="relative w-full max-w-[480px] aspect-square flex items-center justify-center">
+
+            <!-- SVG Circle -->
+            <svg class="absolute inset-0 w-full h-full -rotate-90 pointer-events-none" viewBox="0 0 100 100">
+              <!-- Background circle -->
+              <circle cx="50" cy="50" r="49" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1"
+                vector-effect="non-scaling-stroke" />
+              <!-- Animated foreground circle -->
+              <circle cx="50" cy="50" r="49" fill="none" stroke="#ffffff" stroke-width="1.5"
+                vector-effect="non-scaling-stroke" stroke-dasharray="307.876"
+                :stroke-dashoffset="-307.876 * (0.5 - (scrollProgress * 0.5))"
+                class="transition-all duration-75 ease-out" />
+            </svg>
+
+            <!-- Text content -->
+            <div class="flex flex-col items-center gap-8 text-center px-8 relative z-10 w-full">
+
+              <div class="flex flex-col items-center gap-4 text-white w-full">
+                <span class="font-aktiv text-[14px] font-normal">Steady supply</span>
+
+                <div class="grid w-full" style="grid-template-areas: 'overlap';">
+                  <!-- Text 1 -->
+                  <p class="font-aktiv text-[22px] sm:text-[28px] font-medium leading-[1.1] transition-opacity duration-300"
+                    style="grid-area: overlap;"
+                    :class="scrollProgress < 0.5 ? 'opacity-100' : 'opacity-0 pointer-events-none'">
+                    Set a standing order and it arrives on schedule, restocked before you run low.
+                  </p>
+
+                  <!-- Text 2 -->
+                  <p class="font-aktiv text-[22px] sm:text-[28px] font-medium leading-[1.1] transition-opacity duration-300"
+                    style="grid-area: overlap;"
+                    :class="scrollProgress >= 0.5 ? 'opacity-100' : 'opacity-0 pointer-events-none'">
+                    The One Health supply chain behind MedTrust holds stock in the UAE and moves it across the GCC.
+                  </p>
+                </div>
+              </div>
+
+              <a href="supplychain.html"
+                class="relative overflow-hidden backdrop-blur-[18.95px] bg-white inline-flex h-[42px] items-center rounded-[4px] pl-3 pr-7">
+                <span class="font-aktiv text-[14px] font-medium text-[#233D7C] tracking-wide">Supply chain
+                  management</span>
+                <svg class="absolute top-[4px] right-[4px] w-[14px] h-[14px] text-[#233D7C] fill-current"
+                  viewBox="0 0 14 14">
+                  <path
+                    d="M 2.414 0 L 13 0 A 1 1 0 0 1 14 1 L 14 11.586 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 2.414 0 Z" />
+                </svg>
+              </a>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- Floating CTA card -->
+      <div
+        class="relative w-full mt-24 lg:mt-32 bg-[#F2F2F2] rounded-[4px] p-6 lg:p-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center overflow-hidden">
+
+        <div class="lg:col-span-3 w-full aspect-square relative overflow-hidden rounded-[4px]"
           style="clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 0 100%);">
-          <img src="/assets/img/medtrust/warehouse.png" alt="MedTrust warehouse" class="w-full h-full object-cover" />
+          <img src="/assets/img/medtrust/steady-supply-bg.png" alt="MedTrust standing supply"
+            class="w-full h-full object-cover" />
         </div>
 
         <div class="hidden lg:block lg:col-span-1"></div>
 
-        <!-- Right: Copy -->
-        <div class="lg:col-span-7 flex flex-col justify-center h-full min-h-[300px] lg:border-l lg:border-white/10 lg:pl-10 lg:py-10 gap-8">
+        <div
+          class="lg:col-span-8 flex flex-col justify-between h-full min-h-[220px] lg:border-l lg:border-black/10 lg:pl-10 lg:py-2 gap-8">
+          <h2
+            class="font-aktiv text-3xl sm:text-4xl lg:text-[44px] xl:text-[56px] text-[#233D7C] font-medium leading-[1.2] tracking-tight">
+            Tell us what your facility gets through and we set up a standing supply
+          </h2>
 
-          <div class="flex flex-col gap-4">
-            <span class="font-din text-[14px] font-semibold text-white tracking-wider">Making more of it here</span>
-            <h3 class="font-aktiv text-3xl sm:text-4xl lg:text-[48px] font-medium leading-[1.2] text-white tracking-tight">
-              Today the range is sourced from trusted manufacturers and quality checked before it reaches you.
-            </h3>
-          </div>
-
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            <p class="font-din text-[14px] leading-relaxed text-white/80">
-              MedTrust is built on a defined path to make more of it in the UAE, moving beyond sourcing into local assembly and, in time, full manufacturing.
-            </p>
-            <p class="font-din text-[14px] leading-relaxed text-white/80">
-              It is a deliberate move in step with Make it in the Emirates and In Country Value, so more of what the country depends on is made closer to home.
-            </p>
-          </div>
-
+          <a href="contact.html"
+            class="relative overflow-hidden flex items-center justify-between w-full h-[42px] bg-[#233D7C] pl-3 pr-7 text-white hover:bg-[#233D7C]/90 transition duration-200 rounded-[4px]">
+            <span class="font-din text-[14px] tracking-wide">Send an inquiry</span>
+            <svg class="absolute top-[4px] right-[4px] w-[14px] h-[14px] text-white fill-current" viewBox="0 0 14 14">
+              <path
+                d="M 2.414 0 L 13 0 A 1 1 0 0 1 14 1 L 14 11.586 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 2.414 0 Z" />
+            </svg>
+          </a>
         </div>
 
       </div>
-    </section>
-    <!-- /component -->
 
-    <!-- component: steady-supply-section -->
-    <section class="relative bg-[#233D7C] py-24 lg:py-32">
-      <div class="container-page flex flex-col items-center">
-
-        <!-- Scroll animation wrapper -->
-        <div x-data="{ scrollProgress: 0 }" 
-             @scroll.window="scrollProgress = Math.max(0, Math.min(1, ($el.getBoundingClientRect().top * -1) / (window.innerHeight)))"
-             class="relative w-full h-[200vh] flex flex-col justify-start">
-          
-          <!-- Sticky container -->
-          <div class="sticky top-0 h-screen w-full flex items-center justify-center">
-            
-            <div class="relative w-full max-w-[480px] aspect-square flex items-center justify-center">
-              
-              <!-- SVG Circle -->
-              <svg class="absolute inset-0 w-full h-full -rotate-90 pointer-events-none" viewBox="0 0 100 100">
-                 <!-- Background circle -->
-                 <circle cx="50" cy="50" r="49" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1" vector-effect="non-scaling-stroke" />
-                 <!-- Animated foreground circle -->
-                 <circle cx="50" cy="50" r="49" fill="none" stroke="#ffffff" stroke-width="1.5" vector-effect="non-scaling-stroke"
-                         stroke-dasharray="307.876" :stroke-dashoffset="-307.876 * (0.5 - (scrollProgress * 0.5))" 
-                         class="transition-all duration-75 ease-out" />
-              </svg>
-
-              <!-- Text content -->
-              <div class="flex flex-col items-center gap-8 text-center px-8 relative z-10 w-full">
-                
-                <div class="flex flex-col items-center gap-4 text-white w-full">
-                  <span class="font-aktiv text-[14px] font-normal">Steady supply</span>
-                  
-                  <div class="grid w-full" style="grid-template-areas: 'overlap';">
-                    <!-- Text 1 -->
-                    <p class="font-aktiv text-[22px] sm:text-[28px] font-medium leading-[1.1] transition-opacity duration-300"
-                       style="grid-area: overlap;"
-                       :class="scrollProgress < 0.5 ? 'opacity-100' : 'opacity-0 pointer-events-none'">
-                      Set a standing order and it arrives on schedule, restocked before you run low.
-                    </p>
-                    
-                    <!-- Text 2 -->
-                    <p class="font-aktiv text-[22px] sm:text-[28px] font-medium leading-[1.1] transition-opacity duration-300"
-                       style="grid-area: overlap;"
-                       :class="scrollProgress >= 0.5 ? 'opacity-100' : 'opacity-0 pointer-events-none'">
-                      The One Health supply chain behind MedTrust holds stock in the UAE and moves it across the GCC.
-                    </p>
-                  </div>
-                </div>
-
-                <a href="supplychain.html"
-                  class="relative overflow-hidden backdrop-blur-[18.95px] bg-white inline-flex h-[42px] items-center rounded-[4px] pl-3 pr-7">
-                  <span class="font-aktiv text-[14px] font-medium text-[#233D7C] tracking-wide">Supply chain management</span>
-                  <svg class="absolute top-[4px] right-[4px] w-[14px] h-[14px] text-[#233D7C] fill-current" viewBox="0 0 14 14">
-                    <path
-                      d="M 2.414 0 L 13 0 A 1 1 0 0 1 14 1 L 14 11.586 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 2.414 0 Z" />
-                  </svg>
-                </a>
-              </div>
-
-            </div>
-          </div>
-        </div>
-
-        <!-- Floating CTA card -->
-        <div class="relative w-full mt-24 lg:mt-32 bg-[#F2F2F2] rounded-[4px] p-6 lg:p-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center overflow-hidden">
-
-          <div class="lg:col-span-3 w-full aspect-square relative overflow-hidden rounded-[4px]"
-            style="clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 0 100%);">
-            <img src="/assets/img/medtrust/steady-supply-bg.png" alt="MedTrust standing supply" class="w-full h-full object-cover" />
-          </div>
-
-          <div class="hidden lg:block lg:col-span-1"></div>
-
-          <div class="lg:col-span-8 flex flex-col justify-between h-full min-h-[220px] lg:border-l lg:border-black/10 lg:pl-10 lg:py-2 gap-8">
-            <h2 class="font-aktiv text-3xl sm:text-4xl lg:text-[44px] xl:text-[56px] text-[#233D7C] font-medium leading-[1.2] tracking-tight">
-              Tell us what your facility gets through and we set up a standing supply
-            </h2>
-
-            <a href="contact.html"
-              class="relative overflow-hidden flex items-center justify-between w-full h-[42px] bg-[#233D7C] pl-3 pr-7 text-white hover:bg-[#233D7C]/90 transition duration-200 rounded-[4px]">
-              <span class="font-din text-[14px] tracking-wide">Send an inquiry</span>
-              <svg class="absolute top-[4px] right-[4px] w-[14px] h-[14px] text-white fill-current" viewBox="0 0 14 14">
-                <path
-                  d="M 2.414 0 L 13 0 A 1 1 0 0 1 14 1 L 14 11.586 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 2.414 0 Z" />
-              </svg>
-            </a>
-          </div>
-
-        </div>
-
-      </div>
-    </section>
-    <!-- /component -->
+    </div>
+  </section>
+  <!-- /component -->
 
   </main>
 
@@ -631,7 +723,8 @@
               <li><a href="index.html" class="hover:text-black transition">Home</a></li>
               <li><a href="about.html" class="hover:text-black transition">About</a></li>
               <li><a href="medtrust.html" class="hover:text-black transition">MedTrust</a></li>
-              <li><a href="news.html" class="hover:text-black transition">Insights <span class="font-sans font-medium">&amp;</span> media</a></li>
+              <li><a href="news.html" class="hover:text-black transition">Insights <span
+                    class="font-sans font-medium">&amp;</span> media</a></li>
               <li><a href="careers.html" class="hover:text-black transition">Careers</a></li>
               <li><a href="contact.html" class="hover:text-black transition">Contact</a></li>
             </ul>
@@ -640,9 +733,12 @@
           <div class="flex flex-col space-y-3">
             <h4 class="font-aktiv text-[14px] font-semibold text-black">Our divisions</h4>
             <ul class="flex flex-col space-y-2 font-din text-[14px] text-[#00000066]">
-              <li><a href="ivd-life-sciences.html" class="hover:text-black transition">IVD <span class="font-sans font-medium">&amp;</span> life sciences</a></li>
-              <li><a href="medical-products.html" class="hover:text-black transition">Medical products <span class="font-sans font-medium">&amp;</span> projects</a></li>
-              <li><a href="facilities-and-technical-services.html" class="hover:text-black transition">Facilities <span class="font-sans font-medium">&amp;</span> technical services</a></li>
+              <li><a href="ivd-life-sciences.html" class="hover:text-black transition">IVD <span
+                    class="font-sans font-medium">&amp;</span> life sciences</a></li>
+              <li><a href="medical-products.html" class="hover:text-black transition">Medical products <span
+                    class="font-sans font-medium">&amp;</span> projects</a></li>
+              <li><a href="facilities-and-technical-services.html" class="hover:text-black transition">Facilities <span
+                    class="font-sans font-medium">&amp;</span> technical services</a></li>
               <li><a href="supplychain.html" class="hover:text-black transition">Supply chain management</a></li>
             </ul>
           </div>
@@ -677,6 +773,154 @@
 
     </div>
   </footer>
+
+
+  <!-- component: cookie-consent
+       Full-width strip pinned to the bottom of the viewport. Top level and
+       `fixed`, for the same reason the nav overlay is: the pinned
+       `position: sticky` scenes inside <main> each open a stacking context, and
+       a fixed element nested in one can never paint above the sections that
+       follow it. z-120 clears the overlay's backdrop (90), its two panels (100)
+       and the lab pill (110), so the bar stays reachable whatever else is open.
+
+       State is the `consent` Alpine store in /assets/js/consent.js. The bar
+       renders closed and the store's init() opens it only when there is no
+       stored choice, so a returning visitor never sees it flash.
+
+       The preferences drawer is NOT in the Figma frame — the design covers the
+       bar and its three controls only. It is assembled from ui-kit parts (white
+       button, 42px height, 4px radius, brand ground) with the standard
+       necessary / analytics / marketing split.
+
+       Keep this block byte-identical across pages, like the nav overlay. -->
+  <div x-data x-cloak x-show="$store.consent.visible" role="dialog" aria-modal="false" aria-label="Cookie consent"
+    x-transition:enter="transition ease-out duration-300 motion-reduce:transition-none"
+    x-transition:enter-start="opacity-0 translate-y-full" x-transition:enter-end="opacity-100 translate-y-0"
+    x-transition:leave="transition ease-in duration-200 motion-reduce:transition-none"
+    x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 translate-y-full"
+    class="fixed inset-x-0 bottom-0 z-[120] bg-brand text-white">
+    <div class="container-page py-5 lg:py-4">
+
+      <!-- The designed row: copy left, the three controls right. They stack on
+           phones, where three controls in a row would each be too narrow to
+           read. -->
+      <div class="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between lg:gap-10">
+        <p class="type-body text-white lg:max-w-[760px]">
+          We use cookies to see how the site is used and to make it better.
+        </p>
+
+        <div class="flex flex-wrap items-center gap-3 lg:flex-shrink-0">
+
+          <!-- Accept (UI-Kit White Button). Corner fold at 3px, not 4px — the
+               border takes the extra pixel, per the ui-kit note. -->
+          <button type="button" x-on:click="$store.consent.acceptAll()"
+            class="relative overflow-hidden flex items-center h-[42px] rounded-[4px] border border-black/20 bg-white pl-4 pr-6 text-brand hover:bg-white-hover transition duration-200">
+            <span class="type-button text-brand">Accept</span>
+            <svg class="absolute top-[3px] right-[3px] w-[14px] h-[14px] text-brand fill-current" viewBox="0 0 14 14">
+              <path
+                d="M 2.414 0 L 13 0 A 1 1 0 0 1 14 1 L 14 11.586 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 2.414 0 Z" />
+            </svg>
+          </button>
+
+          <!-- Manage preferences. The outline variant of the same button: white
+               border and label on the brand ground it already sits on. -->
+          <button type="button" x-on:click="$store.consent.togglePanel()"
+            :aria-expanded="$store.consent.panel ? 'true' : 'false'" aria-controls="cookie-preferences"
+            class="relative overflow-hidden flex items-center h-[42px] rounded-[4px] border border-white/30 bg-brand pl-4 pr-6 text-white hover:bg-brand-hover transition duration-200">
+            <span class="type-button text-white">Manage preferences</span>
+            <svg class="absolute top-[3px] right-[3px] w-[14px] h-[14px] text-white fill-current" viewBox="0 0 14 14">
+              <path
+                d="M 2.414 0 L 13 0 A 1 1 0 0 1 14 1 L 14 11.586 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 2.414 0 Z" />
+            </svg>
+          </button>
+
+          <!-- Decline carries no frame in the design — it is a plain label, and
+               refusing must stay exactly as easy as accepting. -->
+          <button type="button" x-on:click="$store.consent.declineAll()"
+            class="type-button text-white px-2 hover:text-white/70 transition">
+            Decline
+          </button>
+
+        </div>
+      </div>
+
+      <!-- Preferences drawer. Necessary is checked and disabled: it is not a
+           choice, so it is shown as fact rather than as an option that lies. -->
+      <div id="cookie-preferences" x-show="$store.consent.panel" x-cloak
+        x-transition:enter="transition ease-out duration-300 motion-reduce:transition-none"
+        x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+        x-transition:leave="transition ease-in duration-200 motion-reduce:transition-none"
+        x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
+        class="mt-5 border-t border-white/30 pt-5">
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-10">
+
+          <label class="flex items-start gap-3 cursor-not-allowed">
+            <input type="checkbox" checked disabled class="peer sr-only" />
+            <span
+              class="mt-[2px] flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-[4px] border border-white/30 bg-white/60">
+              <svg class="w-3 h-3 text-brand" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M1 6.5 L4.5 10 L11 2.5" />
+              </svg>
+            </span>
+            <span class="flex flex-col gap-1">
+              <span class="type-button text-white">Necessary</span>
+              <span class="type-body text-white/60">Needed for the site to work. Always on.</span>
+            </span>
+          </label>
+
+          <label class="flex items-start gap-3 cursor-pointer">
+            <input type="checkbox" x-model="$store.consent.analytics" class="peer sr-only" />
+            <span
+              class="mt-[2px] flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-[4px] border border-white/30 transition peer-focus-visible:ring-2 peer-focus-visible:ring-white/60"
+              :class="$store.consent.analytics ? 'bg-white' : 'bg-white/10'">
+              <svg x-show="$store.consent.analytics" class="w-3 h-3 text-brand" viewBox="0 0 12 12" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                aria-hidden="true">
+                <path d="M1 6.5 L4.5 10 L11 2.5" />
+              </svg>
+            </span>
+            <span class="flex flex-col gap-1">
+              <span class="type-button text-white">Analytics</span>
+              <span class="type-body text-white/60">How the site is used, so we can improve it.</span>
+            </span>
+          </label>
+
+          <label class="flex items-start gap-3 cursor-pointer">
+            <input type="checkbox" x-model="$store.consent.marketing" class="peer sr-only" />
+            <span
+              class="mt-[2px] flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-[4px] border border-white/30 transition peer-focus-visible:ring-2 peer-focus-visible:ring-white/60"
+              :class="$store.consent.marketing ? 'bg-white' : 'bg-white/10'">
+              <svg x-show="$store.consent.marketing" class="w-3 h-3 text-brand" viewBox="0 0 12 12" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                aria-hidden="true">
+                <path d="M1 6.5 L4.5 10 L11 2.5" />
+              </svg>
+            </span>
+            <span class="flex flex-col gap-1">
+              <span class="type-button text-white">Marketing</span>
+              <span class="type-body text-white/60">Whether what you see from us stays relevant.</span>
+            </span>
+          </label>
+
+        </div>
+
+        <!-- Save choices (UI-Kit White Button) -->
+        <button type="button" x-on:click="$store.consent.save()"
+          class="relative overflow-hidden mt-5 flex items-center h-[42px] rounded-[4px] border border-black/20 bg-white pl-4 pr-6 text-brand hover:bg-white-hover transition duration-200">
+          <span class="type-button text-brand">Save choices</span>
+          <svg class="absolute top-[3px] right-[3px] w-[14px] h-[14px] text-brand fill-current" viewBox="0 0 14 14">
+            <path
+              d="M 2.414 0 L 13 0 A 1 1 0 0 1 14 1 L 14 11.586 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 2.414 0 Z" />
+          </svg>
+        </button>
+
+      </div>
+
+    </div>
+  </div>
+  <!-- /component -->
 
 </body>
 

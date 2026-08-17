@@ -11,23 +11,13 @@
        are deferred, so they run in document order and the alpine:init listener
        is attached before Alpine boots. -->
   <script defer src="/assets/js/nav.js"></script>
+  <script defer src="/assets/js/consent.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3/dist/cdn.min.js"></script>
 </head>
 
 <body class="font-din antialiased bg-white text-black">
 
-  <!-- component: nav-overlay
-       Menu and search panels. They sit at the TOP LEVEL of the document, not
-       inside the header, because `.hero-pinned` is `position: sticky` from lg
-       up — that makes it a stacking context, so anything nested inside it
-       paints below the sections that follow no matter its z-index. State comes
-       from the `nav` Alpine store in /assets/js/nav.js.
 
-       Below lg each panel is a full-screen white sheet with its own header. At
-       lg the panels become the 512px floating card and the blurred backdrop
-       appears behind them — with a crisp copy of the page header drawn on top
-       of it, exactly as the Figma frame is built. The copy is what keeps the
-       logo and the close button legible over the blur. -->
   <div x-data x-cloak x-show="$store.nav.menu"
     x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0"
     x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-200"
@@ -43,13 +33,13 @@
 
       <div class="flex items-center justify-end gap-2 w-auto sm:w-full sm:max-w-[331px] sm:justify-between">
         <button x-on:click="$store.nav.toggleSearch()"
-          class="flex items-center bg-white justify-center w-[44px] h-[44px] flex-shrink-0 rounded-[4px] border border-[#00000033] transition"
+          class="flex items-center bg-white justify-center w-[44px] h-[44px] flex-shrink-0 rounded-[4px] border border-black/20 transition"
           aria-label="Search">
           <img src="/assets/img/about/search-icon.svg" alt="" class="w-5 h-5" />
         </button>
 
         <a href="contact.html"
-          class="relative overflow-hidden hidden sm:inline-flex items-center justify-between h-[44px] rounded-[4px] bg-brand px-5 flex-1 text-xs font-semibold text-white shadow-sm hover:bg-brand-hover transition duration-200">
+          class="relative overflow-hidden hidden sm:inline-flex items-center justify-between h-[44px] rounded-[4px] bg-brand px-5 flex-1 text-white shadow-sm hover:bg-brand-hover transition duration-200">
           <span class="type-button pr-5">Contact us</span>
           <svg class="absolute top-[4px] right-[4px] w-[14px] h-[14px] text-white fill-current" viewBox="0 0 14 14">
             <path
@@ -58,10 +48,16 @@
         </a>
 
         <button x-on:click="$store.nav.toggleMenu()"
-          class="flex items-center justify-center w-[44px] h-[44px] flex-shrink-0 rounded-[4px] bg-white hover:bg-white-hover transition shadow-sm"
+          class="flex items-center justify-center w-[44px] h-[44px] flex-shrink-0 rounded-[4px] border border-white/30 bg-brand hover:bg-brand-hover text-white lg:border-black/20 lg:bg-white lg:hover:bg-white-hover lg:text-brand transition shadow-sm relative z-50"
           :aria-label="$store.nav.menu ? 'Close menu' : 'Open menu'">
-          <img x-show="!$store.nav.menu" src="/assets/img/menuicon.svg" alt="" class="w-5 h-5" />
-          <img x-cloak x-show="$store.nav.menu" src="/assets/img/close-icon.svg" alt="" class="w-3.5 h-3.5" />
+          <svg x-show="!$store.nav.menu" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M3 12H21M3 6H21M3 18H15" />
+          </svg>
+          <svg x-cloak x-show="$store.nav.menu" class="w-3.5 h-3.5" viewBox="0 0 14 14" fill="none" stroke="currentColor"
+            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M13 1L1 13M1 1L13 13" />
+          </svg>
         </button>
       </div>
     </div>
@@ -91,7 +87,7 @@
       </a>
       <div class="flex items-center gap-1.5">
         <button x-on:click="$store.nav.toggleSearch()"
-          class="flex items-center justify-center w-[42px] h-[42px] flex-shrink-0 rounded-[4px] border border-[#00000033] bg-white transition"
+          class="flex items-center justify-center w-[42px] h-[42px] flex-shrink-0 rounded-[4px] border border-black/20 bg-white transition"
           aria-label="Search">
           <img src="/assets/img/about/search-icon.svg" alt="" class="w-6 h-6" />
         </button>
@@ -206,7 +202,7 @@
 
       <div class="flex items-center gap-1.5">
         <button x-on:click="$store.nav.close()"
-          class="flex items-center justify-center w-[42px] h-[42px] flex-shrink-0 rounded-[4px] border border-[#00000033] bg-white hover:bg-white-hover transition"
+          class="flex items-center justify-center w-[42px] h-[42px] flex-shrink-0 rounded-[4px] border border-black/20 bg-white hover:bg-white-hover transition"
           aria-label="Close search">
           <img src="/assets/img/close-icon.svg" alt="" class="w-3.5 h-3.5" />
         </button>
@@ -220,10 +216,10 @@
         </a>
 
         <button x-on:click="$store.nav.toggleMenu()"
-          class="flex items-center justify-center w-[42px] h-[42px] flex-shrink-0 rounded-[4px] border border-white/30 bg-brand hover:bg-brand-hover lg:border-[#00000033] lg:bg-white lg:hover:bg-white-hover transition"
+          class="flex items-center justify-center w-[42px] h-[42px] flex-shrink-0 rounded-[4px] border border-white/30 bg-brand hover:bg-brand-hover lg:border-black/20 lg:bg-white lg:hover:bg-white-hover transition"
           aria-label="Open menu">
           <img src="/assets/img/menuicon-white.svg" alt="" class="w-5 h-[14px] lg:hidden" />
-          <img src="/assets/img/menuicon.svg" alt="" class="hidden lg:block w-5 h-[14px]" />
+          <img src="/assets/img/menuicon.svg" alt="Menu" class="hidden lg:block w-5 h-5" />
         </button>
       </div>
     </div>
@@ -235,7 +231,7 @@
       <label class="relative block lg:max-w-[512px]">
         <span class="sr-only">Search One Health</span>
         <input type="search" x-model="$store.nav.query" placeholder="Search"
-          class="w-full h-[42px] rounded-[4px] border border-[#00000033] bg-white pl-11 pr-3 type-body text-black placeholder:text-black/50 focus:border-brand focus:outline-none transition" />
+          class="w-full h-[42px] rounded-[4px] border border-black/20 bg-white pl-11 pr-3 type-body text-black placeholder:text-black/50 focus:border-brand focus:outline-none transition" />
         <img src="/assets/img/about/search-icon.svg" alt=""
           class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5" />
       </label>
@@ -287,9 +283,53 @@
     </div>
   </div>
 
+  <!-- component: lab-calculator-pill -->
+  <!-- The resting state of the home page's AI Lab calculator widget — the card
+       shrunk to a 12px glass frame around a white pill (Figma 568:3277) —
+       pinned to the viewport on every inner page. There is no expanded card
+       and no scroll morph out here: the full panel belongs to the home hero,
+       so this is plain markup with no Alpine state.
+
+       Top level and `fixed` for the same reason the nav overlay above it is:
+       the pinned `position: sticky` scenes inside <main> each open a stacking
+       context, and a fixed element nested in one can never paint above the
+       sections that follow it. Sitting ahead of all of them also keeps this
+       clear of the `~ *` z-index rules those scenes carry in input.css.
+
+       z-110 clears the nav overlay's own layers — the blurred backdrop at 90
+       and the menu/search panels at 100 — so the pill stays up and clickable
+       while either is open instead of being buried by them.
+
+       206px is exactly the home page's collapsed width, so the two are the
+       same pill: 12px frame + 12px + a 14px sparkle + 6px gap + the 118.5px
+       DIN label + 28px of clearance for the corner fold + 12px frame. Keep
+       this block byte-identical across pages, like the overlay. -->
+  <div class="js-lab-pill fixed bottom-5 right-5 lg:bottom-10 lg:right-10 z-[110] w-[206px] max-w-[calc(100vw-2.5rem)] rounded-[4px] p-[12px] pointer-events-none"
+    style="background-color: rgba(242, 242, 242, 0.2); backdrop-filter: blur(18.95px); -webkit-backdrop-filter: blur(18.95px);">
+    <a href="#"
+      class="relative overflow-hidden flex h-[42px] w-full items-center gap-1.5 rounded-[4px] border border-[#233D7C]/30 bg-white pl-3 pr-7 whitespace-nowrap pointer-events-auto">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"
+        class="w-3.5 h-3.5 flex-shrink-0">
+        <path
+          d="M6.62654 1.30059C6.52181 1.38756 6.4508 1.50842 6.4258 1.64223L5.81267 4.88427C5.76912 5.11476 5.65709 5.32678 5.49121 5.49264C5.32532 5.65851 5.11328 5.77052 4.88276 5.81406L1.64033 6.42712C1.50651 6.45212 1.38564 6.52312 1.29866 6.62784C1.21168 6.73256 1.16406 6.86439 1.16406 7.00052C1.16406 7.13664 1.21168 7.26848 1.29866 7.37319C1.38564 7.47791 1.50651 7.54892 1.64033 7.57391L4.88276 8.18697C5.11328 8.23051 5.32532 8.34252 5.49121 8.50839C5.65709 8.67426 5.76912 8.88627 5.81267 9.11677L6.4258 12.3588C6.4508 12.4926 6.52181 12.6135 6.62654 12.7004C6.73127 12.7874 6.86312 12.835 6.99926 12.835C7.1354 12.835 7.26726 12.7874 7.37199 12.7004C7.47672 12.6135 7.54773 12.4926 7.57273 12.3588L8.18586 9.11677C8.22941 8.88627 8.34143 8.67426 8.50732 8.50839C8.6732 8.34252 8.88525 8.23051 9.11577 8.18697L12.3582 7.57391C12.492 7.54892 12.6129 7.47791 12.6999 7.37319C12.7868 7.26848 12.8345 7.13664 12.8345 7.00052C12.8345 6.86439 12.7868 6.73256 12.6999 6.62784C12.6129 6.52312 12.492 6.45212 12.3582 6.42712L9.11577 5.81406C8.88525 5.77052 8.6732 5.65851 8.50732 5.49264C8.34143 5.32678 8.22941 5.11476 8.18586 4.88427L7.57273 1.64223C7.54773 1.50842 7.47672 1.38756 7.37199 1.30059C7.26726 1.21362 7.1354 1.16602 6.99926 1.16602C6.86312 1.16602 6.73127 1.21362 6.62654 1.30059Z"
+          fill="#233D7C" />
+        <path
+          d="M2.33225 12.8334C2.97663 12.8334 3.49901 12.311 3.49901 11.6667C3.49901 11.0224 2.97663 10.5001 2.33225 10.5001C1.68786 10.5001 1.16549 11.0224 1.16549 11.6667C1.16549 12.311 1.68786 12.8334 2.33225 12.8334Z"
+          fill="#233D7C" />
+        <path d="M11.6668 1.16797V3.50121M12.8335 2.33459H10.5" stroke="#233D7C" stroke-linecap="round" />
+      </svg>
+      <span class="type-button text-[#233D7C]">AI Lab calculator</span>
+      <svg class="absolute top-[4px] right-[4px] w-[14px] h-[14px] fill-current text-[#233D7C]" viewBox="0 0 14 14">
+        <path
+          d="M 2.414 0 L 13 0 A 1 1 0 0 1 14 1 L 14 11.586 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 2.414 0 Z" />
+      </svg>
+    </a>
+  </div>
+  <!-- /component -->
+
 
   <!-- Top Navigation Header Component -->
-  <header x-data="{ open: false }" class="relative z-50 w-full bg-white">
+  <header x-data class="relative z-50 w-full bg-white">
     <div class="container-page flex h-24 items-center justify-between">
 
       <!-- Logo (Blue Logo) -->
@@ -297,13 +337,14 @@
         <img src="/assets/img/home/bluelogo.svg" alt="One Health" class="h-8 sm:h-10 w-auto" />
       </a>
 
-      <!-- Header Actions -->
-      <div class="flex items-center justify-end gap-2 sm:gap-3 w-auto sm:w-full sm:max-w-[376px]">
-        <!-- Search Button -->
-        <button
-          class="hidden sm:flex items-center justify-center w-[44px] h-[44px] flex-shrink-0 rounded-[4px] border border-[#00000033] transition"
-          x-on:click="$store.nav.toggleSearch()" aria-label="Search">
-          <img src="/assets/img/about/search-icon.svg" alt="" class="w-5 h-5 " />
+      <!-- Header Actions. On phones this is just the two icon buttons, so the
+           row shrinks to fit them; from sm up it widens to align with the
+           331px widget below. -->
+      <div class="flex items-center justify-end gap-2 w-auto sm:w-full sm:max-w-[331px] sm:justify-between">
+        <button x-on:click="$store.nav.toggleSearch()"
+          class="flex items-center bg-white justify-center w-[44px] h-[44px] flex-shrink-0 rounded-[4px] border border-black/20 transition"
+          aria-label="Search">
+          <img src="/assets/img/about/search-icon.svg" alt="" class="w-5 h-5" />
         </button>
 
         <!-- Contact Us Button (Corner-Fold Variant) -->
@@ -316,12 +357,19 @@
           </svg>
         </a>
 
-        <!-- Mobile / Navigation Menu Toggle -->
+        <!-- Menu Toggle. Swaps to the close cross while the menu panel is
+             open, matching the Figma menu frame. -->
         <button x-on:click="$store.nav.toggleMenu()"
-          class="flex items-center justify-center w-[44px] h-[44px] flex-shrink-0 rounded-[4px] border border-[#0000001a] hover:bg-slate-50 transition shadow-sm relative z-50"
-          aria-label="Toggle menu">
-          <img x-show="!$store.nav.menu" src="/assets/img/menuicon.svg" alt="Menu" class="w-5 h-5" />
-          <img x-cloak x-show="$store.nav.menu" src="/assets/img/close-icon.svg" alt="" class="w-3.5 h-3.5" />
+          class="flex items-center justify-center w-[44px] h-[44px] flex-shrink-0 rounded-[4px] border border-white/30 bg-brand hover:bg-brand-hover text-white lg:border-black/20 lg:bg-white lg:hover:bg-white-hover lg:text-brand transition shadow-sm relative z-50"
+          :aria-label="$store.nav.menu ? 'Close menu' : 'Open menu'">
+          <svg x-show="!$store.nav.menu" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M3 12H21M3 6H21M3 18H15" />
+          </svg>
+          <svg x-cloak x-show="$store.nav.menu" class="w-3.5 h-3.5" viewBox="0 0 14 14" fill="none" stroke="currentColor"
+            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M13 1L1 13M1 1L13 13" />
+          </svg>
         </button>
       </div>
 
@@ -435,7 +483,7 @@
 
  <!-- component: credibilities-section -->
   <section class="bg-white   container-page text-black py-20 lg:py-24">
-    <div class=" border-t border-[#00000033] pt-6 sm:pt-8 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
+    <div class=" border-t border-black/20 pt-6 sm:pt-8 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
 
       <!-- Left Column: Section Subtitle -->
       <div class="lg:col-span-4">
@@ -722,9 +770,16 @@
                   </p>
                 </div>
 
-                <!-- Moving Description & 2026 Block -->
-                <div class="absolute max-w-[420px] w-full pointer-events-auto" :style="{ left: contentLeft }"
-                  style="left: 0%; transition: left 0.15s ease-out;">
+                <!-- Moving Description & 2026 Block. The width is half of a
+                     pair: it and the travel distance in `travel` below are set
+                     to add up to 100%, so the block lands flush against the
+                     right gutter at the end of the scrub instead of running
+                     past it or stopping short. Change one and change the
+                     other. A phone has no room for both a long travel and a
+                     readable measure, so it trades travel for width — 65/35
+                     there against 420px/70% on desktop. -->
+                <div class="absolute w-[65%] max-w-[420px] lg:w-full pointer-events-auto"
+                  :style="{ left: contentLeft }" style="left: 0%; transition: left 0.15s ease-out;">
 
                   <!-- Year 2026 Label (above the line, attached to circle position) -->
                   <div class="absolute bottom-6 left-0">
@@ -804,8 +859,13 @@
       function timelineScroll() {
         return {
           progress: 0,
+          desktop: false,
           init() {
+            const breakpoint = window.matchMedia('(min-width: 1024px)');
+
             const updateProgress = () => {
+              this.desktop = breakpoint.matches;
+
               const el = this.$el;
               if (!el) return;
               const rect = el.getBoundingClientRect();
@@ -829,13 +889,22 @@
 
             window.addEventListener('scroll', updateProgress);
             window.addEventListener('resize', updateProgress);
+            breakpoint.addEventListener('change', updateProgress);
             this.$nextTick(() => updateProgress());
           },
+          // How far along the rule the circle travels, as a percentage of the
+          // container. The moving block's width is the complement of this (see
+          // the markup above) so the two always sum to 100% and the block ends
+          // flush with the right gutter — 35% here buys the phone the wider
+          // measure it needs, where desktop can afford the full 70% sweep.
+          get travel() {
+            return this.desktop ? 70 : 35;
+          },
           get circleLeft() {
-            return `${this.progress * 70}%`;
+            return `${this.progress * this.travel}%`;
           },
           get contentLeft() {
-            return `${this.progress * 70}%`;
+            return `${this.progress * this.travel}%`;
           },
           get contentTransform() {
             return `translateX(-${this.progress * 100}%)`;
@@ -993,7 +1062,7 @@
       <div class="sticky top-0 h-screen flex flex-col justify-center overflow-hidden container-page py-12">
 
         <div
-          class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start border-t border-[#00000033]   h-full max-h-[520px]">
+          class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start border-t border-black/20   h-full max-h-[520px]">
 
           <!-- Left Column Title -->
           <div class="lg:col-span-4 pt-2">
@@ -1005,7 +1074,7 @@
           <!-- Right Track (Horizontal scrolling list of certificate cards) -->
           <div class="lg:col-span-8 overflow-hidden h-full">
             <div id="certificates-track"
-              class="flex space-x-8 sm:space-x-12 h-full will-change-transform transition-transform duration-100 ease-out">
+              class="flex space-x-3 sm:space-x-12 h-full will-change-transform transition-transform duration-100 ease-out">
 
               <!-- Card 1 -->
               <div
@@ -1141,7 +1210,7 @@
 
 
     <!-- A message from our CEO -->
-    <section class="bg-white text-black border-b border-black/20 py-12 lg:py-16 container-page">
+    <section class="bg-white text-black   py-12 lg:py-16 container-page">
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
         <div class="lg:col-span-4">
           <p class="type-body text-black">A message from our CEO</p>
@@ -1191,9 +1260,18 @@
                 <p class="type-body text-black">What we stand for</p>
               </div>
               <div class="lg:col-span-8">
-                <div class="relative pl-6 lg:pl-8 flex flex-col h-fit">
+                <!-- The rail runs at every width. The indent is wider on a
+                     phone than on desktop (64px against 32px), which looks
+                     backwards until you notice the markers are 20px wide and
+                     centred on the rail — desktop has a 12-column grid holding
+                     the type away from them, and on one column the padding is
+                     the only thing doing that job. It also sets the mobile
+                     measure: 64px leaves ~294px on a 390px screen, which is
+                     where the body copy breaks into the four lines the design
+                     shows. -->
+                <div class="relative pl-16 lg:pl-8 flex flex-col h-fit">
 
-                  <div class="absolute left-0 top-0 bottom-0 hidden lg:block">
+                  <div class="absolute left-0 top-0 bottom-0">
                     <div class="absolute left-0 top-0 bottom-0 w-px bg-black/15"></div>
                     <div class="absolute left-0 top-0 w-px bg-black" :style="{ height: railHeight }"></div>
                     <template x-for="(slide, i) in slides" :key="'marker-' + i">
@@ -1233,12 +1311,35 @@
                     <div class="relative">
                       <template x-for="(slide, i) in slides" :key="'para-' + i">
                         <div :class="activeIndex === i ? 'relative' : 'absolute inset-0 pointer-events-none'">
+
+                          <!-- Phones get the copy as one flowing paragraph. The
+                               composed breaks below are cut to a desktop measure
+                               — every one of them is ~315px against the ~294px a
+                               390px screen has left after the rail — so each
+                               would wrap a second time and land as six ragged
+                               lines instead of the design's four. Rejoining lets
+                               the browser break it where the design does. The
+                               per-line stagger goes with them; one strip can only
+                               roll as one.
+                               Both variants stay mounted and the breakpoint is
+                               switched on the STRIP, never on the element x-show
+                               owns — sharing that display property with Alpine is
+                               what makes a hidden branch flicker into view for a
+                               frame on activation. -->
+                          <div class="overflow-hidden lg:hidden">
+                            <div x-show="activeIndex === i" x-transition:enter="transition ease-out duration-[900ms]"
+                              x-transition:enter-start="translate-y-full" x-transition:enter-end="translate-y-0"
+                              x-transition:leave="transition ease-in duration-[400ms]"
+                              x-transition:leave-start="translate-y-0" x-transition:leave-end="-translate-y-full"
+                              class="type-body leading-[1.2] text-black" x-text="slide.lines.join(' ')"></div>
+                          </div>
+
                           <!-- x-show sits on the line itself, not on a shared parent:
                                a transition only runs on the element whose own x-show
                                toggles, and each line needs its own so the stagger
                                below has something to offset. -->
                           <template x-for="(line, li) in slide.lines" :key="'line-' + i + '-' + li">
-                            <div class="overflow-hidden">
+                            <div class="hidden overflow-hidden lg:block">
                               <div x-show="activeIndex === i" x-transition:enter="transition ease-out duration-[900ms]"
                                 x-transition:enter-start="translate-y-full" x-transition:enter-end="translate-y-0"
                                 x-transition:leave="transition ease-in duration-[400ms]"
@@ -1446,7 +1547,7 @@
 
   <footer class="bg-[#F2F2F2] text-black pt-5 pb-5 md:pt-10 md:pb-10">
     <div class="container-page">
-      <div class="border-t border-[#00000033] pt-5 grid grid-cols-2 gap-x-5 gap-y-12 md:grid-cols-12 md:gap-8 lg:gap-12 items-start
+      <div class="border-t border-black/20 pt-5 grid grid-cols-2 gap-x-5 gap-y-12 md:grid-cols-12 md:gap-8 lg:gap-12 items-start
                   type-body">
 
         <!-- Left: Logo and the PureHealth endorsement. Side by side split by a
@@ -1457,7 +1558,7 @@
             <img src="/assets/img/home/bluelogo.svg" alt="One Health" class="h-[42px] w-auto object-contain" />
           </a>
 
-          <div class="h-[42px] shrink-0 border-l border-[#00000033]
+          <div class="h-[42px] shrink-0 border-l border-black/20
                       md:h-0 md:w-[143px] md:border-l-0 md:border-t md:mt-4"></div>
 
           <div class="flex flex-wrap items-baseline gap-x-2 opacity-40 max-w-[130px] md:max-w-none md:mt-2">
@@ -1573,6 +1674,154 @@
       els.forEach(function (el) { io.observe(el); });
     })();
   </script>
+
+
+  <!-- component: cookie-consent
+       Full-width strip pinned to the bottom of the viewport. Top level and
+       `fixed`, for the same reason the nav overlay is: the pinned
+       `position: sticky` scenes inside <main> each open a stacking context, and
+       a fixed element nested in one can never paint above the sections that
+       follow it. z-120 clears the overlay's backdrop (90), its two panels (100)
+       and the lab pill (110), so the bar stays reachable whatever else is open.
+
+       State is the `consent` Alpine store in /assets/js/consent.js. The bar
+       renders closed and the store's init() opens it only when there is no
+       stored choice, so a returning visitor never sees it flash.
+
+       The preferences drawer is NOT in the Figma frame — the design covers the
+       bar and its three controls only. It is assembled from ui-kit parts (white
+       button, 42px height, 4px radius, brand ground) with the standard
+       necessary / analytics / marketing split.
+
+       Keep this block byte-identical across pages, like the nav overlay. -->
+  <div x-data x-cloak x-show="$store.consent.visible" role="dialog" aria-modal="false" aria-label="Cookie consent"
+    x-transition:enter="transition ease-out duration-300 motion-reduce:transition-none"
+    x-transition:enter-start="opacity-0 translate-y-full" x-transition:enter-end="opacity-100 translate-y-0"
+    x-transition:leave="transition ease-in duration-200 motion-reduce:transition-none"
+    x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 translate-y-full"
+    class="fixed  bottom-0 z-[120] bg-brand text-white   ">
+    <div class="container-page py-5 mx-auto px-4 lg:px-8">
+
+      <!-- The designed row: copy left, the three controls right. They stack on
+           phones, where three controls in a row would each be too narrow to
+           read. -->
+      <div class="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between lg:gap-10">
+        <p class="type-body text-white lg:max-w-[760px]">
+          We use cookies to see how the site is used and to make it better.
+        </p>
+
+        <div class="flex flex-wrap items-center gap-3 lg:flex-shrink-0">
+
+          <!-- Accept (UI-Kit White Button). Corner fold at 3px, not 4px — the
+               border takes the extra pixel, per the ui-kit note. -->
+          <button type="button" x-on:click="$store.consent.acceptAll()"
+            class="relative overflow-hidden flex items-center h-[42px] rounded-[4px] border border-black/20 bg-white pl-4 pr-6 text-brand hover:bg-white-hover transition duration-200">
+            <span class="type-button text-brand">Accept</span>
+            <svg class="absolute top-[3px] right-[3px] w-[14px] h-[14px] text-brand fill-current" viewBox="0 0 14 14">
+              <path
+                d="M 2.414 0 L 13 0 A 1 1 0 0 1 14 1 L 14 11.586 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 2.414 0 Z" />
+            </svg>
+          </button>
+
+          <!-- Manage preferences. The outline variant of the same button: white
+               border and label on the brand ground it already sits on. -->
+          <button type="button" x-on:click="$store.consent.togglePanel()"
+            :aria-expanded="$store.consent.panel ? 'true' : 'false'" aria-controls="cookie-preferences"
+            class="relative overflow-hidden flex items-center h-[42px] rounded-[4px] border border-white/30 bg-brand pl-4 pr-6 text-white hover:bg-brand-hover transition duration-200">
+            <span class="type-button text-white">Manage preferences</span>
+            <svg class="absolute top-[3px] right-[3px] w-[14px] h-[14px] text-white fill-current" viewBox="0 0 14 14">
+              <path
+                d="M 2.414 0 L 13 0 A 1 1 0 0 1 14 1 L 14 11.586 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 2.414 0 Z" />
+            </svg>
+          </button>
+
+          <!-- Decline carries no frame in the design — it is a plain label, and
+               refusing must stay exactly as easy as accepting. -->
+          <button type="button" x-on:click="$store.consent.declineAll()"
+            class="type-button text-white px-2 hover:text-white/70 transition">
+            Decline
+          </button>
+
+        </div>
+      </div>
+
+      <!-- Preferences drawer. Necessary is checked and disabled: it is not a
+           choice, so it is shown as fact rather than as an option that lies. -->
+      <div id="cookie-preferences" x-show="$store.consent.panel" x-cloak
+        x-transition:enter="transition ease-out duration-300 motion-reduce:transition-none"
+        x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+        x-transition:leave="transition ease-in duration-200 motion-reduce:transition-none"
+        x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
+        class="mt-5 border-t border-white/30 pt-5">
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-10">
+
+          <label class="flex items-start gap-3 cursor-not-allowed">
+            <input type="checkbox" checked disabled class="peer sr-only" />
+            <span
+              class="mt-[2px] flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-[4px] border border-white/30 bg-white/60">
+              <svg class="w-3 h-3 text-brand" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M1 6.5 L4.5 10 L11 2.5" />
+              </svg>
+            </span>
+            <span class="flex flex-col gap-1">
+              <span class="type-button text-white">Necessary</span>
+              <span class="type-body text-white/60">Needed for the site to work. Always on.</span>
+            </span>
+          </label>
+
+          <label class="flex items-start gap-3 cursor-pointer">
+            <input type="checkbox" x-model="$store.consent.analytics" class="peer sr-only" />
+            <span
+              class="mt-[2px] flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-[4px] border border-white/30 transition peer-focus-visible:ring-2 peer-focus-visible:ring-white/60"
+              :class="$store.consent.analytics ? 'bg-white' : 'bg-white/10'">
+              <svg x-show="$store.consent.analytics" class="w-3 h-3 text-brand" viewBox="0 0 12 12" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                aria-hidden="true">
+                <path d="M1 6.5 L4.5 10 L11 2.5" />
+              </svg>
+            </span>
+            <span class="flex flex-col gap-1">
+              <span class="type-button text-white">Analytics</span>
+              <span class="type-body text-white/60">How the site is used, so we can improve it.</span>
+            </span>
+          </label>
+
+          <label class="flex items-start gap-3 cursor-pointer">
+            <input type="checkbox" x-model="$store.consent.marketing" class="peer sr-only" />
+            <span
+              class="mt-[2px] flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-[4px] border border-white/30 transition peer-focus-visible:ring-2 peer-focus-visible:ring-white/60"
+              :class="$store.consent.marketing ? 'bg-white' : 'bg-white/10'">
+              <svg x-show="$store.consent.marketing" class="w-3 h-3 text-brand" viewBox="0 0 12 12" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                aria-hidden="true">
+                <path d="M1 6.5 L4.5 10 L11 2.5" />
+              </svg>
+            </span>
+            <span class="flex flex-col gap-1">
+              <span class="type-button text-white">Marketing</span>
+              <span class="type-body text-white/60">Whether what you see from us stays relevant.</span>
+            </span>
+          </label>
+
+        </div>
+
+        <!-- Save choices (UI-Kit White Button) -->
+        <button type="button" x-on:click="$store.consent.save()"
+          class="relative overflow-hidden mt-5 flex items-center h-[42px] rounded-[4px] border border-black/20 bg-white pl-4 pr-6 text-brand hover:bg-white-hover transition duration-200">
+          <span class="type-button text-brand">Save choices</span>
+          <svg class="absolute top-[3px] right-[3px] w-[14px] h-[14px] text-brand fill-current" viewBox="0 0 14 14">
+            <path
+              d="M 2.414 0 L 13 0 A 1 1 0 0 1 14 1 L 14 11.586 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 2.414 0 Z" />
+          </svg>
+        </button>
+
+      </div>
+
+    </div>
+  </div>
+  <!-- /component -->
 
 </body>
 

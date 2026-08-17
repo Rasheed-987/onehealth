@@ -6,6 +6,10 @@
   <title>UI Kit — One Health</title>
 
   <link rel="stylesheet" href="/assets/css/app.css" />
+  <!-- The header specimens below carry their real `$store.nav.*` bindings so
+       they can be copy-pasted as-is, which means the store has to exist here
+       too. Must come before Alpine, as on every other page. -->
+  <script defer src="/assets/js/nav.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3/dist/cdn.min.js"></script>
 </head>
 <body class="bg-slate-50 font-din text-slate-900 antialiased">
@@ -341,6 +345,278 @@
 &lt;p id="email-error" class="mt-1 font-din text-[12px] tracking-[0.24px] text-error"&gt;
   Enter a valid work email
 &lt;/p&gt;</code></pre>
+    </section>
+
+    <!-- component: header | variants: page, overlay-copy, menu-sheet, search
+         Figma: the 390 and 1680 header frames.
+
+         There are THREE distinct headers on the site and they are NOT
+         interchangeable. Copy the right one.
+
+         1. page — the real header on every page. `container-page` gutters,
+            `h-24` (96px), 44px buttons, `gap-2`, and the actions row capped at
+            `sm:max-w-[331px]` with `sm:justify-between` so Contact us takes the
+            slack between the two icon buttons. The only thing that changes per
+            page is the logo — white over the hero, blue on a light ground —
+            plus `bg-white` on the `<header>` for the light pages, and an
+            `x-data` there when the header is not already inside an Alpine
+            scope. Everything else must match, byte for byte.
+
+            BOTH white icon buttons carry `border border-black/20` — the
+            Dark/Black stroke at 20% that Figma puts on every white container
+            (header node 821:3998). The menu button used to ship without it,
+            which left it edgeless on a white page while the search button
+            beside it was outlined. Write the border as the `black/20` token,
+            never as `#00000033`; they compute to the same colour and the hex
+            form just hides the token.
+
+         2. overlay-copy — a pixel copy of `page` painted on top of the blurred
+            backdrop while the menu is open, so the logo and the close button
+            stay legible over the blur. It only exists from lg up and it only
+            has one job: be indistinguishable from `page`. If you change `page`,
+            change this too — it lives in the nav-overlay block, which is meant
+            to stay identical across every .html file.
+
+         3. menu-sheet / search — the panels' own headers. These follow the
+            full-page Figma search frames rather than `page`, and the difference
+            is deliberate: 42px buttons, `gap-1.5`, `p-5`, a fixed 79x42 logo,
+            and in search a fixed 280px Contact us that only joins from lg. The
+            horizontal gutter does land on the same 40px as `container-page` at
+            lg; the vertical rhythm does not (`lg:pt-10` vs a centred `h-24`).
+
+         Gotcha worth knowing before you resize an icon: menuicon.svg is 24x24,
+         but menuicon-white.svg is 20x14 AND carries preserveAspectRatio="none".
+         The white one is therefore `w-5 h-[14px]`; giving the blue one the same
+         height letterboxes it to 14x14 inside a 20px box, which reads as a
+         visibly smaller hamburger. Blue is always `w-5 h-5`. -->
+    <section class="p-6 bg-white rounded-xl shadow-sm border border-slate-200">
+      <h2 class="mb-4 text-sm font-semibold text-slate-500 uppercase tracking-wider">Header <span
+          class="font-sans font-medium">&</span> Panel Headers</h2>
+
+      <div class="flex flex-col gap-8">
+
+        <!-- 1a. page header, dark ground. This is the canonical geometry. -->
+        <div>
+          <h3 class="mb-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Page header — over the hero
+          </h3>
+          <div class="rounded-lg overflow-hidden bg-brand">
+            <header x-data class="relative z-50 w-full">
+              <div class="container-page flex h-24 items-center justify-between">
+
+                <a href="index.html" class="block flex-shrink-0">
+                  <img src="/assets/img/whitelogo.svg" alt="One Health" class="h-8 sm:h-10 w-auto" />
+                </a>
+
+                <!-- On phones this is just the two icon buttons, so the row
+                     shrinks to fit them; from sm up it widens to align with the
+                     331px widget below. -->
+                <div class="flex items-center justify-end gap-2 w-auto sm:w-full sm:max-w-[331px] sm:justify-between">
+                  <button x-on:click="$store.nav.toggleSearch()"
+                    class="flex items-center bg-white justify-center w-[44px] h-[44px] flex-shrink-0 rounded-[4px] border border-black/20 transition"
+                    aria-label="Search">
+                    <img src="/assets/img/about/search-icon.svg" alt="" class="w-5 h-5" />
+                  </button>
+
+                  <a href="contact.html"
+                    class="relative overflow-hidden hidden sm:inline-flex items-center justify-between h-[44px] rounded-[4px] bg-brand px-5 flex-1 text-white shadow-sm hover:bg-brand-hover transition duration-200">
+                    <span class="type-button pr-5">Contact us</span>
+                    <svg class="absolute top-[4px] right-[4px] w-[14px] h-[14px] text-white fill-current"
+                      viewBox="0 0 14 14">
+                      <path
+                        d="M 2.414 0 L 13 0 A 1 1 0 0 1 14 1 L 14 11.586 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 2.414 0 Z" />
+                    </svg>
+                  </a>
+
+                  <button x-on:click="$store.nav.toggleMenu()"
+                    class="flex items-center justify-center w-[44px] h-[44px] flex-shrink-0 rounded-[4px] border border-white/30 bg-brand hover:bg-brand-hover text-white lg:border-black/20 lg:bg-white lg:hover:bg-white-hover lg:text-brand transition shadow-sm relative z-50"
+                    :aria-label="$store.nav.menu ? 'Close menu' : 'Open menu'">
+                    <svg x-show="!$store.nav.menu" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M3 12H21M3 6H21M3 18H15" />
+                    </svg>
+                    <svg x-cloak x-show="$store.nav.menu" class="w-3.5 h-3.5" viewBox="0 0 14 14" fill="none" stroke="currentColor"
+                      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M13 1L1 13M1 1L13 13" />
+                    </svg>
+                  </button>
+                </div>
+
+              </div>
+            </header>
+          </div>
+        </div>
+
+        <!-- 1b. Same header, light ground. Only the logo src and the two
+             classes on <header> differ — do not let anything else drift. -->
+        <div>
+          <h3 class="mb-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Page header — on white</h3>
+          <div class="rounded-lg overflow-hidden border border-slate-200">
+            <header x-data class="relative z-50 w-full bg-white">
+              <div class="container-page flex h-24 items-center justify-between">
+
+                <a href="index.html" class="block flex-shrink-0">
+                  <img src="/assets/img/home/bluelogo.svg" alt="One Health" class="h-8 sm:h-10 w-auto" />
+                </a>
+
+                <div class="flex items-center justify-end gap-2 w-auto sm:w-full sm:max-w-[331px] sm:justify-between">
+                  <button x-on:click="$store.nav.toggleSearch()"
+                    class="flex items-center bg-white justify-center w-[44px] h-[44px] flex-shrink-0 rounded-[4px] border border-black/20 transition"
+                    aria-label="Search">
+                    <img src="/assets/img/about/search-icon.svg" alt="" class="w-5 h-5" />
+                  </button>
+
+                  <a href="contact.html"
+                    class="relative overflow-hidden hidden sm:inline-flex items-center justify-between h-[44px] rounded-[4px] bg-brand px-5 flex-1 text-white shadow-sm hover:bg-brand-hover transition duration-200">
+                    <span class="type-button pr-5">Contact us</span>
+                    <svg class="absolute top-[4px] right-[4px] w-[14px] h-[14px] text-white fill-current"
+                      viewBox="0 0 14 14">
+                      <path
+                        d="M 2.414 0 L 13 0 A 1 1 0 0 1 14 1 L 14 11.586 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 2.414 0 Z" />
+                    </svg>
+                  </a>
+
+                  <button x-on:click="$store.nav.toggleMenu()"
+                    class="flex items-center justify-center w-[44px] h-[44px] flex-shrink-0 rounded-[4px] border border-white/30 bg-brand hover:bg-brand-hover text-white lg:border-black/20 lg:bg-white lg:hover:bg-white-hover lg:text-brand transition shadow-sm relative z-50"
+                    :aria-label="$store.nav.menu ? 'Close menu' : 'Open menu'">
+                    <svg x-show="!$store.nav.menu" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M3 12H21M3 6H21M3 18H15" />
+                    </svg>
+                    <svg x-cloak x-show="$store.nav.menu" class="w-3.5 h-3.5" viewBox="0 0 14 14" fill="none" stroke="currentColor"
+                      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M13 1L1 13M1 1L13 13" />
+                    </svg>
+                  </button>
+                </div>
+
+              </div>
+            </header>
+          </div>
+        </div>
+
+        <!-- 3a. Search panel header. Shown here on the panel's own white
+             ground. The live one also carries `lg:pb-0` because the search
+             field supplies the space beneath it. -->
+        <div>
+          <h3 class="mb-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Search panel header — 42px,
+            fixed 280px CTA</h3>
+          <div class="rounded-lg overflow-hidden border border-slate-200 bg-white">
+            <div x-data class="flex items-center justify-between p-5 lg:px-10 lg:pt-10 lg:pb-0">
+              <a href="index.html" class="block flex-shrink-0">
+                <img src="/assets/img/bluelogo.svg" alt="One Health" class="h-[42px] w-[79px]" />
+              </a>
+
+              <div class="flex items-center gap-1.5">
+                <button x-on:click="$store.nav.close()"
+                  class="flex items-center justify-center w-[42px] h-[42px] flex-shrink-0 rounded-[4px] border border-black/20 bg-white hover:bg-white-hover transition"
+                  aria-label="Close search">
+                  <img src="/assets/img/close-icon.svg" alt="" class="w-3.5 h-3.5" />
+                </button>
+
+                <a href="contact.html"
+                  class="relative overflow-hidden hidden lg:inline-flex items-center h-[42px] w-[280px] rounded-[4px] bg-brand pl-4 pr-6 text-white hover:bg-brand-hover transition duration-200">
+                  <span class="type-button">Contact us</span>
+                  <svg class="absolute top-[4px] right-[4px] w-[14px] h-[14px] text-white fill-current"
+                    viewBox="0 0 14 14">
+                    <path
+                      d="M 2.414 0 L 13 0 A 1 1 0 0 1 14 1 L 14 11.586 A 1 1 0 0 1 12.293 12.293 L 1.707 1.707 A 1 1 0 0 1 2.414 0 Z" />
+                  </svg>
+                </a>
+
+                <button x-on:click="$store.nav.toggleMenu()"
+                  class="flex items-center justify-center w-[42px] h-[42px] flex-shrink-0 rounded-[4px] border border-white/30 bg-brand hover:bg-brand-hover lg:border-black/20 lg:bg-white lg:hover:bg-white-hover transition"
+                  aria-label="Open menu">
+                  <img src="/assets/img/menuicon-white.svg" alt="" class="w-5 h-[14px] lg:hidden" />
+                  <img src="/assets/img/menuicon.svg" alt="Menu" class="hidden lg:block w-5 h-5" />
+                </button>
+              </div>
+            </div>
+            <div class="h-5"></div>
+          </div>
+        </div>
+
+        <!-- 3b. Menu sheet header. The live one is `lg:hidden` — the desktop
+             card has no header of its own, the overlay copy serves that role —
+             so that class is dropped here to keep the specimen visible. Put it
+             back when you copy this out. -->
+        <div>
+          <h3 class="mb-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Menu sheet header — add
+            <code class="font-mono text-slate-400">lg:hidden</code> when you use it
+          </h3>
+          <div class="rounded-lg overflow-hidden border border-slate-200 bg-white">
+            <div x-data class="flex items-center justify-between p-5 flex-shrink-0">
+              <a href="index.html" class="block flex-shrink-0">
+                <img src="/assets/img/bluelogo.svg" alt="One Health" class="h-[42px] w-[79px]" />
+              </a>
+              <div class="flex items-center gap-1.5">
+                <button x-on:click="$store.nav.toggleSearch()"
+                  class="flex items-center justify-center w-[42px] h-[42px] flex-shrink-0 rounded-[4px] border border-black/20 bg-white transition"
+                  aria-label="Search">
+                  <img src="/assets/img/about/search-icon.svg" alt="" class="w-6 h-6" />
+                </button>
+                <button x-on:click="$store.nav.close()"
+                  class="flex items-center justify-center w-[42px] h-[42px] flex-shrink-0 rounded-[4px] border border-white/30 bg-brand hover:bg-brand-hover transition"
+                  aria-label="Close menu">
+                  <img src="/assets/img/close-icon-white.svg" alt="" class="w-3.5 h-3.5" />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- The numbers that actually differ, so nobody has to diff the markup
+           to find out whether a 42 or a 44 was intentional. -->
+      <h3 class="mt-8 mb-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Where they diverge</h3>
+      <div class="overflow-x-auto">
+        <table class="w-full min-w-[720px] text-left border-collapse text-[13px]">
+          <thead>
+            <tr class="text-[12px] uppercase tracking-wider text-slate-400 border-b border-slate-200">
+              <th class="py-2 pr-4 font-semibold"></th>
+              <th class="py-2 pr-4 font-semibold">page / overlay-copy</th>
+              <th class="py-2 font-semibold">menu-sheet / search</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-100 font-mono text-slate-600">
+            <tr>
+              <td class="py-2 pr-4 font-din text-slate-900">Height</td>
+              <td class="py-2 pr-4">h-24 (centred)</td>
+              <td class="py-2">p-5 · lg:pt-10 lg:pb-0</td>
+            </tr>
+            <tr>
+              <td class="py-2 pr-4 font-din text-slate-900">Gutter</td>
+              <td class="py-2 pr-4">container-page</td>
+              <td class="py-2">p-5 · lg:px-10</td>
+            </tr>
+            <tr>
+              <td class="py-2 pr-4 font-din text-slate-900">Logo</td>
+              <td class="py-2 pr-4">h-8 sm:h-10 w-auto</td>
+              <td class="py-2">h-[42px] w-[79px]</td>
+            </tr>
+            <tr>
+              <td class="py-2 pr-4 font-din text-slate-900">Buttons</td>
+              <td class="py-2 pr-4">44 &times; 44</td>
+              <td class="py-2">42 &times; 42</td>
+            </tr>
+            <tr>
+              <td class="py-2 pr-4 font-din text-slate-900">Gap</td>
+              <td class="py-2 pr-4">gap-2</td>
+              <td class="py-2">gap-1.5</td>
+            </tr>
+            <tr>
+              <td class="py-2 pr-4 font-din text-slate-900">Contact us</td>
+              <td class="py-2 pr-4">flex-1 px-5, from sm</td>
+              <td class="py-2">w-[280px] pl-4 pr-6, from lg</td>
+            </tr>
+            <tr>
+              <td class="py-2 pr-4 font-din text-slate-900">Actions row</td>
+              <td class="py-2 pr-4">sm:max-w-[331px] sm:justify-between</td>
+              <td class="py-2">uncapped</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </section>
 
   </main>

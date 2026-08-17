@@ -71,9 +71,15 @@ class.
   the `unicode-range` on those `@font-face` rules works around by falling back.
   Aktiv Grotesk is clean. Re-verify with a glyph-outline hash if the files are
   swapped. The real fix is licensed files.
-- **Header and footer are copy-pasted into every page and have drifted.** There
-  is no include mechanism. Changing navigation means editing every `.html` file,
-  and they are not currently identical. Treat this as the main structural debt.
+- **Header and footer are copy-pasted into every page.** There is no include
+  mechanism. Changing navigation means editing every `.html` file. Treat this as
+  the main structural debt. The **page header** was reconciled and its class
+  strings are now identical across all ten pages (only the logo `src` and
+  `bg-white` on `<header>` vary, per `ui-kit.html`) — `ivd-life-sciences.html`
+  and `medical-products.html` had been missing the search button entirely.
+  Verify with:
+  `for f in *.html; do awk '/<header/,/<\/header>/' $f | grep -o 'class="[^"]*"' | md5sum; done`
+  The **footer** has not been reconciled.
   The one exception is the **nav overlay** — the `<!-- component: nav-overlay -->`
   block holding the menu and search panels sits immediately after `<body>` on
   every page and is currently **byte-identical across all of them**. Keep it that
@@ -85,5 +91,8 @@ class.
   Tailwind (see the `@source` in `src/input.css`) because it builds class strings.
 - `careers.html` is still the untouched starter scaffold ("Institute", `/about`
   links) and is not wired into the nav system.
-- `index.html`, `about.html` and `contact.html` are migrated to the type scale
-  and colour tokens. The other pages are not yet.
+- `index.html`, `about.html`, `contact.html` and `article.html` are migrated to
+  the type scale and colour tokens. The other pages are not yet.
+- `article.html` also carries a copy of `index.html`'s footer and
+  `articles-section`, so those two are the reconciled reference pair — copy from
+  either when reconciling the rest.
